@@ -695,6 +695,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .fb-av.negative { background: #4b4f5c; }
 .fb-av.casual { background: #6fa36b; }
 .fb-av.oblique { background: #8a6aa8; }
+.fb-av.gpt { background: #3f8f86; }
 .fb-picks { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }
 .fb-pick { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; cursor: pointer; opacity: .55; user-select: none; }
 .fb-pick.on { opacity: 1; border-color: var(--ink-3); }
