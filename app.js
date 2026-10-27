@@ -1,6 +1,7 @@
 // 公開サイト（novel.mjs publish で書き出す静的な書架）。読むための機能だけを持つ。
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
+import { readingBadges, adultNotice, tagFilterHtml, bindTagFilter, requireAdultConfirmation } from './reading.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -121,6 +122,7 @@ function coverHtml(n) {
   </div>`;
 }
 
+let shelfTag = '';
 async function viewShelf() {
   const { novels } = await site();
   crumbs([]);
@@ -131,17 +133,20 @@ async function viewShelf() {
   }
   app.innerHTML = `<div class="wrap">
     <h2 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h2>
+    ${tagFilterHtml(novels, shelfTag)}
     <div class="shelf">${novels.map((n) => {
       const b = bm[n.slug];
-      return `<a class="book" href="#/n/${n.slug}">
+      return `<a class="book" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
         ${coverHtml(n)}
         <div class="book-meta">
           <div class="title">${esc(n.title)}</div>
+          ${readingBadges(n)}
           <div class="row"><span>全${n.chapters.length}話${n.status === 'complete' ? '' : '（公開中）'}</span><span>${fmtNum(n.totalChars)}字</span></div>
           <div class="row"><span>${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''}</span><span class="muted">${fmtDate(n.updated)}</span></div>
           ${b ? `<span class="resume">栞：第${b.no}話 ${Math.round(b.ratio * 100)}%</span>` : ''}
         </div></a>`;
     }).join('')}</div></div>`;
+  bindTagFilter(app, novels, (tag) => { shelfTag = tag; });
 }
 
 // ---------- 作品ページ ----------
@@ -166,6 +171,8 @@ async function viewNovel(slug) {
       <div class="novel-info">
         ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(n.genre || '')}</span>
         <h1>${esc(n.title)}</h1>
+        ${readingBadges(n)}
+        ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
         ${n.author ? `<p class="muted" style="margin:0 0 12px">${esc(n.author)}</p>` : ''}
         ${n.synopsis ? `<div class="synopsis">${esc(n.synopsis)}</div>` : ''}
@@ -223,6 +230,7 @@ async function viewReader(slug, no) {
   const novel = await novelOf(slug);
   const idx = novel.chapters.findIndex((c) => c.no === no);
   if (idx < 0) throw new Error(`第${no}話は公開されていません`);
+  if (!requireAdultConfirmation(app, novel, () => route())) return;
   const { title, lines, illus = [] } = await getJSON(`data/${slug}/${pad(no)}.json`);
   const prev = novel.chapters[idx - 1];
   const next = novel.chapters[idx + 1];
