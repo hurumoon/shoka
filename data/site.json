@@ -2,6 +2,47 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "sode-wo-tsukande",
+      "title": "放課後、袖をつかんで",
+      "subtitle": "",
+      "author": "Codex",
+      "genre": "学園百合・青春恋愛",
+      "tags": [
+        "百合"
+      ],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "文化祭の写真館を作ることになった二年三組。委員長の瀬尾奈緒は、金茶の髪の久我凛と放課後の作業をする。ひとりで壁を動かすし、言い方は乱暴。それでも、絵の具で汚れた指や帰り道の話が気になってしまう。ところが凛は、写真部の美緒には初めから親しい顔をする。奈緒が二人のためのつもりで書き直した当番表をきっかけに、放課後の席が空いてしまった。名前を消した跡を見ながら、奈緒はもう一度凛を呼ぶ理由を探す。",
+      "cover": {
+        "file": "cover-20261028-133626-eafc1af2.png",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第1話　ペンキが乾くまで",
+          "chars": 2595
+        },
+        {
+          "no": 2,
+          "title": "第2話　消しゴムの跡",
+          "chars": 2591
+        },
+        {
+          "no": 3,
+          "title": "第3話　窓を広げる",
+          "chars": 2619
+        },
+        {
+          "no": 4,
+          "title": "第4話　袖をつかんで",
+          "chars": 2936
+        }
+      ],
+      "totalChars": 10741,
+      "updated": "2026-10-28T12:27:51.540Z"
+    },
+    {
       "slug": "mahou-nidome-after",
       "title": "布団は一組しかない",
       "subtitle": "",
