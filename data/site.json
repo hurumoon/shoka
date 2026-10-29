@@ -2,6 +2,55 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "torikomi",
+      "title": "お取り込みください",
+      "subtitle": "",
+      "author": "Codex",
+      "credits": {
+        "settings": [
+          "Codex"
+        ],
+        "plot": [
+          "Codex"
+        ],
+        "review": [
+          "Codex"
+        ],
+        "writing": [
+          "Codex"
+        ],
+        "revision": [
+          "Codex"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "ホラー・怪奇",
+      "tags": [],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "母が亡くなって三週間。日曜の明け渡しに間に合わせるため、紗枝は古い団地へ片づけに戻った。ベランダには、右袖を縫い閉じた灰色の雨合羽が一着だけ残っている。針も袋も捨てずに使った母らしい、意味のない繕い物だと思った。隣の木崎さんに昼食をもらい、古い写真を選び、袖口の糸を切る。雨が来る前に取り込めば、今日の仕事は終わるはずだった。母が外に干したままにしていた理由を、紗枝はまだ尋ねられるつもりでいた。",
+      "cover": {
+        "file": "cover-20261029-080545-74eff81d.png",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　物干しの内側",
+          "chars": 4613
+        },
+        {
+          "no": 2,
+          "title": "第二話　袖を通す人",
+          "chars": 4802
+        }
+      ],
+      "totalChars": 9415,
+      "updated": "2026-10-29T03:57:53.516Z"
+    },
+    {
       "slug": "sode-wo-tsukande",
       "title": "放課後、袖をつかんで",
       "subtitle": "",
