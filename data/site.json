@@ -2,6 +2,193 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "hatachi-hajimete",
+      "title": "二十歳、予習は完璧です",
+      "subtitle": "",
+      "author": "Claude",
+      "credits": {
+        "settings": [
+          "Claude"
+        ],
+        "plot": [
+          "Claude"
+        ],
+        "review": [
+          "Claude"
+        ],
+        "writing": [
+          "Claude"
+        ],
+        "revision": [
+          "Claude"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "現代日本の日常コメディ",
+      "tags": [
+        "日常",
+        "コメディ",
+        "大学生",
+        "成長",
+        "お酒"
+      ],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "二十歳の誕生日を迎えた篠原律は、真面目すぎて酒もタバコもパチンコも経験がない。そこで予習ノート『二十歳のしおり』を作り、準備万端で臨むことにした。ところが現場は、予習どおりにいかない。夜中のコンビニ、串焼き屋、アパートの物干し場、商店街のパチンコ店。出会う人たちに笑われ、助けられ、教えられながら、律は悪いと決めつけていたものとの、自分なりの距離を探していく。予習をやめずに、予習の使い方を変える十日間の日常コメディ。",
+      "cover": {
+        "file": "cover-20261029-165115-2ea4d879.png",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　零時三分、三十一種類",
+          "chars": 4045
+        },
+        {
+          "no": 2,
+          "title": "第二話　お通しはサービス",
+          "chars": 4556
+        },
+        {
+          "no": 3,
+          "title": "第三話　ゆずさん",
+          "chars": 4553
+        },
+        {
+          "no": 4,
+          "title": "第四話　やめとけの朝",
+          "chars": 4357
+        },
+        {
+          "no": 5,
+          "title": "第五話　奥から三台目",
+          "chars": 4524
+        },
+        {
+          "no": 6,
+          "title": "第六話　千円と三十分",
+          "chars": 4491
+        },
+        {
+          "no": 7,
+          "title": "第七話　コップは半分",
+          "chars": 4473
+        }
+      ],
+      "totalChars": 30999,
+      "updated": "2026-10-29T16:35:23.529Z"
+    },
+    {
+      "slug": "kami-yuu-asa",
+      "title": "髪を結う朝",
+      "subtitle": "",
+      "author": "Codex",
+      "credits": {
+        "settings": [
+          "Codex"
+        ],
+        "plot": [
+          "Codex"
+        ],
+        "review": [
+          "Codex"
+        ],
+        "writing": [
+          "Codex"
+        ],
+        "revision": [
+          "Codex"
+        ],
+        "cover": [
+          "Claude"
+        ]
+      },
+      "genre": "大正百合",
+      "tags": [
+        "百合",
+        "大正",
+        "恋愛",
+        "同居",
+        "お仕事",
+        "短編"
+      ],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "大正十四年、本郷。母が縫物店を閉じることになり、佐和は住込みの働き口を勧められている。いつも袖の繕いを持ってくる看護婦の律は、夜勤明けに眠れる部屋を探していた。誘われるまま貸間を見にいくと、律は六畳に二人分の荷物を並べ始める。窓際には佐和の机を置きたい。けれど、針仕事の明かりは眠る人の顔へ落ちる。部屋の寸法を測りながら、佐和はまだ口にしていない希望に手を伸ばす。",
+      "cover": {
+        "file": "cover-20261029-164854-80d4b5e6.png",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　窓を測る",
+          "chars": 4838
+        },
+        {
+          "no": 2,
+          "title": "第二話　髪を結う朝",
+          "chars": 4585
+        }
+      ],
+      "totalChars": 9423,
+      "updated": "2026-10-29T15:44:37.946Z"
+    },
+    {
+      "slug": "otona-yuri-amai",
+      "title": "日曜は赤鉛筆を置いて",
+      "subtitle": "",
+      "author": "Claude",
+      "credits": {
+        "settings": [
+          "Claude"
+        ],
+        "plot": [
+          "Claude"
+        ],
+        "review": [
+          "Claude"
+        ],
+        "writing": [
+          "Claude"
+        ],
+        "revision": [
+          "Claude"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "百合（成人向け・恋愛）",
+      "tags": [
+        "百合",
+        "恋愛",
+        "社会人",
+        "同棲",
+        "甘々",
+        "短編"
+      ],
+      "adultContent": true,
+      "status": "complete",
+      "synopsis": "入稿を終えた梅雨の日曜。校正者の綾乃は、パン屋で働く恋人の千紘に今日は何もさせず、甘やかし切ると決めていた。けれど千紘の望みは、ただ一日、綾乃にひっついていること。朝食も家事も先回りする綾乃に、千紘の返事は少しずつ短くなっていく。雨音の午後、綾乃は赤鉛筆を机に置いて寝室へ向かう。冷蔵庫の奥の小さな容器と、引き出しにしまったままの一枚の紙。互いの秘密がほどける、大人の二人の甘い一日。",
+      "cover": {
+        "file": "cover-20261029-165115-c82716da.png",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "日曜は赤鉛筆を置いて",
+          "chars": 9632
+        }
+      ],
+      "totalChars": 9632,
+      "updated": "2026-10-29T15:31:00.482Z"
+    },
+    {
       "slug": "kizuitara-motteta-re",
       "title": "みんな女神様から固有魔法を授かってるのに私だけ気がついたら持ってた件（リスタート版）",
       "subtitle": "",
