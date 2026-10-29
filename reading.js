@@ -1,6 +1,30 @@
 // ローカル・公開サイトで共用する、読者向けの作品情報と閲覧確認。
 import { escapeHtml as esc } from './render.js';
 
+const CREDIT_LABELS = { settings: '設定', plot: 'プロット', writing: '本編', revision: '修正', review: '校閲', cover: '表紙', illustration: '挿絵', character: '人物画像' };
+
+export function creditLines(n, { compact = false } = {}) {
+  const credits = n.credits || {};
+  const roles = compact ? ['plot', 'writing', 'cover', 'illustration'] : Object.keys(CREDIT_LABELS);
+  const lines = roles.filter((role) => Array.isArray(credits[role]) && credits[role].length)
+    .map((role) => `${CREDIT_LABELS[role]}：${credits[role].join('・')}`);
+  const author = String(n.author || '').trim();
+  if (author && !['Claude', 'Codex'].includes(author)) lines.unshift(`作者：${author}`);
+  else if (author && !Object.values(credits).some((names) => Array.isArray(names) && names.length)) lines.push(`制作（工程不明）：${author}`);
+  return lines;
+}
+
+export function creditsHtml(n, options = {}) {
+  const lines = creditLines(n, options);
+  return lines.length ? `<div class="credits${options.compact ? ' compact' : ''}" aria-label="制作担当">${lines.map((line) => `<span>${esc(line)}</span>`).join('')}</div>` : '';
+}
+
+// 表紙上には本編担当を短く表示し、詳細は表紙の外で工程別に示す。
+export function coverCredit(n) {
+  if (n.author && !['Claude', 'Codex'].includes(n.author)) return `作者：${n.author}`;
+  return n.credits?.writing?.length ? `本編：${n.credits.writing.join('・')}` : '';
+}
+
 export function tagsOf(value) {
   const tags = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/[,、\n\r]+/) : [];
   return [...new Set(tags.filter((t) => typeof t === 'string').map((t) => t.trim()).filter(Boolean))];

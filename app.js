@@ -1,7 +1,7 @@
 // 公開サイト（novel.mjs publish で書き出す静的な書架）。読むための機能だけを持つ。
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
-import { readingBadges, adultNotice, tagFilterHtml, bindTagFilter, requireAdultConfirmation } from './reading.js';
+import { readingBadges, adultNotice, tagFilterHtml, bindTagFilter, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -112,13 +112,13 @@ function coverHtml(n) {
   if (n.cover) {
     return `<div class="cover has-img" style="--h:${hue(n.slug)}">
       <img src="${imgUrl(n.slug, n.cover.file)}" alt="">
-      ${n.cover.withTitle ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${n.author ? `<span>${esc(n.author)}</span>` : ''}</div>`}
+      ${n.cover.withTitle ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
     </div>`;
   }
   return `<div class="cover" style="--h:${hue(n.slug)}">
     <div class="gen" title="${esc(n.genre || '')}">${esc(n.genre || '')}</div>
     <div class="ttl">${esc(n.title)}</div>
-    <div class="auth">${esc(n.author || '')}</div>
+    <div class="auth">${esc(coverCredit(n))}</div>
   </div>`;
 }
 
@@ -140,6 +140,7 @@ async function viewShelf() {
         ${coverHtml(n)}
         <div class="book-meta">
           <div class="title">${esc(n.title)}</div>
+          ${creditsHtml(n, { compact: true })}
           ${readingBadges(n)}
           <div class="row"><span>全${n.chapters.length}話${n.status === 'complete' ? '' : '（公開中）'}</span><span>${fmtNum(n.totalChars)}字</span></div>
           <div class="row"><span>${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''}</span><span class="muted">${fmtDate(n.updated)}</span></div>
@@ -174,7 +175,7 @@ async function viewNovel(slug) {
         ${readingBadges(n)}
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
-        ${n.author ? `<p class="muted" style="margin:0 0 12px">${esc(n.author)}</p>` : ''}
+        ${creditsHtml(n)}
         ${n.synopsis ? `<div class="synopsis">${esc(n.synopsis)}</div>` : ''}
         <div class="stats-row">
           <span><b>${n.chapters.length}</b>話</span>
