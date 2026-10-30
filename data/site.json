@@ -2,6 +2,70 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "maou-songai-uketsuke",
+      "title": "勇者は対象外です",
+      "subtitle": "",
+      "author": "Claude",
+      "credits": {
+        "settings": [
+          "Claude"
+        ],
+        "plot": [
+          "Claude"
+        ],
+        "review": [
+          "Claude"
+        ],
+        "writing": [
+          "Claude"
+        ],
+        "revision": [
+          "Claude"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "異世界ファンタジー・社会風刺コメディ",
+      "tags": [
+        "異世界ファンタジー",
+        "社会風刺",
+        "お仕事",
+        "コメディ",
+        "戦後復興",
+        "役人",
+        "勇者",
+        "魔族",
+        "連作短編"
+      ],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "勇者が魔王を倒して一年。壊れた橋も焼けた畑も、補償されるのは魔王軍が壊したものだけだった。王都の戦後補償院・損害受付室に配属された新人ミレイは、判断を先送りするのが得意な二十二歳。署名の失効日までの三週間に、混合署名の橋、光る麦畑、勇者の借用証と、どれも筋の通った言い分がぶつかる案件が窓口に並ぶ。規則が答えを出さない場所で、誰かが印を押さなければならない。引き出しの認印は、まだ新品のままだ。",
+      "cover": {
+        "file": "cover-20261030-062403-d22e6fd6.png",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　七連のうち五連",
+          "chars": 4385
+        },
+        {
+          "no": 2,
+          "title": "第二話　光る畑の黒い帯",
+          "chars": 4042
+        },
+        {
+          "no": 3,
+          "title": "第三話　紙がきれいなまま",
+          "chars": 4073
+        }
+      ],
+      "totalChars": 12500,
+      "updated": "2026-10-30T04:54:27.390Z"
+    },
+    {
       "slug": "mahoshojo-haishi",
       "title": "魔法少女廃止委員会",
       "subtitle": "",
