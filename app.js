@@ -1,7 +1,8 @@
 // 公開サイト（novel.mjs publish で書き出す静的な書架）。読むための機能だけを持つ。
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
-import { readingBadges, adultNotice, tagFilterHtml, bindTagFilter, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
+import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
+import { normalize, SIZES, selectNovels, validPosition, novelPath } from './catalog.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -48,7 +49,9 @@ const fmtDate = (s) => (s ? new Date(s).toLocaleDateString('ja-JP') : '');
 
 function debounce(fn, ms) {
   let t;
-  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  const run = (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  run.cancel = () => clearTimeout(t);
+  return run;
 }
 
 // ---------- サイトのテーマ ----------
@@ -68,10 +71,13 @@ applyTheme();
 
 // ---------- 栞・既読 ----------
 const bookmarks = () => store.get('bm', {});
-function saveBookmark(slug, no, ratio) {
+function saveBookmark(slug, no, ratio, anchor) {
   const b = bookmarks();
-  b[slug] = { no, ratio, t: Date.now() };
+  b[slug] = { no, ratio, anchor, t: Date.now() };
   store.set('bm', b);
+  const positions = store.get('positions', {});
+  positions[slug] = { ...positions[slug], [no]: b[slug] };
+  store.set('positions', positions);
   if (ratio > 0.92) {
     const r = store.get('read', {});
     r[slug] = [...new Set([...(r[slug] || []), no])];
@@ -84,6 +90,15 @@ const readSet = (slug) => new Set(store.get('read', {})[slug] || []);
 let cleanup = null;
 let pendingJump = null; // { ratio } | { top: true }
 let siteTitle = '書架';
+let routeVersion = 0;
+// 生成HTMLの相対リンク用 base があっても、読書中のハッシュ移動は同じ文書内で行う。
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#/"]');
+  if (!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  if (location.hash === a.getAttribute('href')) { if (pendingJump) route(); return; }
+  location.hash = a.getAttribute('href');
+});
 
 function crumbs(items) {
   $('#crumbs').innerHTML = items.map((it, i) =>
@@ -91,17 +106,21 @@ function crumbs(items) {
 }
 
 async function route() {
+  const version = ++routeVersion;
   if (cleanup) { cleanup(); cleanup = null; }
   document.body.classList.remove('reading');
   $('#topbar').classList.remove('away');
   document.title = siteTitle;
-  const h = decodeURIComponent(location.hash.replace(/^#/, '')) || '/';
-  const m = h.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
   try {
-    if (!m) await viewShelf();
-    else if (m[2]) await viewReader(m[1], parseInt(m[2], 10));
-    else await viewNovel(m[1]);
+    const h = decodeURIComponent(location.hash.replace(/^#/, '')) || document.body.dataset.route || '/';
+    const m = h.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
+    if (!m?.[2]) pendingJump = null;
+    if (!m) await viewShelf(version);
+    else if (m[2]) await viewReader(m[1], parseInt(m[2], 10), version);
+    else await viewNovel(m[1], version);
   } catch (e) {
+    if (version !== routeVersion) return;
+    pendingJump = null;
     app.innerHTML = `<div class="wrap empty"><h2>読み込めませんでした</h2><p>${esc(e.message)}</p><p><a class="btn" href="#/">書架へ戻る</a></p></div>`;
   }
 }
@@ -111,7 +130,7 @@ window.addEventListener('hashchange', route);
 function coverHtml(n) {
   if (n.cover) {
     return `<div class="cover has-img" style="--h:${hue(n.slug)}">
-      <img src="${imgUrl(n.slug, n.cover.file)}" alt="">
+      <img src="${imgUrl(n.slug, n.cover.file)}" alt="" loading="lazy" decoding="async">
       ${n.cover.withTitle ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
     </div>`;
   }
@@ -122,9 +141,14 @@ function coverHtml(n) {
   </div>`;
 }
 
-let shelfTag = '';
-async function viewShelf() {
+const savedShelf = store.get('shelf', {}) || {};
+let shelfFilters = { query: '', genre: '', tags: [], status: '', size: '', sort: 'updated' };
+for (const key of ['query', 'genre', 'status', 'size', 'sort']) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
+if (Array.isArray(savedShelf.tags)) shelfFilters.tags = savedShelf.tags.filter((t) => typeof t === 'string');
+let shelfPage = Math.max(0, Math.floor(Number(savedShelf.page) || 0));
+async function viewShelf(version) {
   const { novels } = await site();
+  if (version !== routeVersion) return;
   crumbs([]);
   const bm = bookmarks();
   if (!novels.length) {
@@ -132,39 +156,98 @@ async function viewShelf() {
     return;
   }
   app.innerHTML = `<div class="wrap">
-    <h2 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h2>
-    ${tagFilterHtml(novels, shelfTag)}
-    <div class="shelf">${novels.map((n) => {
+    <h1 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h1>
+    <form class="explore" id="explore" role="search" aria-label="作品を探す">
+      <div class="explore-grid">
+        <label class="query">タイトル・作者名<input type="search" name="query" placeholder="作品名や作者名を入力" value="${esc(shelfFilters.query)}"></label>
+        <label>ジャンル<select name="genre"><option value="">すべて</option>${[...new Set(novels.map((n) => n.genre).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((g) => `<option>${esc(g)}</option>`).join('')}</select></label>
+        <label>連載状況<select name="status"><option value="">すべて</option><option value="complete">完結</option><option value="writing">連載中</option></select></label>
+        <label>作品の長さ<select name="size"><option value="">すべて</option>${Object.entries(SIZES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
+        <label>並び順<select name="sort"><option value="updated">更新が新しい順</option><option value="title">タイトル順</option><option value="chars">文字数が多い順</option></select></label>
+      </div>
+      <details${shelfFilters.tags.length ? ' open' : ''}><summary>タグを選ぶ（すべてを含む）<span id="selectedTags"></span></summary><div class="tag-options">${[...new Set(novels.flatMap((n) => n.tags || []))].sort((a, b) => a.localeCompare(b, 'ja')).map((t) => `<label><input type="checkbox" name="tag" value="${esc(t)}"${shelfFilters.tags.includes(t) ? ' checked' : ''}>${esc(t)}</label>`).join('') || '<p>タグはまだありません</p>'}</div></details>
+      <div class="filter-footer"><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset">条件をリセット</button></div>
+      <small class="muted">作品の長さは現在公開されている本文の文字数です。</small>
+    </form>
+    <div class="shelf" id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
+  const form = $('#explore');
+  for (const key of ['genre', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+  function renderResults() {
+    const found = selectNovels(novels, shelfFilters);
+    const pages = Math.max(1, Math.ceil(found.length / 24));
+    shelfPage = Math.min(shelfPage, pages - 1);
+    store.set('shelf', { ...shelfFilters, page: shelfPage });
+    $('#resultCount').textContent = `${found.length} / ${novels.length}作品`;
+    $('#selectedTags').textContent = shelfFilters.tags.length ? `：${shelfFilters.tags.join('・')}` : '';
+    $('#results').innerHTML = found.slice(shelfPage * 24, (shelfPage + 1) * 24).map((n) => {
       const b = bm[n.slug];
       return `<a class="book" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
         ${coverHtml(n)}
         <div class="book-meta">
           <div class="title">${esc(n.title)}</div>
-          ${creditsHtml(n, { compact: true })}
+          ${n.author ? `<div class="author">${esc(n.author)}</div>` : ''}
+          <p class="preview">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</p>
+          <div class="row"><span>${esc(n.genre || 'ジャンル未設定')}</span><span class="badge">${NOVEL_STATUS[n.status] || '連載中'}</span></div>
           ${readingBadges(n)}
           <div class="row"><span>全${n.chapters.length}話${n.status === 'complete' ? '' : '（公開中）'}</span><span>${fmtNum(n.totalChars)}字</span></div>
-          <div class="row"><span>${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''}</span><span class="muted">${fmtDate(n.updated)}</span></div>
+          <div class="row"><span class="muted">更新 ${fmtDate(n.updated) || '—'}</span></div>
           ${b ? `<span class="resume">栞：第${b.no}話 ${Math.round(b.ratio * 100)}%</span>` : ''}
         </div></a>`;
-    }).join('')}</div></div>`;
-  bindTagFilter(app, novels, (tag) => { shelfTag = tag; });
+    }).join('') || '<p class="empty">条件に合う作品はありません。検索語や絞り込みを変更してください。</p>';
+    $('#pagination').innerHTML = pages > 1 ? `<button class="btn" data-page="-1" ${!shelfPage ? 'disabled' : ''}>前へ</button><span>${shelfPage + 1} / ${pages}</span><button class="btn" data-page="1" ${shelfPage === pages - 1 ? 'disabled' : ''}>次へ</button>` : '';
+  }
+  form.onsubmit = (e) => e.preventDefault();
+  form.oninput = () => {
+    for (const key of ['query', 'genre', 'status', 'size', 'sort']) shelfFilters[key] = form.elements[key].value;
+    shelfFilters.tags = $$('[name=tag]:checked', form).map((el) => el.value);
+    shelfPage = 0; renderResults();
+  };
+  form.onreset = (e) => {
+    e.preventDefault();
+    shelfFilters = { query: '', genre: '', tags: [], status: '', size: '', sort: 'updated' };
+    shelfPage = 0;
+    // reset の既定値ではなく、戻る操作前の条件も含めて全て解除する。
+    for (const key of ['query', 'genre', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+    $$('[name=tag]', form).forEach((el) => el.checked = false);
+    renderResults();
+  };
+  $('#pagination').onclick = (e) => { const b = e.target.closest('[data-page]'); if (b) { shelfPage += Number(b.dataset.page); renderResults(); form.scrollIntoView(); } };
+  renderResults();
 }
 
 // ---------- 作品ページ ----------
 function tocHtml(n, { compact = false, current = 0 } = {}) {
   const read = readSet(n.slug);
-  return `<ul class="toc">${n.chapters.map((c) => `<li><a href="#/n/${n.slug}/c/${c.no}" data-top>
+  return `<ul class="toc">${n.chapters.map((c) => `<li data-chapter="${c.no}" data-read="${read.has(c.no)}"><a href="#/n/${n.slug}/c/${c.no}" data-top${c.no === current ? ' aria-current="page"' : ''}>
     <span class="no">第${c.no}話</span>
-    <span class="t">${esc(c.title)}${c.no === current ? '<span class="here">● 読書中</span>' : read.has(c.no) ? '<span class="here muted">✓</span>' : ''}</span>
+    <span class="t">${esc(c.title)}<span class="read-state">${c.no === current ? '● 読書中' : read.has(c.no) ? '✓ 既読' : '未読'}</span></span>
     ${compact ? '' : `<span class="c">${fmtNum(c.chars)}字</span>`}
   </a></li>`).join('')}</ul>`;
 }
 
-async function viewNovel(slug) {
+function mountToc(container, n, options = {}) {
+  container.innerHTML = `<div class="toc-tools"><label>話数・章題で探す<input type="search" data-toc-query placeholder="例：25、旅立ち"></label><label>話数へ移動<select data-toc-jump><option value="">選んで読む</option>${n.chapters.map((c) => `<option value="${c.no}">第${c.no}話 ${esc(c.title)}</option>`).join('')}</select></label><label class="unread-filter"><input type="checkbox" data-unread>未読だけ</label></div><p class="toc-count" role="status"></p>${tocHtml(n, options)}`;
+  const filter = () => {
+    const q = normalize($('[data-toc-query]', container).value);
+    const unread = $('[data-unread]', container).checked;
+    let count = 0;
+    $$('.toc li', container).forEach((li, i) => { li.hidden = !(normalize(`第${n.chapters[i].no}話 ${n.chapters[i].title}`).includes(q) && (!unread || li.dataset.read !== 'true')); if (!li.hidden) count++; });
+    $('.toc-count', container).textContent = `${count} / ${n.chapters.length}話`;
+  };
+  $('[data-toc-query]', container).oninput = filter;
+  $('[data-unread]', container).onchange = filter;
+  $('[data-toc-jump]', container).onchange = (e) => { if (e.target.value) { pendingJump = { top: true }; const h = `#/n/${n.slug}/c/${e.target.value}`; if (location.hash === h) route(); else location.hash = h; } };
+  container.onclick = (e) => { if (e.target.closest('[data-top]')) pendingJump = { top: true }; };
+  filter();
+}
+
+async function viewNovel(slug, version) {
   const n = await novelOf(slug);
+  if (version !== routeVersion) return;
   crumbs([{ label: n.title }]);
   document.title = `${n.title}｜${siteTitle}`;
-  const b = bookmarks()[slug];
+  const saved = validPosition(bookmarks()[slug]);
+  const b = saved && n.chapters.some((c) => c.no === saved.no) ? saved : null;
   const firstNo = n.chapters[0]?.no;
   app.innerHTML = `<div class="wrap">
     <section class="novel-head">
@@ -175,14 +258,16 @@ async function viewNovel(slug) {
         ${readingBadges(n)}
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
-        ${creditsHtml(n)}
-        ${n.synopsis ? `<div class="synopsis">${esc(n.synopsis)}</div>` : ''}
+        ${n.author ? `<p>${esc(n.author)}</p>` : ''}
+        <div class="synopsis">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</div>
         <div class="stats-row">
           <span><b>${n.chapters.length}</b>話</span>
           <span><b>${fmtNum(n.totalChars)}</b>字</span>
           <span>読了目安 <b>${minutes(n.totalChars)}</b>分</span>
           ${n.updated ? `<span>更新 ${fmtDate(n.updated)}</span>` : ''}
         </div>
+        <p><a href="${novelPath(slug)}">この作品の共有用ページ</a></p>
+        <details class="production"><summary>制作担当</summary>${creditsHtml(n) || '<p>制作担当の記録はありません。</p>'}</details>
         <div class="actions">
           ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="#/n/${slug}/c/${firstNo}" data-top>最初から読む</a>` : ''}
           ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="#/n/${slug}/c/${b.no}" data-resume>続きから読む（第${b.no}話）</a>` : ''}
@@ -190,10 +275,11 @@ async function viewNovel(slug) {
       </div>
     </section>
     <h3 class="section-title" style="font-size:18px">目次</h3>
-    ${tocHtml(n)}
+    <div id="novelToc"></div>
   </div>`;
+  mountToc($('#novelToc'), n);
   $$('[data-top]').forEach((a) => a.addEventListener('click', () => { pendingJump = { top: true }; }));
-  $$('[data-resume]').forEach((a) => a.addEventListener('click', () => { pendingJump = { ratio: b.ratio }; }));
+  $$('[data-resume]').forEach((a) => a.addEventListener('click', () => { pendingJump = b; }));
 }
 
 // ---------- 挿絵 ----------
@@ -225,14 +311,16 @@ const FONTS = {
 const RTHEMES = { auto: ['自動', ''], white: ['白', '#fff'], kinari: ['生成り', '#f5efe2'], usuzumi: ['薄墨', '#e4e2dc'], night: ['夜', '#141414'] };
 const DEFAULTS = { vertical: false, font: 'shippori', fs: 18, lh: 1.95, measure: 36, vlen: 40, rtheme: 'auto', indent: true };
 
-async function viewReader(slug, no) {
+async function viewReader(slug, no, version) {
   const prefs = { ...DEFAULTS, ...store.get('reader', {}) };
   const savePrefs = () => store.set('reader', prefs);
   const novel = await novelOf(slug);
+  if (version !== routeVersion) return;
   const idx = novel.chapters.findIndex((c) => c.no === no);
   if (idx < 0) throw new Error(`第${no}話は公開されていません`);
   if (!requireAdultConfirmation(app, novel, () => route())) return;
   const { title, lines, illus = [] } = await getJSON(`data/${slug}/${pad(no)}.json`);
+  if (version !== routeVersion) return;
   const prev = novel.chapters[idx - 1];
   const next = novel.chapters[idx + 1];
 
@@ -261,7 +349,7 @@ async function viewReader(slug, no) {
     ? `<a class="next-card" href="#/n/${slug}/c/${next.no}" data-top><span class="muted">次の話</span><b>${esc(next.title)}</b></a>`
     : novel.status === 'complete' ? '<p>― 完 ―</p>' : '<p>続きは公開をお待ちください。</p>';
   page.innerHTML = `<h1>${inlineToHtml(title || `第${no}話`)}</h1>${chapterBodyHtml(lines)}
-    <div class="chapter-end"><div>第${no}話 了</div>${endCard}</div>`;
+    <div class="chapter-end"><div>第${no}話 了</div>${endCard}<div class="end-links"><a class="btn" href="#/n/${slug}">作品・目次へ</a><a class="btn" href="#/">書架で作品を探す</a></div></div>`;
   if (illus.length) placeIllustrations(page, slug, lines, illus);
   $$('[data-top]', page).forEach((a) => a.addEventListener('click', () => { pendingJump = { top: true }; }));
 
@@ -291,16 +379,54 @@ async function viewReader(slug, no) {
     return Math.min(1, Math.abs(prefs.vertical ? rs.scrollLeft : rs.scrollTop) / max);
   };
   const setRatio = (r) => {
+    r = Math.max(0, Math.min(1, Number(r) || 0));
     if (prefs.vertical) rs.scrollLeft = -r * (rs.scrollWidth - rs.clientWidth);
     else rs.scrollTop = r * (rs.scrollHeight - rs.clientHeight);
   };
+  // 段落と段落内の割合を栞に残す。文字サイズ・縦横の変更で全体の比率が変わっても同じ段落へ戻せる。
+  const lineElements = $$('[data-line]', page);
+  function capturePosition() {
+    const viewport = rs.getBoundingClientRect();
+    const edge = prefs.vertical ? viewport.right - 20 : viewport.top + 64;
+    const el = lineElements.find((el) => {
+      const r = el.getBoundingClientRect();
+      return prefs.vertical ? r.left < edge && r.right > viewport.left : r.bottom > edge && r.top < viewport.bottom;
+    });
+    const rect = el?.getBoundingClientRect();
+    const offset = rect ? (prefs.vertical ? rect.right - edge : edge - rect.top) : 0;
+    const extent = rect ? (prefs.vertical ? rect.width : rect.height) : 1;
+    return { no, ratio: getRatio(), anchor: el ? { line: Number(el.dataset.line), fraction: Math.max(0, Math.min(1, offset / extent)) } : null };
+  }
+  function restorePosition(position) {
+    if (!position) return;
+    setRatio(position.ratio);
+    // 端は本文の外（見出し／読了カード）も含めた端として保存する。
+    if (position.ratio < 0.001 || position.ratio > 0.999) return;
+    const el = lineElements.find((el) => Number(el.dataset.line) === position.anchor?.line);
+    if (el) {
+      const rect = el.getBoundingClientRect(), viewport = rs.getBoundingClientRect();
+      const fraction = Math.max(0, Math.min(1, Number(position.anchor.fraction) || 0));
+      if (prefs.vertical) rs.scrollLeft += rect.right - fraction * rect.width - (viewport.right - 20);
+      else rs.scrollTop += rect.top + fraction * rect.height - (viewport.top + 64);
+    }
+  }
   const updateProgress = () => {
     const r = getRatio();
     $('#rp').style.width = (r * 100).toFixed(1) + '%';
     $('#lbl').textContent = `第${no}話 ${idx + 1}/${novel.chapters.length}　${Math.round(r * 100)}%`;
   };
-  const persist = debounce(() => saveBookmark(slug, no, getRatio()), 400);
-  rs.addEventListener('scroll', () => { updateProgress(); persist(); hideChrome(); }, { passive: true });
+  let ready = false, disposed = false, lastPosition = null;
+  const savePosition = () => {
+    if (!ready || disposed) return;
+    lastPosition = capturePosition();
+    saveBookmark(slug, no, lastPosition.ratio, lastPosition.anchor);
+  };
+  const persist = debounce(savePosition, 400);
+  rs.addEventListener('scroll', () => { if (!ready || disposed) return; lastPosition = capturePosition(); updateProgress(); persist(); hideChrome(); }, { passive: true });
+  const onPageHide = () => { persist.cancel(); savePosition(); };
+  const onVisibility = () => { if (document.hidden) onPageHide(); };
+  window.addEventListener('pagehide', onPageHide);
+  document.addEventListener('visibilitychange', onVisibility);
 
   // 縦書き時はホイールを横スクロールに
   rs.addEventListener('wheel', (e) => {
@@ -311,6 +437,7 @@ async function viewReader(slug, no) {
 
   // --- UI の自動非表示 ---
   const dock = $('#dock'), topbar = $('#topbar');
+  const initialChromeUntil = performance.now() + 350;
   let hideT;
   function showChrome() {
     dock.classList.remove('away'); topbar.classList.remove('away');
@@ -318,6 +445,7 @@ async function viewReader(slug, no) {
     hideT = setTimeout(() => { if (!$('.panel.open')) { dock.classList.add('away'); topbar.classList.add('away'); } }, 2600);
   }
   function hideChrome() {
+    if (performance.now() < initialChromeUntil) return;
     if ($('.panel.open') || dock.matches(':hover')) return;
     dock.classList.add('away'); topbar.classList.add('away');
   }
@@ -336,7 +464,10 @@ async function viewReader(slug, no) {
     $('#scrim').classList.toggle('on', !isOpen);
     if (isOpen) return;
     panels[k].classList.add('open');
-    if (k === 'toc') $('#tocBody').innerHTML = tocHtml(novel, { compact: true, current: no });
+    if (k === 'toc') {
+      mountToc($('#tocBody'), novel, { compact: true, current: no });
+      requestAnimationFrame(() => $('.toc [aria-current]', panels.toc)?.scrollIntoView({ block: 'center' }));
+    }
     if (k === 'prefs') renderPrefs();
     showChrome();
   }
@@ -377,28 +508,29 @@ async function viewReader(slug, no) {
       const b = e.target.closest('button');
       if (!b) return;
       const key = s.dataset.key;
-      const r = getRatio();
+      const position = capturePosition();
       prefs[key] = typeof DEFAULTS[key] === 'boolean' ? b.dataset.v === 'true' : b.dataset.v;
       savePrefs(); applyPrefs(); renderPrefs();
-      requestAnimationFrame(() => setRatio(r));
+      restorePosition(position); updateProgress(); savePosition();
     });
     $$('#prefsBody input[type=range]').forEach((inp) => inp.oninput = () => {
-      const r = getRatio();
+      const position = capturePosition();
       prefs[inp.dataset.key] = parseFloat(inp.value);
       inp.nextElementSibling.textContent = inp.value + ({ fs: 'px', measure: '字', vlen: '字' }[inp.dataset.key] || '');
       savePrefs(); applyPrefs();
-      setRatio(r);
+      restorePosition(position); updateProgress(); savePosition();
     });
-    $('#resetPrefs').onclick = () => { Object.assign(prefs, DEFAULTS); savePrefs(); applyPrefs(); renderPrefs(); };
+    $('#resetPrefs').onclick = () => { const position = capturePosition(); Object.assign(prefs, DEFAULTS); savePrefs(); applyPrefs(); renderPrefs(); restorePosition(position); updateProgress(); savePosition(); };
   }
 
   // --- キーボード ---
   const onKey = (e) => {
-    if (e.target.matches('input, textarea') || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.matches('input, textarea, select, button, a') || e.ctrlKey || e.metaKey || e.altKey) return;
     const k = e.key;
     if (k === 'Escape') return closePanels();
     if (k === 't' || k === 'T') return openPanel('toc');
     if (k === 's' || k === 'S') return openPanel('prefs');
+    if ($('.panel.open')) return;
     if (k === 'n') return go(next);
     if (k === 'p') return go(prev);
     if (prefs.vertical) {
@@ -428,17 +560,30 @@ async function viewReader(slug, no) {
   rs.focus({ preventScroll: true });
   const jump = pendingJump;
   pendingJump = null;
+  const previous = validPosition(store.get('positions', {})[slug]?.[no]) || validPosition(bookmarks()[slug]);
+  const initialPosition = jump?.top ? { no, ratio: 0 } : jump || (previous?.no === no ? previous : { no, ratio: 0 });
   requestAnimationFrame(() => {
-    if (jump?.ratio != null) setRatio(jump.ratio);
-    else if (!jump?.top) {
-      const b = bookmarks()[slug];
-      if (b && b.no === no) setRatio(b.ratio);
-    }
+    if (disposed) return;
+    restorePosition(initialPosition);
+    ready = true;
+    savePosition();
     updateProgress();
     showChrome();
   });
 
+  // Webフォント・挿絵・画面回転による再レイアウトでも最後の読書位置を維持する。
+  const reflow = () => { if (!ready || disposed) return; restorePosition(lastPosition); updateProgress(); };
+  const observer = new ResizeObserver(reflow);
+  observer.observe(page);
+  window.addEventListener('resize', reflow);
+  document.fonts?.ready.then(reflow);
+
   cleanup = () => {
+    persist.cancel(); savePosition(); disposed = true;
+    observer.disconnect();
+    window.removeEventListener('resize', reflow);
+    window.removeEventListener('pagehide', onPageHide);
+    document.removeEventListener('visibilitychange', onVisibility);
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('mousemove', onMove);
     clearTimeout(hideT);

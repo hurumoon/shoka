@@ -1,0 +1,57 @@
+/* 公開サイトだけの拡張。共用の書籍風スタイルは変更しない。 */
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.explore { padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); margin-bottom: 24px; }
+.explore-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.explore label, .toc-tools label { display: grid; gap: 5px; font-size: 13px; color: var(--ink-2); }
+.explore .query { grid-column: 1 / -1; }
+.explore input[type=search], .explore select, .toc-tools input, .toc-tools select { width: 100%; min-width: 0; padding: 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); font: inherit; font-size: 16px; }
+.explore details { margin-top: 14px; }
+.explore summary { cursor: pointer; padding: 8px 0; }
+.tag-options { display: flex; flex-wrap: wrap; gap: 6px; max-height: 220px; overflow: auto; }
+.tag-options label { display: inline-flex; align-items: center; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
+.tag-options label:has(:checked) { background: var(--accent-soft); border-color: var(--accent); }
+.filter-footer, .pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.filter-footer p { margin: 0; }
+.book-meta .preview { font-size: 13px; color: var(--ink-2); line-height: 1.8; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 8px 0; }
+.book-meta .author { font-size: 12px; color: var(--ink-2); }
+.book-meta .reading-tags { max-height: 56px; overflow: hidden; }
+.book-meta .row { flex-wrap: wrap; }
+.book, .book-meta, .novel-info { min-width: 0; overflow-wrap: anywhere; }
+.book-meta .title { font-size: 17px; }
+.cover img { aspect-ratio: 2 / 3; }
+.toc-tools { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 16px 0; }
+.toc-tools label { flex: 1 1 150px; }
+.toc-tools .unread-filter { display: flex; align-items: center; }
+.toc-tools input[type=checkbox] { width: auto; }
+.toc .here { white-space: nowrap; }
+.toc .t { min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+.toc a[aria-current] { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+.toc .read-state { display: block; font: 12px var(--sans); color: var(--ink-2); }
+.toc-count { color: var(--ink-2); font-size: 13px; }
+.production { margin-top: 20px; }
+.production summary { cursor: pointer; }
+.end-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.reader.vertical .end-links { writing-mode: horizontal-tb; max-width: 240px; }
+.reader-scroll { overscroll-behavior: contain; }
+.panel:not(.open) { visibility: hidden; }
+.panel .toc-tools { position: sticky; top: -20px; background: var(--card); padding: 12px 0; z-index: 1; }
+.dock { max-width: calc(100vw - 16px); bottom: max(18px, env(safe-area-inset-bottom)); }
+.dock .lbl { padding: 0 4px; }
+.dock .icon-btn { min-width: 44px; min-height: 44px; }
+.static-body { max-width: 46em; margin: auto; padding: 24px; font-family: var(--serif); line-height: 2; }
+.static-body p { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .explore { padding: 12px; }
+  .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .book-meta .title { font-size: 15px; }
+  .book-meta .row { font-size: 11px; }
+  .novel-head { gap: 20px; }
+  .novel-info h1 { overflow-wrap: anywhere; }
+  .toc a { grid-template-columns: 48px minmax(0, 1fr); gap: 8px; }
+  .toc .c { grid-column: 2; }
+  .dock .lbl { font-size: 10px; }
+  .reader.vertical .page { padding-top: max(64px, env(safe-area-inset-top)); padding-bottom: max(84px, env(safe-area-inset-bottom)); }
+  .actions .btn { min-height: 44px; }
+}

@@ -1,3 +1,109 @@
+/* ===== 会議室（配色は共通テーマの変数に従う） ===== */
+.wrap.room-page { max-width: 1500px; }
+.room-page > .novel-head { display: none; }
+.room-shell { min-width: 0; font-family: var(--sans); font-size: 13px; overflow-wrap: anywhere; }
+.room-shell h1, .room-shell h2 { font-family: var(--serif); }
+.room-header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.room-header h1 { margin: 0; font-size: 20px; }
+.room-header p { margin: 0; color: var(--ink-2); }
+.room-steps, .room-counts, .room-actions, .room-filters, .room-card-meta, .room-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.room-steps { list-style: none; padding: 0; margin: 0; font-size: 12px; }
+.room-steps li { padding: 2px 9px; border-radius: 99px; background: var(--paper-2); color: var(--ink-3); }
+.room-steps .room-current { color: var(--paper); background: var(--accent); }
+.room-steps .room-done { color: var(--ok); }
+.room-counts { gap: 6px 18px; color: var(--ink-2); }
+.room-counts b { font-size: 17px; color: var(--ink); }
+.room-reasons { flex-basis: 100%; color: var(--warn); }
+.room-grid { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(200px, 290px); gap: 16px; align-items: start; }
+.room-grid > *, .room-materials, .room-message, .room-ai-fields > label { min-width: 0; }
+.room-panel { padding: 14px; border: 1px solid var(--line); background: var(--card); border-radius: 12px; box-shadow: var(--shadow); }
+.room-materials > .room-panel + .room-panel { margin-top: 16px; }
+.room-panel h2 { font-size: 16px; margin: 0 0 12px; }
+.room-panel h3 { font-size: 12px; margin: 16px 0 8px; color: var(--ink-2); }
+.room-btn, .room-chip { border: 1px solid var(--line); border-radius: 8px; background: var(--card); padding: 6px 10px; cursor: pointer; font: inherit; color: var(--ink); }
+.room-btn:hover, .room-chip:hover, .room-card:hover { border-color: var(--ink-3); }
+.room-btn:disabled { opacity: .5; cursor: not-allowed; }
+.room-chip { padding: 2px 10px; border-radius: 99px; font-size: 12px; }
+.room-chip.room-selected { background: var(--ink); color: var(--paper); }
+.room-filters { margin-bottom: 16px; }
+.room-group { margin: 16px 0; }
+.room-group h3 span, .room-group summary span { background: var(--paper-2); padding: 0 6px; border-radius: 99px; }
+.room-group-ask h3 { color: var(--accent); }
+.room-card { display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); text-align: left; padding: 10px 12px; margin: 6px 0; cursor: pointer; font: inherit; }
+.room-card.room-selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); background: var(--card); }
+.room-card strong { display: block; margin: 4px 0; }
+.room-card-meta, .room-ai, .room-muted { font-size: 11px; color: var(--ink-3); }
+.room-ai { margin-left: 4px; }
+.room-oneline { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+.room-avatar { display: inline-grid; place-items: center; vertical-align: middle; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--paper-2); color: var(--ink-2); font-size: 11px; margin-right: 4px; }
+.room-tag { padding: 0 5px; background: var(--paper-2); color: var(--ink-2); border-radius: 4px; }
+.room-guess { color: var(--warn); border: 1px dashed currentColor; padding: 0 4px; border-radius: 4px; font-size: 11px; }
+.room-detail { margin: 0 0 22px; border-bottom: 1px solid var(--line); padding-bottom: 16px; scroll-margin-top: 70px; }
+.room-detail h2 { margin-top: 10px; }
+.room-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.room-detail > .room-text { background: var(--paper); padding: 12px; border-radius: 8px; }
+.room-basis { padding-left: 20px; }
+.room-message { padding: 10px 0; border-top: 1px solid var(--line); }
+.room-message p { margin: 4px 0; }
+.room-options { display: grid; gap: 8px; margin: 14px 0; }
+.room-option { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+.room-option p { color: var(--ink-2); font-size: 12px; margin: 4px 0; }
+.room-recommended { border-color: var(--ok); }
+.room-decision { border-left: 3px solid var(--ok); padding: 12px; background: var(--paper); margin: 12px 0; }
+.room-decision .room-btn { display: block; margin-top: 8px; }
+.room-label { display: block; margin: 10px 0; }
+.room-shell input:not([type="checkbox"]), .room-shell select, .room-shell textarea, .room-new-materials input, .room-new-materials select, .room-new-materials textarea { width: 100%; max-width: 100%; min-width: 0; font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 7px 8px; }
+.room-shell textarea, .room-new-materials textarea { display: block; resize: vertical; }
+.room-form, .room-ai-fields, .room-new-materials { display: grid; gap: 10px; margin-top: 10px; }
+.room-form label, .room-new-materials label { display: block; }
+.room-form fieldset, .room-new-materials fieldset { min-width: 0; border: 1px solid var(--line); border-radius: 8px; margin: 0; padding: 8px; }
+.room-material-list, .room-participants { list-style: none; padding: 0; margin: 0 0 14px; }
+.room-material-list li { border-bottom: 1px solid var(--line); padding: 8px 0; }
+.room-material-list b { color: var(--accent); margin-right: 4px; }
+.room-material-list small { display: block; color: var(--ink-3); font-size: 11px; }
+.room-participants li { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: space-between; margin: 8px 0; }
+.room-participants small { font-size: 11px; color: var(--ink-3); }
+.room-ledger-entry { display: block; width: 100%; padding: 10px 0; background: none; color: var(--ink); border: 0; border-top: 1px solid var(--line); text-align: left; font: inherit; cursor: pointer; }
+.room-ledger-group:first-of-type h3 { color: var(--ok); }
+.room-error { color: var(--accent); white-space: pre-wrap; }
+.room-error:empty { margin: 16px 0; }
+.room-shell summary { cursor: pointer; }
+.room-mobile-tabs { display: none; }
+.room-questions { display: none; }
+@media (min-width: 760px) and (max-width: 1100px) {
+  .room-grid { grid-template-columns: minmax(170px, 210px) minmax(0, 1fr); }
+  .room-ledger { grid-column: 1 / -1; }
+}
+@media (max-width: 759px) {
+  .wrap.room-page { padding: 16px 12px 96px; }
+  .room-header { gap: 10px; padding: 12px; }
+  .room-header > div:first-child { width: 100%; }
+  .room-header .room-actions { width: 100%; }
+  .room-header .room-btn { flex: 1 1 auto; font-size: 12px; }
+  .room-grid { display: block; }
+  .room-shell[data-room-mobile="ask"] .room-grid { display: none; }
+  .room-shell[data-room-mobile="ask"] .room-questions { display: block; min-width: 0; }
+  .room-questions { padding-bottom: 20px; }
+  .room-questions .room-btn { min-height: 44px; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+  .room-questions .room-option { width: 100%; text-align: left; }
+  .room-questions .room-option span { display: block; margin-top: 6px; color: var(--ink-2); }
+  .room-questions .room-option[aria-pressed="true"] { border-color: var(--accent); }
+  .room-questions textarea { font-size: 16px; }
+  .room-questions summary { min-height: 44px; padding: 12px 0; }
+  .room-question-position { font-weight: 600; margin-top: 0; }
+  .room-question-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; }
+  .room-question-nav .room-btn { flex: 1; }
+  .room-question-count { display: inline-block; margin-left: 4px; padding: 0 5px; border-radius: 99px; background: var(--paper-2); font-size: 11px; }
+  .room-shell { padding-bottom: env(safe-area-inset-bottom); }
+  .room-shell[data-room-mobile="board"] .room-materials, .room-shell[data-room-mobile="board"] .room-ledger,
+  .room-shell[data-room-mobile="ledger"] .room-materials, .room-shell[data-room-mobile="ledger"] .room-board,
+  .room-shell[data-room-mobile="materials"] .room-board, .room-shell[data-room-mobile="materials"] .room-ledger { display: none; }
+  .room-mobile-tabs { display: flex; position: fixed; z-index: 25; bottom: 0; left: 0; right: 0; padding-bottom: env(safe-area-inset-bottom); background: var(--card); border-top: 1px solid var(--line); }
+  .room-mobile-tabs button { flex: 1; padding: 14px 4px; border: 0; color: var(--ink-3); background: none; font: inherit; cursor: pointer; }
+  .room-mobile-tabs button[aria-pressed="true"] { color: var(--accent); font-weight: 600; }
+  .room-panel { padding: 12px; }
+}
+
 /* ===== テーマ ===== */
 :root {
   --paper: #f6f1e7;
