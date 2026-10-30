@@ -9,8 +9,8 @@ export function creditLines(n, { compact = false } = {}) {
   const lines = roles.filter((role) => Array.isArray(credits[role]) && credits[role].length)
     .map((role) => `${CREDIT_LABELS[role]}：${credits[role].join('・')}`);
   const author = String(n.author || '').trim();
-  if (author && !['Claude', 'Codex'].includes(author)) lines.unshift(`作者：${author}`);
-  else if (author && !Object.values(credits).some((names) => Array.isArray(names) && names.length)) lines.push(`制作（工程不明）：${author}`);
+  // 本編の工程記録がない旧作でも、保存済みの作者名を隠さない。
+  if (author && (!['Claude', 'Codex'].includes(author) || !credits.writing?.length)) lines.unshift(`作者：${author}`);
   return lines;
 }
 
@@ -21,7 +21,8 @@ export function creditsHtml(n, options = {}) {
 
 // 表紙上には本編担当を短く表示し、詳細は表紙の外で工程別に示す。
 export function coverCredit(n) {
-  if (n.author && !['Claude', 'Codex'].includes(n.author)) return `作者：${n.author}`;
+  const author = String(n.author || '').trim();
+  if (author && (!['Claude', 'Codex'].includes(author) || !n.credits?.writing?.length)) return `作者：${author}`;
   return n.credits?.writing?.length ? `本編：${n.credits.writing.join('・')}` : '';
 }
 
