@@ -2,6 +2,89 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "mahoshojo-haishi",
+      "title": "魔法少女廃止委員会",
+      "subtitle": "",
+      "author": "Codex",
+      "credits": {
+        "settings": [
+          "Codex"
+        ],
+        "plot": [
+          "Codex"
+        ],
+        "review": [
+          "Codex"
+        ],
+        "writing": [
+          "Codex"
+        ],
+        "revision": [
+          "Codex"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "現代ファンタジー・青春",
+      "tags": [
+        "魔法少女",
+        "魔女",
+        "怪異",
+        "現代ファンタジー",
+        "女子高生",
+        "青春",
+        "共存",
+        "正義の対立"
+      ],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "黄色い上着の魔法少女・三枝灯は、今日も駅前で怪異に引かれた人を救った。その帰りに名刺を渡してきたのは、魔法少女廃止委員会の魔女。「こういうことは、大人がするべきです」。けれど待つ間に誰かが傷ついたら。怪異を残せば、店を閉める人がいた。怪異を倒せば、雨宿りの場所が消えた。戦うことをやめたくない少女と、少女を出動要員に数えたくない魔女。二人は同じ街で、違う境界を守ろうとする。",
+      "cover": {
+        "file": "cover-20261030-031702-38041688.png",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　黄色い袖の名刺",
+          "chars": 3687
+        },
+        {
+          "no": 2,
+          "title": "第二話　雨宿りの値段",
+          "chars": 3606
+        },
+        {
+          "no": 3,
+          "title": "第三話　待ってと言った人",
+          "chars": 3820
+        },
+        {
+          "no": 4,
+          "title": "第四話　店の裏の地図",
+          "chars": 3598
+        },
+        {
+          "no": 5,
+          "title": "第五話　閉める前のパン",
+          "chars": 3879
+        },
+        {
+          "no": 6,
+          "title": "第六話　庇を切る",
+          "chars": 4242
+        },
+        {
+          "no": 7,
+          "title": "第七話　欠員には数えない",
+          "chars": 3936
+        }
+      ],
+      "totalChars": 26768,
+      "updated": "2026-10-30T03:08:47.391Z"
+    },
+    {
       "slug": "otona-yuri-amai",
       "title": "日曜は赤鉛筆を置いて",
       "subtitle": "",
