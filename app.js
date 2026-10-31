@@ -3,7 +3,7 @@
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
-import { normalize, SIZES, selectNovels, validPosition, novelPath } from './catalog.js';
+import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, firstReads, shortReads, seriesGroups, chapterSubtitle, chapterLabel, validPosition, novelPath } from './catalog.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -45,6 +45,8 @@ const NOVEL_STATUS = { writing: '連載中', complete: '完結' };
 const hue = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 17);
 const fmtNum = (n) => (n || 0).toLocaleString('ja-JP');
 const minutes = (chars) => Math.max(1, Math.round(chars / 600));
+const readTime = (chars) => minutes(chars) < 60 ? `約${minutes(chars)}分` : `約${Math.round(minutes(chars) / 60)}時間`;
+const genreText = (n) => [...new Set([n.category, n.genre].filter(Boolean))].join('／');
 const imgUrl = (slug, file) => `img/${encodeURIComponent(slug)}/${encodeURIComponent(file)}`;
 const fmtDate = (s) => (s ? new Date(s).toLocaleDateString('ja-JP') : '');
 
@@ -130,23 +132,43 @@ window.addEventListener('hashchange', route);
 // ---------- 書架 ----------
 function coverHtml(n) {
   if (n.cover) {
+    // thumb は書架の並び用の小さい画像。高解像度の画面や大きく出す場所では srcset で本体を選ばせる
+    const { file, thumb } = n.cover;
     return `<div class="cover has-img" style="--h:${hue(n.slug)}">
-      <img src="${imgUrl(n.slug, n.cover.file)}" alt="" loading="lazy" decoding="async">
+      <img src="${imgUrl(n.slug, thumb || file)}"${thumb ? ` srcset="${imgUrl(n.slug, thumb)} 480w, ${imgUrl(n.slug, file)} 1000w" sizes="(max-width: 700px) 45vw, 240px"` : ''} alt="" loading="lazy" decoding="async">
       ${n.cover.withTitle ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
     </div>`;
   }
   return `<div class="cover" style="--h:${hue(n.slug)}">
-    <div class="gen" title="${esc(n.genre || '')}">${esc(n.genre || '')}</div>
+    <div class="gen" title="${esc(genreText(n))}">${esc(n.category || n.genre || '')}</div>
     <div class="ttl">${esc(n.title)}</div>
     <div class="auth">${esc(coverCredit(n))}</div>
   </div>`;
 }
 
 const savedShelf = store.get('shelf', {}) || {};
-let shelfFilters = { query: '', genre: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
-for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
+const FILTER_KEYS = ['query', 'category', 'series', 'status', 'size', 'sort'];
+let shelfFilters = { query: '', category: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
+for (const key of FILTER_KEYS) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
 if (Array.isArray(savedShelf.tags)) shelfFilters.tags = savedShelf.tags.filter((t) => typeof t === 'string');
 let shelfPage = Math.max(0, Math.floor(Number(savedShelf.page) || 0));
+
+function railCard(n, note) {
+  return `<a class="book rail-book" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
+    ${coverHtml(n)}
+    <div class="book-meta"><div class="title">${esc(n.title)}</div><div class="rail-note">${esc(note)}${n.adultContent ? '<span class="badge adult">R18</span>' : ''}</div></div>
+  </a>`;
+}
+function railHtml(title, lead, cards) {
+  return cards.length ? `<section class="rail" aria-label="${esc(title)}"><h2>${esc(title)}</h2><p class="muted">${esc(lead)}</p><div class="rail-list">${cards.join('')}</div></section>` : '';
+}
+function entrancesHtml(novels) {
+  const first = firstReads(novels);
+  return railHtml('初めて読むなら', 'ジャンルごとに、完結している作品を1作ずつ。', first.map((n) => railCard(n, `${n.category}・${readTime(n.totalChars)}`)))
+    + railHtml('短時間で読める作品', '15分ほどで読み切れる完結作。', shortReads(novels, first).map((n) => railCard(n, readTime(n.totalChars))))
+    + railHtml('シリーズ作品', '第1作から順に読めます。', seriesGroups(novels).map(({ name, works }) => railCard(works[0], `${name}・全${works.length}作`)));
+}
+
 async function viewShelf(version) {
   const { novels } = await site();
   if (version !== routeVersion) return;
@@ -156,30 +178,47 @@ async function viewShelf(version) {
     app.innerHTML = '<div class="wrap empty"><h2>まだ作品がありません</h2></div>';
     return;
   }
+  const categories = categoryCounts(novels);
+  if (!categories.some(([c]) => c === shelfFilters.category)) shelfFilters.category = '';
+  const secondaryCount = () => [shelfFilters.series, shelfFilters.status, shelfFilters.size].filter(Boolean).length + shelfFilters.tags.length + (shelfFilters.sort !== 'updated' ? 1 : 0);
   app.innerHTML = `<div class="wrap">
     <h1 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h1>
     <form class="explore" id="explore" role="search" aria-label="作品を探す">
-      <div class="explore-grid">
-        <label class="query">タイトル・作者名・シリーズ名<input type="search" name="query" placeholder="作品名・作者名・シリーズ名を入力" value="${esc(shelfFilters.query)}"></label>
-        <label>シリーズ<select name="series"><option value="">すべて</option>${[...new Set(novels.map(seriesOf).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label>
-        <label>ジャンル<select name="genre"><option value="">すべて</option>${[...new Set(novels.map((n) => n.genre).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((g) => `<option>${esc(g)}</option>`).join('')}</select></label>
-        <label>連載状況<select name="status"><option value="">すべて</option><option value="complete">完結</option><option value="writing">連載中</option></select></label>
-        <label>作品の長さ<select name="size"><option value="">すべて</option>${Object.entries(SIZES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
-        <label>並び順<select name="sort"><option value="updated">更新が新しい順</option><option value="title">タイトル順</option><option value="chars">文字数が多い順</option></select></label>
-      </div>
-      <details${shelfFilters.tags.length ? ' open' : ''}><summary>タグを選ぶ（すべてを含む）<span id="selectedTags"></span></summary><div class="tag-options">${[...new Set(novels.flatMap((n) => n.tags || []))].sort((a, b) => a.localeCompare(b, 'ja')).map((t) => `<label><input type="checkbox" name="tag" value="${esc(t)}"${shelfFilters.tags.includes(t) ? ' checked' : ''}>${esc(t)}</label>`).join('') || '<p>タグはまだありません</p>'}</div></details>
-      <div class="filter-footer"><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset">条件をリセット</button></div>
-      <small class="muted">作品の長さは現在公開されている本文の文字数です。</small>
+      <label class="query">作品を探す<input type="search" name="query" placeholder="題名・作者・タグ・あらすじなど" value="${esc(shelfFilters.query)}"></label>
+      ${categories.length ? `<fieldset class="category-chips"><legend>ジャンル</legend><label><input type="radio" name="category" value="">すべて</label>${categories.map(([c, count]) => `<label><input type="radio" name="category" value="${esc(c)}">${esc(c)}<small>${count}</small></label>`).join('')}</fieldset>` : ''}
+      <details class="more-filters"${secondaryCount() ? ' open' : ''}><summary>絞り込み・並び順<span id="activeFilters"></span></summary>
+        <div class="explore-grid">
+          <label>シリーズ<select name="series"><option value="">すべて</option>${[...new Set(novels.map(seriesOf).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label>
+          <label>連載状況<select name="status"><option value="">すべて</option><option value="complete">完結</option><option value="writing">連載中</option></select></label>
+          <label>作品の長さ<select name="size"><option value="">すべて</option>${Object.entries(SIZES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
+          <label>並び順<select name="sort"><option value="updated">更新が新しい順</option><option value="title">タイトル順</option><option value="chars">文字数が多い順</option></select></label>
+        </div>
+        <p class="tag-heading">タグ（選んだものをすべて含む作品）<span id="selectedTags"></span></p>
+        <div class="tag-options">${filterTags(novels, shelfFilters.tags).map(([t, count]) => `<label><input type="checkbox" name="tag" value="${esc(t)}"${shelfFilters.tags.includes(t) ? ' checked' : ''}>${esc(t)}<small>${count}</small></label>`).join('') || '<p>タグはまだありません</p>'}</div>
+        <small class="muted">ここにないタグは検索欄で探せます。作品の長さは公開中の本文の文字数です。</small>
+      </details>
     </form>
+    <div id="entrances"></div>
+    <div class="results-head"><h2 id="resultsTitle"></h2><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset" form="explore" id="resetFilters">条件をリセット</button></div>
     <div class="shelf" id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
   const form = $('#explore');
-  for (const key of ['genre', 'series', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+  const syncForm = () => {
+    for (const key of FILTER_KEYS) if (key !== 'category') form.elements[key].value = shelfFilters[key];
+    $$('[name=category]', form).forEach((el) => { el.checked = el.value === shelfFilters.category; });
+  };
+  syncForm();
+  const entrances = entrancesHtml(novels);
   function renderResults() {
     const found = selectNovels(novels, shelfFilters);
     const pages = Math.max(1, Math.ceil(found.length / 24));
     shelfPage = Math.min(shelfPage, pages - 1);
     store.set('shelf', { ...shelfFilters, page: shelfPage });
+    const filtered = isFiltered(shelfFilters);
+    $('#entrances').innerHTML = filtered || shelfPage ? '' : entrances;
+    $('#resultsTitle').textContent = filtered ? '見つかった作品' : 'すべての作品';
     $('#resultCount').textContent = `${found.length} / ${novels.length}作品`;
+    $('#resetFilters').hidden = !filtered && shelfFilters.sort === 'updated';
+    $('#activeFilters').textContent = secondaryCount() ? `（${secondaryCount()}件指定中）` : '';
     $('#selectedTags').textContent = shelfFilters.tags.length ? `：${shelfFilters.tags.join('・')}` : '';
     $('#results').innerHTML = found.slice(shelfPage * 24, (shelfPage + 1) * 24).map((n) => {
       const b = bm[n.slug];
@@ -190,7 +229,7 @@ async function viewShelf(version) {
           ${seriesBadge(n)}
           ${n.author ? `<div class="author">${esc(n.author)}</div>` : ''}
           <p class="preview">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</p>
-          <div class="row"><span>${esc(n.genre || 'ジャンル未設定')}</span><span class="badge">${NOVEL_STATUS[n.status] || '連載中'}</span></div>
+          <div class="row"><span>${esc(n.category || n.genre || 'ジャンル未設定')}</span><span class="badge">${NOVEL_STATUS[n.status] || '連載中'}</span></div>
           ${readingBadges(n)}
           <div class="row"><span>全${n.chapters.length}話${n.status === 'complete' ? '' : '（公開中）'}</span><span>${fmtNum(n.totalChars)}字</span></div>
           <div class="row"><span class="muted">更新 ${fmtDate(n.updated) || '—'}</span></div>
@@ -201,20 +240,21 @@ async function viewShelf(version) {
   }
   form.onsubmit = (e) => e.preventDefault();
   form.oninput = () => {
-    for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) shelfFilters[key] = form.elements[key].value;
+    for (const key of FILTER_KEYS) if (key !== 'category') shelfFilters[key] = form.elements[key].value;
+    shelfFilters.category = $('[name=category]:checked', form)?.value || '';
     shelfFilters.tags = $$('[name=tag]:checked', form).map((el) => el.value);
     shelfPage = 0; renderResults();
   };
   form.onreset = (e) => {
     e.preventDefault();
-    shelfFilters = { query: '', genre: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
+    shelfFilters = { query: '', category: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
     shelfPage = 0;
     // reset の既定値ではなく、戻る操作前の条件も含めて全て解除する。
-    for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+    syncForm();
     $$('[name=tag]', form).forEach((el) => el.checked = false);
     renderResults();
   };
-  $('#pagination').onclick = (e) => { const b = e.target.closest('[data-page]'); if (b) { shelfPage += Number(b.dataset.page); renderResults(); form.scrollIntoView(); } };
+  $('#pagination').onclick = (e) => { const b = e.target.closest('[data-page]'); if (b) { shelfPage += Number(b.dataset.page); renderResults(); $('.results-head').scrollIntoView(); } };
   renderResults();
 }
 
@@ -223,13 +263,13 @@ function tocHtml(n, { compact = false, current = 0 } = {}) {
   const read = readSet(n.slug);
   return `<ul class="toc">${n.chapters.map((c) => `<li data-chapter="${c.no}" data-read="${read.has(c.no)}"><a href="#/n/${n.slug}/c/${c.no}" data-top${c.no === current ? ' aria-current="page"' : ''}>
     <span class="no">第${c.no}話</span>
-    <span class="t">${esc(c.title)}<span class="read-state">${c.no === current ? '● 読書中' : read.has(c.no) ? '✓ 既読' : '未読'}</span></span>
+    <span class="t">${esc(chapterSubtitle(c))}<span class="read-state">${c.no === current ? '● 読書中' : read.has(c.no) ? '✓ 既読' : '未読'}</span></span>
     ${compact ? '' : `<span class="c">${fmtNum(c.chars)}字</span>`}
   </a></li>`).join('')}</ul>`;
 }
 
 function mountToc(container, n, options = {}) {
-  container.innerHTML = `<div class="toc-tools"><label>話数・章題で探す<input type="search" data-toc-query placeholder="例：25、旅立ち"></label><label>話数へ移動<select data-toc-jump><option value="">選んで読む</option>${n.chapters.map((c) => `<option value="${c.no}">第${c.no}話 ${esc(c.title)}</option>`).join('')}</select></label><label class="unread-filter"><input type="checkbox" data-unread>未読だけ</label></div><p class="toc-count" role="status"></p>${tocHtml(n, options)}`;
+  container.innerHTML = `<div class="toc-tools"><label>話数・章題で探す<input type="search" data-toc-query placeholder="例：25、旅立ち"></label><label>話数へ移動<select data-toc-jump><option value="">選んで読む</option>${n.chapters.map((c) => `<option value="${c.no}">${esc(chapterLabel(c))}</option>`).join('')}</select></label><label class="unread-filter"><input type="checkbox" data-unread>未読だけ</label></div><p class="toc-count" role="status"></p>${tocHtml(n, options)}`;
   const filter = () => {
     const q = normalize($('[data-toc-query]', container).value);
     const unread = $('[data-unread]', container).checked;
@@ -257,7 +297,7 @@ async function viewNovel(slug, version) {
     <section class="novel-head">
       ${coverHtml(n)}
       <div class="novel-info">
-        ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(n.genre || '')}</span>
+        ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(genreText(n))}</span>
         <h1>${esc(n.title)}</h1>
         ${seriesBadge(n)}
         ${seriesNavigation(n, seriesWorks)}

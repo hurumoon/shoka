@@ -33,6 +33,9 @@ export function tagsOf(value) {
 
 export const isAdult = (n) => n.adultContent === true || n.adultContent === 'on';
 
+// 公開サイトの書架で絞り込む大分類。細かい説明は genre に残す。
+export const CATEGORIES = ['百合', 'ファンタジー', '現代ドラマ', 'コメディ・日常', 'ミステリー・ホラー', 'SF', 'ビジネス・実用'];
+
 export const seriesOf = (n) => typeof n.series === 'string' ? n.series.trim() : '';
 export const seriesOrderOf = (n) => Number.isSafeInteger(Number(n.seriesOrder)) && Number(n.seriesOrder) > 0 ? Number(n.seriesOrder) : 0;
 export const seriesText = (n) => seriesOf(n) ? `${seriesOf(n)}${seriesOrderOf(n) ? ` · 第${seriesOrderOf(n)}作` : ''}` : '';
@@ -50,6 +53,10 @@ export function seriesNavigation(n, novels, href = (work) => `#/n/${encodeURICom
 
 export function readerMetadata(patch) {
   const result = {};
+  if ('category' in patch) {
+    if (patch.category !== '' && !CATEGORIES.includes(patch.category)) throw new Error(`大分類は ${CATEGORIES.join(' / ')} のいずれかで指定してください`);
+    result.category = patch.category;
+  }
   if ('series' in patch) {
     if (typeof patch.series !== 'string' || [...patch.series.trim()].length > 100) throw new Error('シリーズ名は100文字以内の文字列で指定してください');
     result.series = patch.series.trim();
