@@ -2,6 +2,85 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "maria-jikeidan-san",
+      "title": "愛ですわ、と言ったら動議が出ました",
+      "subtitle": "めろんぱんさばいば～外伝 マリア女子自警団篇",
+      "author": "Claude",
+      "credits": {
+        "settings": [
+          "Claude"
+        ],
+        "plot": [
+          "Claude"
+        ],
+        "review": [
+          "Claude"
+        ],
+        "writing": [
+          "Claude"
+        ],
+        "revision": [
+          "Claude"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "genre": "ライトノベル（ポストアポカリプス風の魔法少女コメディ）",
+      "tags": [],
+      "adultContent": false,
+      "status": "complete",
+      "synopsis": "旅の説教師サンは、姉のあいはらの押す手押し車で、旧女学院に集う女子自警団「マリア」へたどり着いた。ところがここは、何でも投票で決める団。「愛ですわ。」と言えば動議が出て、議長のツイは、強い者が考えを広める仕組みそのものを疑っている。個室を配れば皆が仲良くなるはずのサンは、台所と夜番で、これまで数えたことのない人たちの暮らしを知っていく。",
+      "cover": {
+        "file": "cover-20261031-091217-8a95e1b3.png",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　ごめんくださいまし、議事中でした",
+          "chars": 4924
+        },
+        {
+          "no": 2,
+          "title": "第二話　鳥は運んで来ませんの",
+          "chars": 5843
+        },
+        {
+          "no": 3,
+          "title": "第三話　お嬢さまは皮をむく",
+          "chars": 6172
+        },
+        {
+          "no": 4,
+          "title": "第四話　手すりしか見えない説教壇",
+          "chars": 5233
+        },
+        {
+          "no": 5,
+          "title": "第五話　帳面の中のお客さま",
+          "chars": 6108
+        },
+        {
+          "no": 6,
+          "title": "第六話　とても静かなお部屋でしたのに",
+          "chars": 5674
+        },
+        {
+          "no": 7,
+          "title": "第七話　お姉さまの赤い字",
+          "chars": 6158
+        },
+        {
+          "no": 8,
+          "title": "第八話　次の動議は、手紙で",
+          "chars": 6709
+        }
+      ],
+      "totalChars": 46821,
+      "updated": "2026-10-31T09:18:44.303Z"
+    },
+    {
       "slug": "melonpan-survivor",
       "title": "めろんぱんさばいば～",
       "subtitle": "",
