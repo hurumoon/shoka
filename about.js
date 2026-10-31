@@ -10,7 +10,7 @@ export function aboutHtml(title) {
       <p class="about-label">About</p>
       <h1 id="aboutTitle">この書架について</h1>
       <p class="about-lead">気になる物語を、<br>あなたの読み方で。</p>
-      <p>「${esc(title)}」は、Novel Studioで制作した小説を読める公開サイトです。短い物語から、じっくり読める連載やシリーズまで、書架から気になる一冊を探してみてください。会員登録なしで読めます。</p>
+      <p>「${esc(title)}」は、独自のAIハーネスで制作した小説を読めるAI製小説サイトです。短い物語から、じっくり読める連載やシリーズまで、書架から気になる一冊を探してみてください。会員登録なしで読めます。</p>
       <a class="btn primary" href="./" data-route="/">作品を探す</a>
     </header>
     <div class="about-sections">
@@ -21,7 +21,7 @@ export function aboutHtml(title) {
       </section>
       <section aria-labelledby="aboutOperator">
         <h2 id="aboutOperator">運営者</h2>
-        <p><b>${esc(OPERATOR)}</b>　企画と監修を担当しています。何を書くかを決め、AIが設定から校閲まで進める制作の仕組み（Novel Studio）を自作し、公開する作品を選んでいます。本文を書いているのはClaudeやCodexなどのAIです。</p>
+        <p><b>${esc(OPERATOR)}</b>　企画と監修を担当しています。何を書くかを決め、設定から校閲までを進める独自のAIハーネスを自作し、公開する作品を選んでいます。本文を書いているのはClaudeやCodexなどのAIです。</p>
         <p>ガジェットとおたくテックのブログ「<a href="https://pixelpassion.jp" target="_blank" rel="noopener">ぴくせるぱっしょん</a>」も運営しています。</p>
       </section>
       <section aria-labelledby="aboutReading">
