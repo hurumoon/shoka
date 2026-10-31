@@ -8,7 +8,7 @@ export function aboutHtml(title) {
       <p class="about-label">About</p>
       <h1 id="aboutTitle">この書架について</h1>
       <p class="about-lead">気になる物語を、<br>あなたの読み方で。</p>
-      <p>「${esc(title)}」は、Novel Studioで制作した小説を読める公開サイトです。短い物語から、じっくり読める連載やシリーズまで、書架から気になる一冊を探してみてください。会員登録なしで読めます。</p>
+      <p>「${esc(title)}」は、独自のAIハーネスで制作した小説を読めるAI製小説サイトです。短い物語から、じっくり読める連載やシリーズまで、書架から気になる一冊を探してみてください。会員登録なしで読めます。</p>
       <a class="btn primary" href="./" data-route="/">作品を探す</a>
     </header>
     <div class="about-sections">
