@@ -45,6 +45,7 @@
       "cover": {
         "file": "cover-20261031-091217-8a95e1b3.webp",
         "thumb": "cover-20261031-091217-8a95e1b3.thumb.webp",
+        "small": "cover-20261031-091217-8a95e1b3.small.webp",
         "og": "cover-20261031-091217-8a95e1b3.og.jpg",
         "withTitle": false
       },
@@ -127,6 +128,7 @@
       "cover": {
         "file": "cover-20261030-144624-2e9c9534.webp",
         "thumb": "cover-20261030-144624-2e9c9534.thumb.webp",
+        "small": "cover-20261030-144624-2e9c9534.small.webp",
         "og": "cover-20261030-144624-2e9c9534.og.jpg",
         "withTitle": false
       },
@@ -241,6 +243,7 @@
       "cover": {
         "file": "cover-20261030-062403-d22e6fd6.webp",
         "thumb": "cover-20261030-062403-d22e6fd6.thumb.webp",
+        "small": "cover-20261030-062403-d22e6fd6.small.webp",
         "og": "cover-20261030-062403-d22e6fd6.og.jpg",
         "withTitle": true
       },
@@ -309,6 +312,7 @@
       "cover": {
         "file": "cover-20261030-031702-38041688.webp",
         "thumb": "cover-20261030-031702-38041688.thumb.webp",
+        "small": "cover-20261030-031702-38041688.small.webp",
         "og": "cover-20261030-031702-38041688.og.jpg",
         "withTitle": true
       },
@@ -401,6 +405,7 @@
       "cover": {
         "file": "cover-20261029-165115-c82716da.webp",
         "thumb": "cover-20261029-165115-c82716da.thumb.webp",
+        "small": "cover-20261029-165115-c82716da.small.webp",
         "og": "cover-20261029-165115-c82716da.og.jpg",
         "withTitle": true
       },
@@ -456,6 +461,7 @@
       "cover": {
         "file": "cover-20261029-165115-2ea4d879.webp",
         "thumb": "cover-20261029-165115-2ea4d879.thumb.webp",
+        "small": "cover-20261029-165115-2ea4d879.small.webp",
         "og": "cover-20261029-165115-2ea4d879.og.jpg",
         "withTitle": true
       },
@@ -542,6 +548,7 @@
       "cover": {
         "file": "cover-20261029-164854-80d4b5e6.webp",
         "thumb": "cover-20261029-164854-80d4b5e6.thumb.webp",
+        "small": "cover-20261029-164854-80d4b5e6.small.webp",
         "og": "cover-20261029-164854-80d4b5e6.og.jpg",
         "withTitle": true
       },
@@ -609,6 +616,7 @@
       "cover": {
         "file": "cover-20261027-141033-63c04530.webp",
         "thumb": "cover-20261027-141033-63c04530.thumb.webp",
+        "small": "cover-20261027-141033-63c04530.small.webp",
         "og": "cover-20261027-141033-63c04530.og.jpg",
         "withTitle": false
       },
@@ -910,6 +918,7 @@
       "cover": {
         "file": "cover-20261029-080545-74eff81d.webp",
         "thumb": "cover-20261029-080545-74eff81d.thumb.webp",
+        "small": "cover-20261029-080545-74eff81d.small.webp",
         "og": "cover-20261029-080545-74eff81d.og.jpg",
         "withTitle": false
       },
@@ -973,6 +982,7 @@
       "cover": {
         "file": "cover-20261028-133626-eafc1af2.webp",
         "thumb": "cover-20261028-133626-eafc1af2.thumb.webp",
+        "small": "cover-20261028-133626-eafc1af2.small.webp",
         "og": "cover-20261028-133626-eafc1af2.og.jpg",
         "withTitle": false
       },
@@ -1046,6 +1056,7 @@
       "cover": {
         "file": "cover-20261028-103006-03e4b09e.webp",
         "thumb": "cover-20261028-103006-03e4b09e.thumb.webp",
+        "small": "cover-20261028-103006-03e4b09e.small.webp",
         "og": "cover-20261028-103006-03e4b09e.og.jpg",
         "withTitle": false
       },
@@ -1107,6 +1118,7 @@
       "cover": {
         "file": "cover-20261025-100608-5939caf1.webp",
         "thumb": "cover-20261025-100608-5939caf1.thumb.webp",
+        "small": "cover-20261025-100608-5939caf1.small.webp",
         "og": "cover-20261025-100608-5939caf1.og.jpg",
         "withTitle": false
       },
@@ -1221,6 +1233,7 @@
       "cover": {
         "file": "cover-20261027-142820-f22caa17.webp",
         "thumb": "cover-20261027-142820-f22caa17.thumb.webp",
+        "small": "cover-20261027-142820-f22caa17.small.webp",
         "og": "cover-20261027-142820-f22caa17.og.jpg",
         "withTitle": false
       },
@@ -1276,6 +1289,7 @@
       "cover": {
         "file": "cover-20261027-121450-066fc78d.webp",
         "thumb": "cover-20261027-121450-066fc78d.thumb.webp",
+        "small": "cover-20261027-121450-066fc78d.small.webp",
         "og": "cover-20261027-121450-066fc78d.og.jpg",
         "withTitle": false
       },
@@ -1342,6 +1356,7 @@
       "cover": {
         "file": "cover-20261027-055428-02e80c1e.webp",
         "thumb": "cover-20261027-055428-02e80c1e.thumb.webp",
+        "small": "cover-20261027-055428-02e80c1e.small.webp",
         "og": "cover-20261027-055428-02e80c1e.og.jpg",
         "withTitle": false
       },
@@ -1398,6 +1413,7 @@
       "cover": {
         "file": "cover-20261027-055136-b51c8c28.webp",
         "thumb": "cover-20261027-055136-b51c8c28.thumb.webp",
+        "small": "cover-20261027-055136-b51c8c28.small.webp",
         "og": "cover-20261027-055136-b51c8c28.og.jpg",
         "withTitle": false
       },
@@ -1467,6 +1483,7 @@
       "cover": {
         "file": "cover-20261026-154437-afb70fc1.webp",
         "thumb": "cover-20261026-154437-afb70fc1.thumb.webp",
+        "small": "cover-20261026-154437-afb70fc1.small.webp",
         "og": "cover-20261026-154437-afb70fc1.og.jpg",
         "withTitle": false
       },
@@ -1527,6 +1544,7 @@
       "cover": {
         "file": "cover-20261026-143334-50fd0ae0.webp",
         "thumb": "cover-20261026-143334-50fd0ae0.thumb.webp",
+        "small": "cover-20261026-143334-50fd0ae0.small.webp",
         "og": "cover-20261026-143334-50fd0ae0.og.jpg",
         "withTitle": false
       },
@@ -1583,6 +1601,7 @@
       "cover": {
         "file": "cover-20261026-135028-caa22d14.webp",
         "thumb": "cover-20261026-135028-caa22d14.thumb.webp",
+        "small": "cover-20261026-135028-caa22d14.small.webp",
         "og": "cover-20261026-135028-caa22d14.og.jpg",
         "withTitle": false
       },
@@ -1638,6 +1657,7 @@
       "cover": {
         "file": "cover-20261026-121617-3b5bd5fe.webp",
         "thumb": "cover-20261026-121617-3b5bd5fe.thumb.webp",
+        "small": "cover-20261026-121617-3b5bd5fe.small.webp",
         "og": "cover-20261026-121617-3b5bd5fe.og.jpg",
         "withTitle": false
       },
@@ -1713,6 +1733,7 @@
       "cover": {
         "file": "cover-20261026-072041-e889fd30.webp",
         "thumb": "cover-20261026-072041-e889fd30.thumb.webp",
+        "small": "cover-20261026-072041-e889fd30.small.webp",
         "og": "cover-20261026-072041-e889fd30.og.jpg",
         "withTitle": false
       },
@@ -1774,6 +1795,7 @@
       "cover": {
         "file": "cover-20261026-021314-0c0b6177.webp",
         "thumb": "cover-20261026-021314-0c0b6177.thumb.webp",
+        "small": "cover-20261026-021314-0c0b6177.small.webp",
         "og": "cover-20261026-021314-0c0b6177.og.jpg",
         "withTitle": false
       },
@@ -1820,6 +1842,7 @@
       "cover": {
         "file": "cover-20261026-001618-ba9819f6.webp",
         "thumb": "cover-20261026-001618-ba9819f6.thumb.webp",
+        "small": "cover-20261026-001618-ba9819f6.small.webp",
         "og": "cover-20261026-001618-ba9819f6.og.jpg",
         "withTitle": false
       },
@@ -1866,6 +1889,7 @@
       "cover": {
         "file": "cover-20261025-134338-b6f8b420.webp",
         "thumb": "cover-20261025-134338-b6f8b420.thumb.webp",
+        "small": "cover-20261025-134338-b6f8b420.small.webp",
         "og": "cover-20261025-134338-b6f8b420.og.jpg",
         "withTitle": false
       },
@@ -1907,6 +1931,7 @@
       "cover": {
         "file": "cover-20261025-120258-ec0a9114.webp",
         "thumb": "cover-20261025-120258-ec0a9114.thumb.webp",
+        "small": "cover-20261025-120258-ec0a9114.small.webp",
         "og": "cover-20261025-120258-ec0a9114.og.jpg",
         "withTitle": false
       },
@@ -1951,6 +1976,7 @@
       "cover": {
         "file": "cover-20261025-105011-a79850f3.webp",
         "thumb": "cover-20261025-105011-a79850f3.thumb.webp",
+        "small": "cover-20261025-105011-a79850f3.small.webp",
         "og": "cover-20261025-105011-a79850f3.og.jpg",
         "withTitle": false
       },
@@ -1991,6 +2017,7 @@
       "cover": {
         "file": "cover-20261025-092503-5b2a29a2.webp",
         "thumb": "cover-20261025-092503-5b2a29a2.thumb.webp",
+        "small": "cover-20261025-092503-5b2a29a2.small.webp",
         "og": "cover-20261025-092503-5b2a29a2.og.jpg",
         "withTitle": false
       },
@@ -2031,6 +2058,7 @@
       "cover": {
         "file": "cover-20261025-104911-9f7c25a0.webp",
         "thumb": "cover-20261025-104911-9f7c25a0.thumb.webp",
+        "small": "cover-20261025-104911-9f7c25a0.small.webp",
         "og": "cover-20261025-104911-9f7c25a0.og.jpg",
         "withTitle": false
       },
@@ -2074,6 +2102,7 @@
       "cover": {
         "file": "cover-20261025-074407-aa3a7922.webp",
         "thumb": "cover-20261025-074407-aa3a7922.thumb.webp",
+        "small": "cover-20261025-074407-aa3a7922.small.webp",
         "og": "cover-20261025-074407-aa3a7922.og.jpg",
         "withTitle": false
       },
@@ -2119,6 +2148,7 @@
       "cover": {
         "file": "cover-20261025-104325-ec2e439a.webp",
         "thumb": "cover-20261025-104325-ec2e439a.thumb.webp",
+        "small": "cover-20261025-104325-ec2e439a.small.webp",
         "og": "cover-20261025-104325-ec2e439a.og.jpg",
         "withTitle": false
       },

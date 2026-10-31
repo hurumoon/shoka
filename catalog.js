@@ -69,3 +69,19 @@ export function validPosition(value) {
   return { ...value, ratio: Math.max(0, Math.min(1, Number(value.ratio) || 0)) };
 }
 export const novelPath = (slug) => `works/${encodeURIComponent(slug)}/`;
+export const chapterPath = (slug, no) => `${novelPath(slug)}${String(no).padStart(3, '0')}.html`;
+
+// 画面の経路（/n/<slug>/c/1）と、生成済みHTMLのパス（サイト直下から）を行き来する。
+export function routeToPath(route) {
+  const m = route.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
+  if (m) return m[2] ? chapterPath(m[1], Number(m[2])) : novelPath(m[1]);
+  return /^\/about\/?$/.test(route) ? 'about/' : './';
+}
+export function pathToRoute(relative) {
+  if (relative === '' || relative === 'index.html') return '/';
+  if (/^about\/(index\.html)?$/.test(relative)) return '/about';
+  const m = relative.match(/^works\/([^/]+)\/(?:(\d+)\.html|index\.html)?$/);
+  if (!m) return null;
+  const slug = decodeURIComponent(m[1]);
+  return m[2] ? `/n/${slug}/c/${Number(m[2])}` : `/n/${slug}`;
+}

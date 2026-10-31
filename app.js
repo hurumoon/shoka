@@ -3,8 +3,8 @@
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
-import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath } from './catalog.js';
-import { aboutHtml } from './about.js';
+import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath, chapterPath, routeToPath, pathToRoute } from './catalog.js';
+import { aboutHtml, OPERATOR } from './about.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -95,14 +95,33 @@ let cleanup = null;
 let pendingJump = null; // { ratio } | { top: true }
 let siteTitle = '書架';
 let routeVersion = 0;
-// 生成HTMLの相対リンク用 base があっても、読書中のハッシュ移動は同じ文書内で行う。
+// URLは生成済みHTMLと同じ普通のパスにする。アドレスバーをそのまま貼っても作品ごとのOGPが出る。
+// 古い #/n/... のリンクも開け、開いた時点で普通のパスに置き換える。
+const pageUrl = (to) => new URL(routeToPath(to), document.baseURI);
+function routeOfUrl(url) {
+  if (url.origin !== location.origin) return null;
+  if (url.hash.startsWith('#/')) return decodeURIComponent(url.hash.slice(1));
+  const root = new URL('./', document.baseURI).pathname;
+  return url.pathname.startsWith(root) ? pathToRoute(url.pathname.slice(root.length)) : null;
+}
+function currentRoute() {
+  const to = routeOfUrl(new URL(location.href)) || document.body.dataset.route || '/';
+  if (location.hash.startsWith('#/')) history.replaceState(null, '', pageUrl(to));
+  return to;
+}
+function goTo(to) {
+  const url = pageUrl(to);
+  if (location.href === url.href) { if (pendingJump) route(); return; }
+  history.pushState(null, '', url);
+  route();
+}
 document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="#/"], a[data-route]');
-  if (!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]');
+  if (!a || a.target || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  const to = routeOfUrl(new URL(a.href));
+  if (to == null) return;
   e.preventDefault();
-  const hash = a.dataset.route ? `#${a.dataset.route}` : a.getAttribute('href');
-  if (location.hash === hash) { if (pendingJump) route(); return; }
-  location.hash = hash;
+  goTo(to);
 });
 
 function crumbs(items) {
@@ -117,7 +136,7 @@ async function route() {
   $('#topbar').classList.remove('away');
   document.title = siteTitle;
   try {
-    const h = decodeURIComponent(location.hash.replace(/^#/, '')) || document.body.dataset.route || '/';
+    const h = currentRoute();
     const m = h.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
     const about = /^\/about\/?$/.test(h);
     if (about) $('.site-about').setAttribute('aria-current', 'page');
@@ -130,10 +149,11 @@ async function route() {
   } catch (e) {
     if (version !== routeVersion) return;
     pendingJump = null;
-    app.innerHTML = `<div class="wrap empty"><h2>読み込めませんでした</h2><p>${esc(e.message)}</p><p><a class="btn" href="#/">書架へ戻る</a></p></div>`;
+    app.innerHTML = `<div class="wrap empty"><h2>読み込めませんでした</h2><p>${esc(e.message)}</p><p><a class="btn" href="./">書架へ戻る</a></p></div>`;
   }
 }
-window.addEventListener('hashchange', route);
+window.addEventListener('popstate', route);
+window.addEventListener('hashchange', () => { if (location.hash.startsWith('#/')) route(); });
 
 function viewAbout() {
   document.title = `About｜${siteTitle}`;
@@ -144,12 +164,14 @@ function viewAbout() {
 
 // ---------- 書架 ----------
 // plain は下に題名を出す一覧用。絵に題名を重ねない
-function coverHtml(n, { plain = false, sizes = '(max-width: 700px) 45vw, 240px' } = {}) {
+function coverHtml(n, { plain = false, priority = false, sizes = '(max-width: 700px) 45vw, 240px' } = {}) {
   if (n.cover) {
-    // thumb は書架の並び用の小さい画像。高解像度の画面や大きく出す場所では srcset で本体を選ばせる
-    const { file, thumb } = n.cover;
+    // small は目録、thumb は書架の並び用の小さい画像。高解像度の画面や大きく出す場所では srcset で本体を選ばせる
+    const { file, thumb, small } = n.cover;
+    const srcset = [small && `${imgUrl(n.slug, small)} 240w`, thumb && `${imgUrl(n.slug, thumb)} 480w`, thumb && `${imgUrl(n.slug, file)} 1000w`].filter(Boolean).join(', ');
+    // 最初に見える一番大きい表紙だけは遅らせず、先に読ませる
     return `<div class="cover has-img" style="--h:${hue(n.slug)}">
-      <img src="${imgUrl(n.slug, thumb || file)}"${thumb ? ` srcset="${imgUrl(n.slug, thumb)} 480w, ${imgUrl(n.slug, file)} 1000w" sizes="${sizes}"` : ''} alt="" loading="lazy" decoding="async">
+      <img src="${imgUrl(n.slug, thumb || file)}"${srcset ? ` srcset="${srcset}" sizes="${sizes}"` : ''} alt="" ${priority ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
       ${n.cover.withTitle || plain ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
     </div>`;
   }
@@ -168,18 +190,20 @@ if (Array.isArray(savedShelf.tags)) shelfFilters.tags = savedShelf.tags.filter((
 let shelfPage = Math.max(0, Math.floor(Number(savedShelf.page) || 0));
 let shelfView = savedShelf.view === 'covers' ? 'covers' : 'catalog';
 
-const shelfLine = (n) => [n.category || n.genre, readTime(n.totalChars), NOVEL_STATUS[n.status] || '連載中'].filter(Boolean).join('・');
+// 「完／結」のように語の途中で折り返さないよう、項目ごとに nowrap で包む
+const nowrap = (text) => `<span class="nowrap">${esc(text)}</span>`;
+const shelfLine = (n) => [n.category || n.genre, readTime(n.totalChars), NOVEL_STATUS[n.status] || '連載中'].filter(Boolean).map(nowrap).join('・');
 const adultMark = (n) => n.adultContent ? '<span class="badge adult">R18</span>' : '';
 function featureHtml(n) {
   if (!n) return '';
   return `<section class="feature" aria-label="注目の作品"><div class="feature-in">
-    <a class="feature-cover" href="#/n/${n.slug}" aria-label="${esc(n.title)}">${coverHtml(n, { sizes: '(max-width: 600px) 112px, 300px' })}</a>
+    <a class="feature-cover" href="${novelPath(n.slug)}" aria-label="${esc(n.title)}">${coverHtml(n, { priority: true, sizes: '(max-width: 600px) 112px, 300px' })}</a>
     <div class="feature-text">
       <p class="feature-kick">注目の作品</p>
-      <h2><a href="#/n/${n.slug}">${esc(n.title)}</a></h2>
-      <p class="feature-meta">${esc(n.author || '')}　${esc(shelfLine(n))}</p>
+      <h2><a href="${novelPath(n.slug)}">${esc(n.title)}</a></h2>
+      <p class="feature-meta">${esc(n.author || '')}　${shelfLine(n)}</p>
       <p class="feature-synopsis">${esc(n.synopsis || '')}</p>
-      <a class="feature-go" href="#/n/${n.slug}/c/${n.chapters[0]?.no ?? 1}">読みはじめる</a>
+      <a class="feature-go" href="${chapterPath(n.slug, n.chapters[0]?.no ?? 1)}">読みはじめる</a>
     </div>
   </div></section>`;
 }
@@ -187,22 +211,22 @@ function resumeHtml(b) {
   return b ? `<span class="resume">栞：第${b.no}話 ${Math.round(b.ratio * 100)}%</span>` : '';
 }
 function catalogCard(n, b) {
-  return `<a class="book entry" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
+  return `<a class="book entry" href="${novelPath(n.slug)}" data-book-slug="${esc(n.slug)}">
     ${coverHtml(n, { plain: true, sizes: '(max-width: 600px) 72px, 88px' })}
     <div class="book-meta">
       <div class="title">${esc(n.title)}</div>
       ${seriesBadge(n)}
-      <div class="line">${esc(shelfLine(n))}・全${n.chapters.length}話${adultMark(n)}</div>
+      <div class="line">${shelfLine(n)}・${nowrap(`全${n.chapters.length}話`)}${adultMark(n)}</div>
       <p class="synopsis">${esc(n.synopsis || '紹介文はまだありません。')}</p>
       ${resumeHtml(b)}
     </div></a>`;
 }
 function coverCard(n, b) {
-  return `<a class="book tile" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
+  return `<a class="book tile" href="${novelPath(n.slug)}" data-book-slug="${esc(n.slug)}">
     ${coverHtml(n, { plain: true, sizes: '(max-width: 700px) 45vw, 230px' })}
     <div class="book-meta">
       <div class="title">${esc(n.title)}</div>
-      <div class="line">${esc(shelfLine(n))}${adultMark(n)}</div>
+      <div class="line">${shelfLine(n)}${adultMark(n)}</div>
       ${resumeHtml(b)}
     </div></a>`;
 }
@@ -239,7 +263,8 @@ async function viewShelf(version) {
     </form>
     <div class="results-head"><h2 id="resultsTitle"></h2><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset" form="explore" id="resetFilters">条件をリセット</button>
       <div class="view-switch" id="viewSwitch" role="group" aria-label="一覧の表示"><button type="button" data-view="catalog">目録</button><button type="button" data-view="covers">表紙</button></div></div>
-    <div id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
+    <div id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav>
+    <p class="site-credit">企画・監修：${esc(OPERATOR)}（<a href="about/" data-route="/about">この書架について</a>）</p></div>`;
   const form = $('#explore');
   const syncForm = () => {
     for (const key of FILTER_KEYS) if (key !== 'category') form.elements[key].value = shelfFilters[key];
@@ -297,7 +322,7 @@ async function viewShelf(version) {
 // ---------- 作品ページ ----------
 function tocHtml(n, { compact = false, current = 0 } = {}) {
   const read = readSet(n.slug);
-  return `<ul class="toc">${n.chapters.map((c) => `<li data-chapter="${c.no}" data-read="${read.has(c.no)}"><a href="#/n/${n.slug}/c/${c.no}" data-top${c.no === current ? ' aria-current="page"' : ''}>
+  return `<ul class="toc">${n.chapters.map((c) => `<li data-chapter="${c.no}" data-read="${read.has(c.no)}"><a href="${chapterPath(n.slug, c.no)}" data-top${c.no === current ? ' aria-current="page"' : ''}>
     <span class="no">第${c.no}話</span>
     <span class="t">${esc(chapterSubtitle(c))}<span class="read-state">${c.no === current ? '● 読書中' : read.has(c.no) ? '✓ 既読' : '未読'}</span></span>
     ${compact ? '' : `<span class="c">${fmtNum(c.chars)}字</span>`}
@@ -315,9 +340,19 @@ function mountToc(container, n, options = {}) {
   };
   $('[data-toc-query]', container).oninput = filter;
   $('[data-unread]', container).onchange = filter;
-  $('[data-toc-jump]', container).onchange = (e) => { if (e.target.value) { pendingJump = { top: true }; const h = `#/n/${n.slug}/c/${e.target.value}`; if (location.hash === h) route(); else location.hash = h; } };
+  $('[data-toc-jump]', container).onchange = (e) => { if (e.target.value) { pendingJump = { top: true }; goTo(`/n/${n.slug}/c/${e.target.value}`); } };
   container.onclick = (e) => { if (e.target.closest('[data-top]')) pendingJump = { top: true }; };
   filter();
+}
+
+// スマホは端末の共有メニュー、PCはURLのコピー
+async function shareNovel(n) {
+  const url = new URL(novelPath(n.slug), document.baseURI).href;
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ title: n.title, url }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); toast('この作品のURLをコピーしました'); }
+  catch { toast(url); }
 }
 
 async function viewNovel(slug, version) {
@@ -336,7 +371,7 @@ async function viewNovel(slug, version) {
         ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(genreText(n))}</span>
         <h1>${esc(n.title)}</h1>
         ${seriesBadge(n)}
-        ${seriesNavigation(n, seriesWorks)}
+        ${seriesNavigation(n, seriesWorks, (work) => novelPath(work.slug))}
         ${readingBadges(n)}
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
@@ -348,11 +383,11 @@ async function viewNovel(slug, version) {
           <span>読了目安 <b>${minutes(n.totalChars)}</b>分</span>
           ${n.updated ? `<span>更新 ${fmtDate(n.updated)}</span>` : ''}
         </div>
-        <p><a href="${novelPath(slug)}">この作品の共有用ページ</a></p>
+        <p><button class="btn small" type="button" id="shareNovel">この作品を共有</button></p>
         <details class="production"><summary>制作担当</summary>${creditsHtml(n) || '<p>制作担当の記録はありません。</p>'}</details>
         <div class="actions">
-          ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="#/n/${slug}/c/${firstNo}" data-top>最初から読む</a>` : ''}
-          ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="#/n/${slug}/c/${b.no}" data-resume>続きから読む（第${b.no}話）</a>` : ''}
+          ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="${chapterPath(slug, firstNo)}" data-top>最初から読む</a>` : ''}
+          ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="${chapterPath(slug, b.no)}" data-resume>続きから読む（第${b.no}話）</a>` : ''}
         </div>
       </div>
     </section>
@@ -360,6 +395,7 @@ async function viewNovel(slug, version) {
     <div id="novelToc"></div>
   </div>`;
   mountToc($('#novelToc'), n);
+  $('#shareNovel').onclick = () => shareNovel(n);
   $$('[data-top]').forEach((a) => a.addEventListener('click', () => { pendingJump = { top: true }; }));
   $$('[data-resume]').forEach((a) => a.addEventListener('click', () => { pendingJump = b; }));
 }
@@ -424,14 +460,14 @@ async function viewReader(slug, no, version) {
     <aside class="panel" id="pPrefs"><h3>表示設定 <button class="icon-btn" data-close>✕</button></h3><div id="prefsBody"></div></aside>`;
 
   const reader = $('#reader'), rs = $('#rs'), page = $('#page');
-  crumbs([{ label: novel.title, href: `#/n/${slug}` }, { label: `第${no}話` }]);
+  crumbs([{ label: novel.title, href: novelPath(slug) }, { label: `第${no}話` }]);
   document.title = `${title || `第${no}話`}｜${novel.title}`;
 
   const endCard = next
-    ? `<a class="next-card" href="#/n/${slug}/c/${next.no}" data-top><span class="muted">次の話</span><b>${esc(next.title)}</b></a>`
+    ? `<a class="next-card" href="${chapterPath(slug, next.no)}" data-top><span class="muted">次の話</span><b>${esc(next.title)}</b></a>`
     : novel.status === 'complete' ? '<p>― 完 ―</p>' : '<p>続きは公開をお待ちください。</p>';
   page.innerHTML = `<h1>${inlineToHtml(title || `第${no}話`)}</h1>${chapterBodyHtml(lines)}
-    <div class="chapter-end"><div>第${no}話 了</div>${endCard}<div class="end-links"><a class="btn" href="#/n/${slug}">作品・目次へ</a><a class="btn" href="#/">書架で作品を探す</a></div></div>`;
+    <div class="chapter-end"><div>第${no}話 了</div>${endCard}<div class="end-links"><a class="btn" href="${novelPath(slug)}">作品・目次へ</a><a class="btn" href="./">書架で作品を探す</a></div></div>`;
   if (illus.length) placeIllustrations(page, slug, lines, illus);
   $$('[data-top]', page).forEach((a) => a.addEventListener('click', () => { pendingJump = { top: true }; }));
 
@@ -558,7 +594,7 @@ async function viewReader(slug, no, version) {
   $$('[data-close]').forEach((b) => b.onclick = closePanels);
   $('#tocBody').addEventListener('click', (e) => { if (e.target.closest('a')) pendingJump = { top: true }; });
 
-  const go = (c) => { if (c) { pendingJump = { top: true }; location.hash = `#/n/${slug}/c/${c.no}`; } };
+  const go = (c) => { if (c) { pendingJump = { top: true }; goTo(`/n/${slug}/c/${c.no}`); } };
   dock.addEventListener('click', (e) => {
     const b = e.target.closest('[data-act]');
     if (!b) return;

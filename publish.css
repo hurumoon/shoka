@@ -1,6 +1,10 @@
 /* 公開サイトだけの拡張。共用の書籍風スタイルは変更しない。 */
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* スマホでも書架の画面ではサイト名を出す。パンくずがある画面は幅を譲る */
+.brand:has(+ .crumbs:empty) span:last-child { display: inline; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+.site-credit { margin: 32px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-3); }
 .site-about { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; font-size: 13px; text-decoration: none; white-space: nowrap; }
 .site-about:hover, .site-about[aria-current=page] { color: var(--accent); text-decoration: underline; text-underline-offset: 5px; }
 .about-page { max-width: 820px; padding-top: 56px; overflow-wrap: anywhere; }
