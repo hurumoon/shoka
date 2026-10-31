@@ -33,8 +33,35 @@ export function tagsOf(value) {
 
 export const isAdult = (n) => n.adultContent === true || n.adultContent === 'on';
 
+export const seriesOf = (n) => typeof n.series === 'string' ? n.series.trim() : '';
+export const seriesOrderOf = (n) => Number.isSafeInteger(Number(n.seriesOrder)) && Number(n.seriesOrder) > 0 ? Number(n.seriesOrder) : 0;
+export const seriesText = (n) => seriesOf(n) ? `${seriesOf(n)}${seriesOrderOf(n) ? ` · 第${seriesOrderOf(n)}作` : ''}` : '';
+
+export function seriesBadge(n) {
+  return seriesOf(n) ? `<p class="series-badge">シリーズ：${esc(seriesText(n))}</p>` : '';
+}
+
+export function seriesNavigation(n, novels, href = (work) => `#/n/${encodeURIComponent(work.slug)}`) {
+  if (!seriesOf(n)) return '';
+  const works = novels.filter((work) => seriesOf(work) === seriesOf(n)).sort((a, b) =>
+    (seriesOrderOf(a) || Infinity) - (seriesOrderOf(b) || Infinity) || a.title.localeCompare(b.title, 'ja'));
+  return `<nav class="series-nav" aria-label="同じシリーズの作品"><h2>${esc(seriesOf(n))}シリーズ</h2><p class="muted">読む順番</p><ol>${works.map((work) => `<li>${seriesOrderOf(work) ? `<span>第${seriesOrderOf(work)}作</span> ` : ''}${work.slug === n.slug ? `<strong aria-current="page">${esc(work.title)}</strong>` : `<a href="${esc(href(work))}">${esc(work.title)}</a>`}</li>`).join('')}</ol></nav>`;
+}
+
 export function readerMetadata(patch) {
   const result = {};
+  if ('series' in patch) {
+    if (typeof patch.series !== 'string' || [...patch.series.trim()].length > 100) throw new Error('シリーズ名は100文字以内の文字列で指定してください');
+    result.series = patch.series.trim();
+  }
+  if ('seriesOrder' in patch) {
+    if (patch.seriesOrder === '' || patch.seriesOrder === null) result.seriesOrder = null;
+    else {
+      if (!['number', 'string'].includes(typeof patch.seriesOrder) || !seriesOrderOf(patch)) throw new Error('シリーズの順番は1以上の整数で指定してください');
+      result.seriesOrder = seriesOrderOf(patch);
+    }
+  }
+  if (result.series === '') result.seriesOrder = null;
   if ('tags' in patch) {
     if (typeof patch.tags !== 'string' && !(Array.isArray(patch.tags) && patch.tags.every((t) => typeof t === 'string'))) {
       throw new Error('タグは文字列か文字列の配列で指定してください');

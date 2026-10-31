@@ -2,6 +2,7 @@
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
+import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, validPosition, novelPath } from './catalog.js';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -142,8 +143,8 @@ function coverHtml(n) {
 }
 
 const savedShelf = store.get('shelf', {}) || {};
-let shelfFilters = { query: '', genre: '', tags: [], status: '', size: '', sort: 'updated' };
-for (const key of ['query', 'genre', 'status', 'size', 'sort']) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
+let shelfFilters = { query: '', genre: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
+for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
 if (Array.isArray(savedShelf.tags)) shelfFilters.tags = savedShelf.tags.filter((t) => typeof t === 'string');
 let shelfPage = Math.max(0, Math.floor(Number(savedShelf.page) || 0));
 async function viewShelf(version) {
@@ -159,7 +160,8 @@ async function viewShelf(version) {
     <h1 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h1>
     <form class="explore" id="explore" role="search" aria-label="作品を探す">
       <div class="explore-grid">
-        <label class="query">タイトル・作者名<input type="search" name="query" placeholder="作品名や作者名を入力" value="${esc(shelfFilters.query)}"></label>
+        <label class="query">タイトル・作者名・シリーズ名<input type="search" name="query" placeholder="作品名・作者名・シリーズ名を入力" value="${esc(shelfFilters.query)}"></label>
+        <label>シリーズ<select name="series"><option value="">すべて</option>${[...new Set(novels.map(seriesOf).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label>
         <label>ジャンル<select name="genre"><option value="">すべて</option>${[...new Set(novels.map((n) => n.genre).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((g) => `<option>${esc(g)}</option>`).join('')}</select></label>
         <label>連載状況<select name="status"><option value="">すべて</option><option value="complete">完結</option><option value="writing">連載中</option></select></label>
         <label>作品の長さ<select name="size"><option value="">すべて</option>${Object.entries(SIZES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
@@ -171,7 +173,7 @@ async function viewShelf(version) {
     </form>
     <div class="shelf" id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
   const form = $('#explore');
-  for (const key of ['genre', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+  for (const key of ['genre', 'series', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
   function renderResults() {
     const found = selectNovels(novels, shelfFilters);
     const pages = Math.max(1, Math.ceil(found.length / 24));
@@ -185,6 +187,7 @@ async function viewShelf(version) {
         ${coverHtml(n)}
         <div class="book-meta">
           <div class="title">${esc(n.title)}</div>
+          ${seriesBadge(n)}
           ${n.author ? `<div class="author">${esc(n.author)}</div>` : ''}
           <p class="preview">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</p>
           <div class="row"><span>${esc(n.genre || 'ジャンル未設定')}</span><span class="badge">${NOVEL_STATUS[n.status] || '連載中'}</span></div>
@@ -198,16 +201,16 @@ async function viewShelf(version) {
   }
   form.onsubmit = (e) => e.preventDefault();
   form.oninput = () => {
-    for (const key of ['query', 'genre', 'status', 'size', 'sort']) shelfFilters[key] = form.elements[key].value;
+    for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) shelfFilters[key] = form.elements[key].value;
     shelfFilters.tags = $$('[name=tag]:checked', form).map((el) => el.value);
     shelfPage = 0; renderResults();
   };
   form.onreset = (e) => {
     e.preventDefault();
-    shelfFilters = { query: '', genre: '', tags: [], status: '', size: '', sort: 'updated' };
+    shelfFilters = { query: '', genre: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
     shelfPage = 0;
     // reset の既定値ではなく、戻る操作前の条件も含めて全て解除する。
-    for (const key of ['query', 'genre', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
+    for (const key of ['query', 'genre', 'series', 'status', 'size', 'sort']) form.elements[key].value = shelfFilters[key];
     $$('[name=tag]', form).forEach((el) => el.checked = false);
     renderResults();
   };
@@ -243,6 +246,7 @@ function mountToc(container, n, options = {}) {
 
 async function viewNovel(slug, version) {
   const n = await novelOf(slug);
+  const seriesWorks = (await site()).novels;
   if (version !== routeVersion) return;
   crumbs([{ label: n.title }]);
   document.title = `${n.title}｜${siteTitle}`;
@@ -255,6 +259,8 @@ async function viewNovel(slug, version) {
       <div class="novel-info">
         ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(n.genre || '')}</span>
         <h1>${esc(n.title)}</h1>
+        ${seriesBadge(n)}
+        ${seriesNavigation(n, seriesWorks)}
         ${readingBadges(n)}
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
