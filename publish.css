@@ -95,6 +95,7 @@
 .toc a[aria-current] { background: var(--accent-soft); border-left: 3px solid var(--accent); }
 .toc .read-state { display: block; font: 12px var(--sans); color: var(--ink-2); }
 .toc-count { color: var(--ink-2); font-size: 13px; }
+.genre-part { display: inline-block; max-width: 100%; }
 .production { margin-top: 20px; }
 .production summary { cursor: pointer; }
 .end-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }

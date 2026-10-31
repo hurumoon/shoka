@@ -47,7 +47,10 @@ const hue = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 17)
 const fmtNum = (n) => (n || 0).toLocaleString('ja-JP');
 const minutes = (chars) => Math.max(1, Math.round(chars / 600));
 const readTime = (chars) => minutes(chars) < 60 ? `約${minutes(chars)}分` : `約${Math.round(minutes(chars) / 60)}時間`;
-const genreText = (n) => [...new Set([n.category, n.genre].filter(Boolean))].join('／');
+const genreParts = (n) => [...new Set([n.category, n.genre].filter(Boolean))];
+const genreText = (n) => genreParts(n).join('／');
+// 語の途中で折り返さないよう項目ごとに包む（画面幅より長い項目だけは中で折り返す）
+const genreHtml = (n) => genreParts(n).map((part, i, all) => `<span class="genre-part">${esc(part)}${i < all.length - 1 ? '／' : ''}</span>`).join('');
 const imgUrl = (slug, file) => `img/${encodeURIComponent(slug)}/${encodeURIComponent(file)}`;
 const fmtDate = (s) => (s ? new Date(s).toLocaleDateString('ja-JP') : '');
 
@@ -329,18 +332,24 @@ function tocHtml(n, { compact = false, current = 0 } = {}) {
   </a></li>`).join('')}</ul>`;
 }
 
+// 話数が少ない作品は一覧で見渡せるので、検索と移動を出さない
+const TOC_SEARCH_MIN = 10;
+
 function mountToc(container, n, options = {}) {
-  container.innerHTML = `<div class="toc-tools"><label>話数・章題で探す<input type="search" data-toc-query placeholder="例：25、旅立ち"></label><label>話数へ移動<select data-toc-jump><option value="">選んで読む</option>${n.chapters.map((c) => `<option value="${c.no}">${esc(chapterLabel(c))}</option>`).join('')}</select></label><label class="unread-filter"><input type="checkbox" data-unread>未読だけ</label></div><p class="toc-count" role="status"></p>${tocHtml(n, options)}`;
+  const searchable = n.chapters.length >= TOC_SEARCH_MIN;
+  container.innerHTML = `<div class="toc-tools">${searchable ? `<label>話数・章題で探す<input type="search" data-toc-query placeholder="例：25、旅立ち"></label><label>話数へ移動<select data-toc-jump><option value="">選んで読む</option>${n.chapters.map((c) => `<option value="${c.no}">${esc(chapterLabel(c))}</option>`).join('')}</select></label>` : ''}<label class="unread-filter"><input type="checkbox" data-unread>未読だけ</label></div><p class="toc-count" role="status"></p>${tocHtml(n, options)}`;
   const filter = () => {
-    const q = normalize($('[data-toc-query]', container).value);
+    const q = normalize(searchable ? $('[data-toc-query]', container).value : '');
     const unread = $('[data-unread]', container).checked;
     let count = 0;
     $$('.toc li', container).forEach((li, i) => { li.hidden = !(normalize(`第${n.chapters[i].no}話 ${n.chapters[i].title}`).includes(q) && (!unread || li.dataset.read !== 'true')); if (!li.hidden) count++; });
     $('.toc-count', container).textContent = `${count} / ${n.chapters.length}話`;
   };
-  $('[data-toc-query]', container).oninput = filter;
   $('[data-unread]', container).onchange = filter;
-  $('[data-toc-jump]', container).onchange = (e) => { if (e.target.value) { pendingJump = { top: true }; goTo(`/n/${n.slug}/c/${e.target.value}`); } };
+  if (searchable) {
+    $('[data-toc-query]', container).oninput = filter;
+    $('[data-toc-jump]', container).onchange = (e) => { if (e.target.value) { pendingJump = { top: true }; goTo(`/n/${n.slug}/c/${e.target.value}`); } };
+  }
   container.onclick = (e) => { if (e.target.closest('[data-top]')) pendingJump = { top: true }; };
   filter();
 }
@@ -368,7 +377,7 @@ async function viewNovel(slug, version) {
     <section class="novel-head">
       ${coverHtml(n)}
       <div class="novel-info">
-        ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${esc(genreText(n))}</span>
+        ${NOVEL_STATUS[n.status] ? `<span class="badge">${NOVEL_STATUS[n.status]}</span>` : ''} <span class="muted" style="font-size:13px">${genreHtml(n)}</span>
         <h1>${esc(n.title)}</h1>
         ${seriesBadge(n)}
         ${seriesNavigation(n, seriesWorks, (work) => novelPath(work.slug))}
@@ -377,6 +386,10 @@ async function viewNovel(slug, version) {
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
         ${n.author ? `<p>${esc(n.author)}</p>` : ''}
         <div class="synopsis">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</div>
+        <div class="actions">
+          ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="${chapterPath(slug, firstNo)}" data-top>最初から読む</a>` : ''}
+          ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="${chapterPath(slug, b.no)}" data-resume>続きから読む（第${b.no}話）</a>` : ''}
+        </div>
         <div class="stats-row">
           <span><b>${n.chapters.length}</b>話</span>
           <span><b>${fmtNum(n.totalChars)}</b>字</span>
@@ -385,10 +398,6 @@ async function viewNovel(slug, version) {
         </div>
         <p><button class="btn small" type="button" id="shareNovel">この作品を共有</button></p>
         <details class="production"><summary>制作担当</summary>${creditsHtml(n) || '<p>制作担当の記録はありません。</p>'}</details>
-        <div class="actions">
-          ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="${chapterPath(slug, firstNo)}" data-top>最初から読む</a>` : ''}
-          ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="${chapterPath(slug, b.no)}" data-resume>続きから読む（第${b.no}話）</a>` : ''}
-        </div>
       </div>
     </section>
     <h3 class="section-title" style="font-size:18px">目次</h3>
@@ -426,6 +435,16 @@ const FONTS = {
   gothic: ['ゴシック', '"Noto Sans JP", "Yu Gothic", sans-serif'],
   ud: ['教科書体', '"UD Digi Kyokasho N-R", "UD デジタル 教科書体 N-R", "BIZ UDPMincho", serif'],
 };
+// Noto明朝を選んだ人だけが読み込む（CSSだけで約30KB）
+const FONT_SHEETS = { noto: 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400..600&display=swap' };
+function loadFontSheet(font) {
+  const href = FONT_SHEETS[font];
+  if (!href || document.querySelector(`link[href="${href}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.append(link);
+}
 const RTHEMES = { auto: ['自動', ''], white: ['白', '#fff'], kinari: ['生成り', '#f5efe2'], usuzumi: ['薄墨', '#e4e2dc'], night: ['夜', '#141414'] };
 const DEFAULTS = { vertical: false, font: 'shippori', fs: 18, lh: 1.95, measure: 36, vlen: 40, rtheme: 'auto', indent: true };
 
@@ -480,6 +499,7 @@ async function viewReader(slug, no, version) {
     reader.style.setProperty('--lh', prefs.lh);
     reader.style.setProperty('--measure', prefs.measure + 'em');
     reader.style.setProperty('--vlen', prefs.vlen + 'em');
+    loadFontSheet(prefs.font);
     reader.style.setProperty('--r-font', (FONTS[prefs.font] || FONTS.shippori)[1]);
     rs.style.writingMode = prefs.vertical ? 'vertical-rl' : '';
     // 縦書きでは左が「進む」
@@ -643,9 +663,10 @@ async function viewReader(slug, no, version) {
 
   // --- キーボード ---
   const onKey = (e) => {
+    // Esc はボタンにフォーカスが残っていても閉じる（変換の取り消しは除く）
+    if (e.key === 'Escape' && !e.isComposing) return closePanels();
     if (e.target.matches('input, textarea, select, button, a') || e.ctrlKey || e.metaKey || e.altKey) return;
     const k = e.key;
-    if (k === 'Escape') return closePanels();
     if (k === 't' || k === 'T') return openPanel('toc');
     if (k === 's' || k === 'S') return openPanel('prefs');
     if ($('.panel.open')) return;
