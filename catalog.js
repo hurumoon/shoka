@@ -2,17 +2,22 @@
 export const normalize = (s) => String(s || '').normalize('NFKC').toLocaleLowerCase('ja').trim();
 export const SIZES = { short: '短編（2万字未満）', medium: '中編（2万〜8万字未満）', long: '長編（8万字以上）' };
 export const sizeOf = (n) => n.totalChars < 20000 ? 'short' : n.totalChars < 80000 ? 'medium' : 'long';
-export const SHORT_READ_CHARS = 9000; // 1分600字で約15分
 const searchText = (n) => normalize([n.title, n.subtitle, n.author, n.series, n.category, n.genre, ...(n.tags || []), n.synopsis].filter(Boolean).join(' '));
 export function selectNovels(novels, { query = '', category = '', series = '', tags = [], status = '', size = '', sort = 'updated' } = {}) {
   const words = normalize(query).split(/\s+/).filter(Boolean);
+  const genreRank = new Map(categoryCounts(novels).map(([c], i) => [c, i]));
+  const rankOf = (n) => genreRank.get(n.category) ?? genreRank.size;
+  const compare = {
+    title: (a, b) => a.title.localeCompare(b.title, 'ja', { numeric: true }),
+    chars: (a, b) => b.totalChars - a.totalChars,
+    short: (a, b) => a.totalChars - b.totalChars,
+    genre: (a, b) => rankOf(a) - rankOf(b) || (b.updated || '').localeCompare(a.updated || ''),
+  }[sort] || ((a, b) => (b.updated || '').localeCompare(a.updated || ''));
   return novels.filter((n) => words.every((w) => searchText(n).includes(w))
     && (!series || n.series === series)
     && (!category || n.category === category) && tags.every((t) => (n.tags || []).includes(t))
     && (!status || n.status === status) && (!size || sizeOf(n) === size))
-    .sort((a, b) => (sort === 'title' ? a.title.localeCompare(b.title, 'ja', { numeric: true })
-      : sort === 'chars' ? b.totalChars - a.totalChars : (b.updated || '').localeCompare(a.updated || ''))
-      || a.title.localeCompare(b.title, 'ja') || a.slug.localeCompare(b.slug));
+    .sort((a, b) => compare(a, b) || a.title.localeCompare(b.title, 'ja') || a.slug.localeCompare(b.slug));
 }
 export const isFiltered = (f) => !!(f.query?.trim() || f.category || f.series || f.status || f.size || f.tags?.length);
 
@@ -27,29 +32,15 @@ export const categoryCounts = (novels) => countBy(novels.map((n) => n.category))
 export const filterTags = (novels, selected = []) => countBy(novels.flatMap((n) => n.tags || []))
   .filter(([tag, count]) => count >= 2 || selected.includes(tag));
 
-// ---------- 書架の入口 ----------
+// ---------- 注目の作品 ----------
 const isAdult = (n) => n.adultContent === true || n.adultContent === 'on';
 const seriesOrderOf = (n) => Number(n.seriesOrder) || Infinity;
 const byUpdated = (a, b) => (b.updated || '').localeCompare(a.updated || '') || a.slug.localeCompare(b.slug);
-// 大分類ごとに1作ずつ：完結・一般向けで、シリーズの途中から始まらないもの。表紙があり、長すぎないものを優先する
-export function firstReads(novels, limit = 4) {
-  const rank = (n) => (n.cover ? 0 : 2) + (n.totalChars <= 30000 ? 0 : 1);
-  const usable = novels.filter((n) => !isAdult(n) && n.status === 'complete' && (!n.series || seriesOrderOf(n) === 1));
-  return categoryCounts(novels).flatMap(([category]) => usable.filter((n) => n.category === category)
-    .sort((a, b) => rank(a) - rank(b) || byUpdated(a, b)).slice(0, 1)).slice(0, limit);
-}
-export function shortReads(novels, exclude = [], limit = 8) {
-  const taken = new Set(exclude.map((n) => n.slug));
-  return novels.filter((n) => !isAdult(n) && n.status === 'complete' && n.totalChars <= SHORT_READ_CHARS && !taken.has(n.slug))
-    .sort(byUpdated).slice(0, limit);
-}
-// 2作以上あるシリーズ。読む順に並べる
-export function seriesGroups(novels) {
-  const groups = new Map();
-  for (const n of novels) if (n.series) groups.set(n.series, [...(groups.get(n.series) || []), n]);
-  return [...groups].filter(([, works]) => works.length > 1)
-    .map(([name, works]) => ({ name, works: [...works].sort((a, b) => seriesOrderOf(a) - seriesOrderOf(b) || a.title.localeCompare(b.title, 'ja')) }))
-    .sort((a, b) => byUpdated(a.works[0], b.works[0]));
+// 完結・一般向けで、シリーズの途中から始まらないもの。題名入りの表紙、表紙あり、なしの順に優先し、同順位は更新が新しいもの
+export function featuredNovel(novels) {
+  const rank = (n) => (n.cover ? (n.cover.withTitle ? 0 : 1) : 2);
+  return novels.filter((n) => !isAdult(n) && n.status === 'complete' && (!n.series || seriesOrderOf(n) === 1))
+    .sort((a, b) => rank(a) - rank(b) || byUpdated(a, b))[0] || null;
 }
 
 // ---------- 話の題 ----------

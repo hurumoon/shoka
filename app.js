@@ -3,7 +3,7 @@
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
-import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, firstReads, shortReads, seriesGroups, chapterSubtitle, chapterLabel, validPosition, novelPath } from './catalog.js';
+import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath } from './catalog.js';
 import { aboutHtml } from './about.js';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -143,13 +143,14 @@ function viewAbout() {
 }
 
 // ---------- 書架 ----------
-function coverHtml(n) {
+// plain は下に題名を出す一覧用。絵に題名を重ねない
+function coverHtml(n, { plain = false, sizes = '(max-width: 700px) 45vw, 240px' } = {}) {
   if (n.cover) {
     // thumb は書架の並び用の小さい画像。高解像度の画面や大きく出す場所では srcset で本体を選ばせる
     const { file, thumb } = n.cover;
     return `<div class="cover has-img" style="--h:${hue(n.slug)}">
-      <img src="${imgUrl(n.slug, thumb || file)}"${thumb ? ` srcset="${imgUrl(n.slug, thumb)} 480w, ${imgUrl(n.slug, file)} 1000w" sizes="(max-width: 700px) 45vw, 240px"` : ''} alt="" loading="lazy" decoding="async">
-      ${n.cover.withTitle ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
+      <img src="${imgUrl(n.slug, thumb || file)}"${thumb ? ` srcset="${imgUrl(n.slug, thumb)} 480w, ${imgUrl(n.slug, file)} 1000w" sizes="${sizes}"` : ''} alt="" loading="lazy" decoding="async">
+      ${n.cover.withTitle || plain ? '' : `<div class="img-ttl"><b>${esc(n.title)}</b>${coverCredit(n) ? `<span>${esc(coverCredit(n))}</span>` : ''}</div>`}
     </div>`;
   }
   return `<div class="cover" style="--h:${hue(n.slug)}">
@@ -165,21 +166,45 @@ let shelfFilters = { query: '', category: '', series: '', tags: [], status: '', 
 for (const key of FILTER_KEYS) if (typeof savedShelf[key] === 'string') shelfFilters[key] = savedShelf[key];
 if (Array.isArray(savedShelf.tags)) shelfFilters.tags = savedShelf.tags.filter((t) => typeof t === 'string');
 let shelfPage = Math.max(0, Math.floor(Number(savedShelf.page) || 0));
+let shelfView = savedShelf.view === 'covers' ? 'covers' : 'catalog';
 
-function railCard(n, note) {
-  return `<a class="book rail-book" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
-    ${coverHtml(n)}
-    <div class="book-meta"><div class="title">${esc(n.title)}</div><div class="rail-note">${esc(note)}${n.adultContent ? '<span class="badge adult">R18</span>' : ''}</div></div>
-  </a>`;
+const shelfLine = (n) => [n.category || n.genre, readTime(n.totalChars), NOVEL_STATUS[n.status] || '連載中'].filter(Boolean).join('・');
+const adultMark = (n) => n.adultContent ? '<span class="badge adult">R18</span>' : '';
+function featureHtml(n) {
+  if (!n) return '';
+  return `<section class="feature" aria-label="注目の作品"><div class="feature-in">
+    <a class="feature-cover" href="#/n/${n.slug}" aria-label="${esc(n.title)}">${coverHtml(n, { sizes: '(max-width: 600px) 112px, 270px' })}</a>
+    <div class="feature-text">
+      <p class="feature-kick">注目の作品</p>
+      <h2><a href="#/n/${n.slug}">${esc(n.title)}</a></h2>
+      <p class="feature-meta">${esc(n.author || '')}　${esc(shelfLine(n))}</p>
+      <p class="feature-synopsis">${esc(n.synopsis || '')}</p>
+      <a class="feature-go" href="#/n/${n.slug}/c/${n.chapters[0]?.no ?? 1}">読みはじめる</a>
+    </div>
+  </div></section>`;
 }
-function railHtml(title, lead, cards) {
-  return cards.length ? `<section class="rail" aria-label="${esc(title)}"><h2>${esc(title)}</h2><p class="muted">${esc(lead)}</p><div class="rail-list">${cards.join('')}</div></section>` : '';
+function resumeHtml(b) {
+  return b ? `<span class="resume">栞：第${b.no}話 ${Math.round(b.ratio * 100)}%</span>` : '';
 }
-function entrancesHtml(novels) {
-  const first = firstReads(novels);
-  return railHtml('初めて読むなら', 'ジャンルごとに、完結している作品を1作ずつ。', first.map((n) => railCard(n, `${n.category}・${readTime(n.totalChars)}`)))
-    + railHtml('短時間で読める作品', '15分ほどで読み切れる完結作。', shortReads(novels, first).map((n) => railCard(n, readTime(n.totalChars))))
-    + railHtml('シリーズ作品', '第1作から順に読めます。', seriesGroups(novels).map(({ name, works }) => railCard(works[0], `${name}・全${works.length}作`)));
+function catalogCard(n, b) {
+  return `<a class="book entry" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
+    ${coverHtml(n, { plain: true, sizes: '(max-width: 600px) 72px, 88px' })}
+    <div class="book-meta">
+      <div class="title">${esc(n.title)}</div>
+      ${seriesBadge(n)}
+      <div class="line">${esc(shelfLine(n))}・全${n.chapters.length}話${adultMark(n)}</div>
+      <p class="synopsis">${esc(n.synopsis || '紹介文はまだありません。')}</p>
+      ${resumeHtml(b)}
+    </div></a>`;
+}
+function coverCard(n, b) {
+  return `<a class="book tile" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
+    ${coverHtml(n, { plain: true, sizes: '(max-width: 700px) 45vw, 190px' })}
+    <div class="book-meta">
+      <div class="title">${esc(n.title)}</div>
+      <div class="line">${esc(shelfLine(n))}${adultMark(n)}</div>
+      ${resumeHtml(b)}
+    </div></a>`;
 }
 
 async function viewShelf(version) {
@@ -193,39 +218,40 @@ async function viewShelf(version) {
   }
   const categories = categoryCounts(novels);
   if (!categories.some(([c]) => c === shelfFilters.category)) shelfFilters.category = '';
-  const secondaryCount = () => [shelfFilters.series, shelfFilters.status, shelfFilters.size].filter(Boolean).length + shelfFilters.tags.length + (shelfFilters.sort !== 'updated' ? 1 : 0);
-  app.innerHTML = `<div class="wrap">
-    <h1 class="section-title">${esc(siteTitle)} <small>${novels.length}作品</small></h1>
+  const secondaryCount = () => [shelfFilters.series, shelfFilters.status, shelfFilters.size].filter(Boolean).length + shelfFilters.tags.length;
+  app.innerHTML = `<h1 class="sr-only">${esc(siteTitle)}</h1>
+    <div id="entrances"></div>
+    <div class="wrap shelf-wrap">
     <form class="explore" id="explore" role="search" aria-label="作品を探す">
-      <label class="query">作品を探す<input type="search" name="query" placeholder="題名・作者・タグ・あらすじなど" value="${esc(shelfFilters.query)}"></label>
-      ${categories.length ? `<fieldset class="category-chips"><legend>ジャンル</legend><label><input type="radio" name="category" value="">すべて</label>${categories.map(([c, count]) => `<label><input type="radio" name="category" value="${esc(c)}">${esc(c)}<small>${count}</small></label>`).join('')}</fieldset>` : ''}
-      <details class="more-filters"${secondaryCount() ? ' open' : ''}><summary>絞り込み・並び順<span id="activeFilters"></span></summary>
+      <label class="query"><span class="sr-only">作品を探す</span><input type="search" name="query" placeholder="題名・タグ・あらすじで探す" value="${esc(shelfFilters.query)}"></label>
+      ${categories.length ? `<fieldset class="category-chips"><legend class="sr-only">ジャンル</legend><label><input type="radio" name="category" value="">すべて</label>${categories.map(([c, count]) => `<label><input type="radio" name="category" value="${esc(c)}">${esc(c)}<small>${count}</small></label>`).join('')}</fieldset>` : ''}
+      <label class="sort-field"><span class="sr-only">並び順</span><select name="sort"><option value="updated">更新が新しい順</option><option value="genre">ジャンル別</option><option value="title">タイトル順</option><option value="short">文字数が少ない順</option><option value="chars">文字数が多い順</option></select></label>
+      <details class="more-filters"${secondaryCount() ? ' open' : ''}><summary>絞り込み<span id="activeFilters"></span></summary>
         <div class="explore-grid">
           <label>シリーズ<select name="series"><option value="">すべて</option>${[...new Set(novels.map(seriesOf).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja')).map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label>
           <label>連載状況<select name="status"><option value="">すべて</option><option value="complete">完結</option><option value="writing">連載中</option></select></label>
           <label>作品の長さ<select name="size"><option value="">すべて</option>${Object.entries(SIZES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
-          <label>並び順<select name="sort"><option value="updated">更新が新しい順</option><option value="title">タイトル順</option><option value="chars">文字数が多い順</option></select></label>
         </div>
         <p class="tag-heading">タグ（選んだものをすべて含む作品）<span id="selectedTags"></span></p>
         <div class="tag-options">${filterTags(novels, shelfFilters.tags).map(([t, count]) => `<label><input type="checkbox" name="tag" value="${esc(t)}"${shelfFilters.tags.includes(t) ? ' checked' : ''}>${esc(t)}<small>${count}</small></label>`).join('') || '<p>タグはまだありません</p>'}</div>
         <small class="muted">ここにないタグは検索欄で探せます。作品の長さは公開中の本文の文字数です。</small>
       </details>
     </form>
-    <div id="entrances"></div>
-    <div class="results-head"><h2 id="resultsTitle"></h2><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset" form="explore" id="resetFilters">条件をリセット</button></div>
-    <div class="shelf" id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
+    <div class="results-head"><h2 id="resultsTitle"></h2><p id="resultCount" role="status" aria-live="polite"></p><button class="btn small" type="reset" form="explore" id="resetFilters">条件をリセット</button>
+      <div class="view-switch" id="viewSwitch" role="group" aria-label="一覧の表示"><button type="button" data-view="catalog">目録</button><button type="button" data-view="covers">表紙</button></div></div>
+    <div id="results"></div><nav class="pagination" id="pagination" aria-label="作品一覧のページ"></nav></div>`;
   const form = $('#explore');
   const syncForm = () => {
     for (const key of FILTER_KEYS) if (key !== 'category') form.elements[key].value = shelfFilters[key];
     $$('[name=category]', form).forEach((el) => { el.checked = el.value === shelfFilters.category; });
   };
   syncForm();
-  const entrances = entrancesHtml(novels);
+  const entrances = featureHtml(featuredNovel(novels));
   function renderResults() {
     const found = selectNovels(novels, shelfFilters);
     const pages = Math.max(1, Math.ceil(found.length / 24));
     shelfPage = Math.min(shelfPage, pages - 1);
-    store.set('shelf', { ...shelfFilters, page: shelfPage });
+    store.set('shelf', { ...shelfFilters, page: shelfPage, view: shelfView });
     const filtered = isFiltered(shelfFilters);
     $('#entrances').innerHTML = filtered || shelfPage ? '' : entrances;
     $('#resultsTitle').textContent = filtered ? '見つかった作品' : 'すべての作品';
@@ -233,22 +259,15 @@ async function viewShelf(version) {
     $('#resetFilters').hidden = !filtered && shelfFilters.sort === 'updated';
     $('#activeFilters').textContent = secondaryCount() ? `（${secondaryCount()}件指定中）` : '';
     $('#selectedTags').textContent = shelfFilters.tags.length ? `：${shelfFilters.tags.join('・')}` : '';
-    $('#results').innerHTML = found.slice(shelfPage * 24, (shelfPage + 1) * 24).map((n) => {
-      const b = bm[n.slug];
-      return `<a class="book" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
-        ${coverHtml(n)}
-        <div class="book-meta">
-          <div class="title">${esc(n.title)}</div>
-          ${seriesBadge(n)}
-          ${n.author ? `<div class="author">${esc(n.author)}</div>` : ''}
-          <p class="preview">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</p>
-          <div class="row"><span>${esc(n.category || n.genre || 'ジャンル未設定')}</span><span class="badge">${NOVEL_STATUS[n.status] || '連載中'}</span></div>
-          ${readingBadges(n)}
-          <div class="row"><span>全${n.chapters.length}話${n.status === 'complete' ? '' : '（公開中）'}</span><span>${fmtNum(n.totalChars)}字</span></div>
-          <div class="row"><span class="muted">更新 ${fmtDate(n.updated) || '—'}</span></div>
-          ${b ? `<span class="resume">栞：第${b.no}話 ${Math.round(b.ratio * 100)}%</span>` : ''}
-        </div></a>`;
-    }).join('') || '<p class="empty">条件に合う作品はありません。検索語や絞り込みを変更してください。</p>';
+    $$('[data-view]', $('#viewSwitch')).forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.view === shelfView)));
+    const shown = found.slice(shelfPage * 24, (shelfPage + 1) * 24);
+    const entries = (works) => `<div class="entries ${shelfView}">${works.map((n) => (shelfView === 'covers' ? coverCard : catalogCard)(n, bm[n.slug])).join('')}</div>`;
+    // ジャンル別のときだけ見出しで分ける。作品の順番は目録と表紙で同じ
+    const groups = new Map();
+    if (shelfFilters.sort === 'genre') for (const n of shown) groups.set(n.category || '', [...(groups.get(n.category || '') || []), n]);
+    $('#results').innerHTML = !shown.length ? '<p class="empty">条件に合う作品はありません。検索語や絞り込みを変更してください。</p>'
+      : groups.size ? [...groups].map(([c, works]) => `<section class="genre-group"><h3 class="genre-label">${esc(c || 'ジャンル未設定')}<small>${found.filter((n) => (n.category || '') === c).length}作</small></h3>${entries(works)}</section>`).join('')
+      : entries(shown);
     $('#pagination').innerHTML = pages > 1 ? `<button class="btn" data-page="-1" ${!shelfPage ? 'disabled' : ''}>前へ</button><span>${shelfPage + 1} / ${pages}</span><button class="btn" data-page="1" ${shelfPage === pages - 1 ? 'disabled' : ''}>次へ</button>` : '';
   }
   form.onsubmit = (e) => e.preventDefault();
@@ -256,8 +275,12 @@ async function viewShelf(version) {
     for (const key of FILTER_KEYS) if (key !== 'category') shelfFilters[key] = form.elements[key].value;
     shelfFilters.category = $('[name=category]:checked', form)?.value || '';
     shelfFilters.tags = $$('[name=tag]:checked', form).map((el) => el.value);
+    // 絞り込むと注目の作品が消えるので、入力欄が画面上で動かないようにスクロールで補う
+    const top = form.getBoundingClientRect().top;
     shelfPage = 0; renderResults();
+    window.scrollBy(0, form.getBoundingClientRect().top - top);
   };
+  $('#viewSwitch').onclick = (e) => { const b = e.target.closest('[data-view]'); if (b) { shelfView = b.dataset.view; renderResults(); } };
   form.onreset = (e) => {
     e.preventDefault();
     shelfFilters = { query: '', category: '', series: '', tags: [], status: '', size: '', sort: 'updated' };
