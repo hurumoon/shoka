@@ -4,6 +4,7 @@ import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, firstReads, shortReads, seriesGroups, chapterSubtitle, chapterLabel, validPosition, novelPath } from './catalog.js';
+import { aboutHtml } from './about.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -96,11 +97,12 @@ let siteTitle = '書架';
 let routeVersion = 0;
 // 生成HTMLの相対リンク用 base があっても、読書中のハッシュ移動は同じ文書内で行う。
 document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="#/"]');
+  const a = e.target.closest('a[href^="#/"], a[data-route]');
   if (!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
   e.preventDefault();
-  if (location.hash === a.getAttribute('href')) { if (pendingJump) route(); return; }
-  location.hash = a.getAttribute('href');
+  const hash = a.dataset.route ? `#${a.dataset.route}` : a.getAttribute('href');
+  if (location.hash === hash) { if (pendingJump) route(); return; }
+  location.hash = hash;
 });
 
 function crumbs(items) {
@@ -117,8 +119,12 @@ async function route() {
   try {
     const h = decodeURIComponent(location.hash.replace(/^#/, '')) || document.body.dataset.route || '/';
     const m = h.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
+    const about = /^\/about\/?$/.test(h);
+    if (about) $('.site-about').setAttribute('aria-current', 'page');
+    else $('.site-about').removeAttribute('aria-current');
     if (!m?.[2]) pendingJump = null;
-    if (!m) await viewShelf(version);
+    if (about) viewAbout();
+    else if (!m) await viewShelf(version);
     else if (m[2]) await viewReader(m[1], parseInt(m[2], 10), version);
     else await viewNovel(m[1], version);
   } catch (e) {
@@ -128,6 +134,13 @@ async function route() {
   }
 }
 window.addEventListener('hashchange', route);
+
+function viewAbout() {
+  document.title = `About｜${siteTitle}`;
+  crumbs([{ label: 'この書架について' }]);
+  app.innerHTML = aboutHtml(siteTitle);
+  window.scrollTo(0, 0);
+}
 
 // ---------- 書架 ----------
 function coverHtml(n) {

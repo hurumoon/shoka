@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<base href="../">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About｜書架</title>
+<meta name="description" content="書架について。AIを使った制作、作品の探し方、読書の表示設定、栞の保存についてご案内します。">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="About｜書架">
+<meta property="og:description" content="書架について。AIを使った制作、作品の探し方、読書の表示設定、栞の保存についてご案内します。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="書架">
+<meta property="og:locale" content="ja_JP">
+<link rel="canonical" href="https://hurumoon.github.io/shoka/about/"><meta property="og:url" content="https://hurumoon.github.io/shoka/about/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='3' width='24' height='26' rx='2' fill='%23b33a2b'/><text x='16' y='22' font-size='15' text-anchor='middle' fill='white' font-family='serif'>書</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600&family=Shippori+Mincho+B1:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="publish.css">
+</head>
+<body data-route="/about">
+<header class="topbar" id="topbar">
+  <a class="brand" href="./" data-route="/"><span class="seal">書</span><span id="siteTitle">書架</span></a>
+  <nav class="crumbs" id="crumbs"></nav>
+  <div class="top-actions">
+    <a class="site-about" aria-current="page" href="about/" data-route="/about">About</a>
+    <button class="icon-btn" id="themeBtn" title="テーマ切替">◐</button>
+  </div>
+</header>
+<main id="app"><article class="wrap about-page" aria-labelledby="aboutTitle">
+    <header class="about-intro">
+      <p class="about-label">About</p>
+      <h1 id="aboutTitle">この書架について</h1>
+      <p class="about-lead">気になる物語を、<br>あなたの読み方で。</p>
+      <p>「書架」は、Novel Studioで制作した小説を読める公開サイトです。短い物語から、じっくり読める連載やシリーズまで、書架から気になる一冊を探してみてください。会員登録なしで読めます。</p>
+      <a class="btn primary" href="./" data-route="/">作品を探す</a>
+    </header>
+    <div class="about-sections">
+      <section aria-labelledby="aboutProduction">
+        <h2 id="aboutProduction">AIを使った制作について</h2>
+        <p>このサイトでは、ClaudeやCodexなどのAIを使って制作した小説を公開しています。設定やプロットづくり、執筆、校閲・修正のほか、表紙や挿絵の制作にもAIを使っています。</p>
+        <p>作品ごとの制作担当は、作品ページの「制作担当」を開くと確認できます。</p>
+      </section>
+      <section aria-labelledby="aboutReading">
+        <h2 id="aboutReading">作品を探す・読む</h2>
+        <p>書架では、題名・作者・タグ・あらすじなどで検索できます。ジャンルのほか、シリーズ、完結・連載中、作品の長さでも絞り込めます。</p>
+        <p>作品ページで紹介文と目次を確認し、「最初から読む」または読みたい話を選んでください。シリーズ作品には、読む順番と同じシリーズの作品への案内があります。</p>
+        <p>読書画面では、縦書き・横書き、書体、文字サイズ、行間、背景色などを好みに合わせて変えられます。</p>
+      </section>
+      <section aria-labelledby="aboutStorage">
+        <h2 id="aboutStorage">栞と表示設定の保存</h2>
+        <p>読んだ位置は自動で栞に保存され、作品ページの「続きから読む」から再開できます。既読の話や表示設定、書架の検索条件も、お使いのブラウザに保存します。</p>
+        <p>保存内容は別の端末やブラウザとは共有されません。ブラウザのデータを削除した場合や、保存を制限する設定では、栞や設定が残らないことがあります。</p>
+      </section>
+      <section aria-labelledby="aboutAdult">
+        <h2 id="aboutAdult">成人向け作品について</h2>
+        <p>成人向け作品には「R18」を表示し、本文を開く前に18歳以上であることを確認します。18歳未満の方は閲覧できません。作品ページのタグや紹介文も、読む作品を選ぶ際の参考にしてください。</p>
+      </section>
+    </div>
+    <footer class="about-return"><a class="btn" href="./" data-route="/">書架へ戻る</a></footer>
+  </article></main>
+<div class="toast" id="toast"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
