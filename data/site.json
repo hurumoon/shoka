@@ -2,6 +2,116 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "melonpan-survivor",
+      "title": "めろんぱんさばいば～",
+      "subtitle": "",
+      "author": "Claude",
+      "credits": {
+        "review": [
+          "Claude Sonnet 5.5"
+        ],
+        "revision": [
+          "Claude Opus 5.5",
+          "Claude Sonnet"
+        ],
+        "settings": [
+          "Claude Sonnet"
+        ],
+        "plot": [
+          "Claude Sonnet"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "category": "ファンタジー",
+      "genre": "ポストアポカリプス風の魔法少女コメディ",
+      "tags": [
+        "魔法少女",
+        "終末",
+        "SF",
+        "コメディ",
+        "スライム",
+        "ゲーム原作"
+      ],
+      "adultContent": false,
+      "series": "めろんぱんさばいば～",
+      "seriesOrder": 1,
+      "status": "complete",
+      "synopsis": "スライム襲来から二百年。旧第三小学校の番人・おきーぱーは十五歳で、怖がりで、ほとんど眠らない。強くなる敵に備えて魔法少女たちに交代表を見せて回るが、誰も話を聞いてくれない。あたちはメロンパンを持ち逃げし、メロは水着を昔のモテ衣装だと信じ、ギルド重役の好好は金を取る。それでも一人ずつ戦って説き伏せた先に、魔王上原と、誰も知らなかったメロンパンの秘密が待っていた。",
+      "cover": {
+        "file": "cover-20261030-144624-2e9c9534.webp",
+        "thumb": "cover-20261030-144624-2e9c9534.thumb.webp",
+        "small": "cover-20261030-144624-2e9c9534.small.webp",
+        "og": "cover-20261030-144624-2e9c9534.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　番人",
+          "chars": 2321
+        },
+        {
+          "no": 2,
+          "title": "第二話　距離を取れ",
+          "chars": 2679
+        },
+        {
+          "no": 3,
+          "title": "第三話　あたちという女",
+          "chars": 2147
+        },
+        {
+          "no": 4,
+          "title": "第四話　メロメロガール",
+          "chars": 2300
+        },
+        {
+          "no": 5,
+          "title": "第五話　おもろいね",
+          "chars": 2546
+        },
+        {
+          "no": 6,
+          "title": "第六話　好好と交渉",
+          "chars": 2870
+        },
+        {
+          "no": 7,
+          "title": "第七話　怖いのは同感だ",
+          "chars": 2630
+        },
+        {
+          "no": 8,
+          "title": "第八話　崩壊都市",
+          "chars": 2665
+        },
+        {
+          "no": 9,
+          "title": "第九話　カミィ",
+          "chars": 3155
+        },
+        {
+          "no": 10,
+          "title": "第十話　魔王上原",
+          "chars": 2470
+        },
+        {
+          "no": 11,
+          "title": "第十一話　前借り",
+          "chars": 2292
+        },
+        {
+          "no": 12,
+          "title": "第十二話　交代表",
+          "chars": 4501
+        }
+      ],
+      "totalChars": 32576,
+      "updated": "2026-10-31T18:09:10.053Z"
+    },
+    {
       "slug": "maria-jikeidan-san",
       "title": "愛ですわ、と言ったら動議が出ました",
       "subtitle": "めろんぱんさばいば～外伝 マリア女子自警団篇",
@@ -93,109 +203,6 @@
       ],
       "totalChars": 46821,
       "updated": "2026-10-31T09:18:44.303Z"
-    },
-    {
-      "slug": "melonpan-survivor",
-      "title": "めろんぱんさばいば～",
-      "subtitle": "",
-      "author": "Claude",
-      "credits": {
-        "review": [
-          "Claude Sonnet 5.5"
-        ],
-        "revision": [
-          "Claude Opus 5.5"
-        ],
-        "cover": [
-          "Codex"
-        ]
-      },
-      "category": "ファンタジー",
-      "genre": "ポストアポカリプス風の魔法少女コメディ",
-      "tags": [
-        "魔法少女",
-        "終末",
-        "SF",
-        "コメディ",
-        "スライム",
-        "ゲーム原作"
-      ],
-      "adultContent": false,
-      "series": "めろんぱんさばいば～",
-      "seriesOrder": 1,
-      "status": "complete",
-      "synopsis": "スライム襲来から二百年。旧第三小学校の番人・おきーぱーは十五歳で、怖がりで、ほとんど眠らない。強くなる敵に備えて魔法少女たちに交代表を見せて回るが、誰も話を聞いてくれない。あたちはメロンパンを持ち逃げし、メロは水着を旧文明の正装だと信じ、ギルド重役の好好は金を取る。それでも一人ずつ戦って説き伏せた先に、魔王上原と、誰も知らなかったメロンパンの秘密が待っていた。",
-      "cover": {
-        "file": "cover-20261030-144624-2e9c9534.webp",
-        "thumb": "cover-20261030-144624-2e9c9534.thumb.webp",
-        "small": "cover-20261030-144624-2e9c9534.small.webp",
-        "og": "cover-20261030-144624-2e9c9534.og.jpg",
-        "withTitle": false
-      },
-      "chapters": [
-        {
-          "no": 1,
-          "title": "第一話　番人",
-          "chars": 2321
-        },
-        {
-          "no": 2,
-          "title": "第二話　距離を取れ",
-          "chars": 2749
-        },
-        {
-          "no": 3,
-          "title": "第三話　あたちという女",
-          "chars": 2147
-        },
-        {
-          "no": 4,
-          "title": "第四話　メロメロガール",
-          "chars": 2296
-        },
-        {
-          "no": 5,
-          "title": "第五話　おもろいね",
-          "chars": 2546
-        },
-        {
-          "no": 6,
-          "title": "第六話　好好と交渉",
-          "chars": 2508
-        },
-        {
-          "no": 7,
-          "title": "第七話　怖いのは同感だ",
-          "chars": 2415
-        },
-        {
-          "no": 8,
-          "title": "第八話　崩壊都市",
-          "chars": 2451
-        },
-        {
-          "no": 9,
-          "title": "第九話　カミィ",
-          "chars": 2985
-        },
-        {
-          "no": 10,
-          "title": "第十話　魔王上原",
-          "chars": 2453
-        },
-        {
-          "no": 11,
-          "title": "第十一話　前借り",
-          "chars": 2233
-        },
-        {
-          "no": 12,
-          "title": "第十二話　交代表",
-          "chars": 4528
-        }
-      ],
-      "totalChars": 31632,
-      "updated": "2026-10-30T14:32:43.263Z"
     },
     {
       "slug": "maou-songai-uketsuke",
