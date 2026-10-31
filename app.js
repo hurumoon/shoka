@@ -173,7 +173,7 @@ const adultMark = (n) => n.adultContent ? '<span class="badge adult">R18</span>'
 function featureHtml(n) {
   if (!n) return '';
   return `<section class="feature" aria-label="注目の作品"><div class="feature-in">
-    <a class="feature-cover" href="#/n/${n.slug}" aria-label="${esc(n.title)}">${coverHtml(n, { sizes: '(max-width: 600px) 112px, 270px' })}</a>
+    <a class="feature-cover" href="#/n/${n.slug}" aria-label="${esc(n.title)}">${coverHtml(n, { sizes: '(max-width: 600px) 112px, 300px' })}</a>
     <div class="feature-text">
       <p class="feature-kick">注目の作品</p>
       <h2><a href="#/n/${n.slug}">${esc(n.title)}</a></h2>
@@ -199,7 +199,7 @@ function catalogCard(n, b) {
 }
 function coverCard(n, b) {
   return `<a class="book tile" href="#/n/${n.slug}" data-book-slug="${esc(n.slug)}">
-    ${coverHtml(n, { plain: true, sizes: '(max-width: 700px) 45vw, 190px' })}
+    ${coverHtml(n, { plain: true, sizes: '(max-width: 700px) 45vw, 230px' })}
     <div class="book-meta">
       <div class="title">${esc(n.title)}</div>
       <div class="line">${esc(shelfLine(n))}${adultMark(n)}</div>
