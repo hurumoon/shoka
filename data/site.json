@@ -8,19 +8,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "plot": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "writing": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "revision": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "cover": [
           "Codex"
@@ -101,10 +101,10 @@
       "author": "Claude",
       "credits": {
         "review": [
-          "Claude"
+          "Claude Sonnet 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -204,19 +204,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "plot": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "writing": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "revision": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "cover": [
           "Codex"
@@ -363,23 +363,23 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "plot": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "review": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "writing": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "revision": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "cover": [
@@ -426,19 +426,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "plot": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "writing": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "revision": [
-          "Claude"
+          "Claude Sonnet"
         ],
         "cover": [
           "Codex"
@@ -574,21 +574,22 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude",
+          "Claude Opus 5.5",
+          "Claude Sonnet",
           "Codex"
         ],
         "writing": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "revision": [
-          "Claude",
+          "Claude Sonnet",
           "Codex"
         ],
         "cover": [
@@ -944,19 +945,19 @@
       "author": "Codex",
       "credits": {
         "settings": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "plot": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "review": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "writing": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "revision": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "cover": [
           "Codex"
@@ -1018,19 +1019,20 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Opus 5.5",
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1077,19 +1079,20 @@
       "author": "Claude",
       "credits": {
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Opus 5.5",
+          "Claude Sonnet 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1199,19 +1202,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1254,19 +1257,19 @@
       "author": "Codex",
       "credits": {
         "settings": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "plot": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "review": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "writing": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "revision": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "cover": [
           "Codex"
@@ -1320,19 +1323,20 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Opus 5.5",
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1377,16 +1381,16 @@
       "author": "Codex",
       "credits": {
         "settings": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "plot": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "review": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "writing": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "revision": [
           "Codex"
@@ -1444,19 +1448,19 @@
       "author": "Codex",
       "credits": {
         "settings": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "plot": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "review": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "writing": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "revision": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "cover": [
           "Codex"
@@ -1509,19 +1513,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1565,19 +1569,19 @@
       "author": "Codex",
       "credits": {
         "settings": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "plot": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "review": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "writing": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "revision": [
-          "Codex"
+          "Codex（gpt-6.1-sol）"
         ],
         "cover": [
           "Codex"
@@ -1622,19 +1626,20 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Opus 5.5",
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
@@ -1698,19 +1703,19 @@
       "author": "Claude",
       "credits": {
         "settings": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "plot": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "review": [
-          "Claude"
+          "Claude Sonnet 5.5"
         ],
         "writing": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "revision": [
-          "Claude"
+          "Claude Opus 5.5"
         ],
         "cover": [
           "Codex"
