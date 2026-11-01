@@ -512,6 +512,14 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .st { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 4px; border: 1px solid var(--line); color: var(--ink-2); height: fit-content; white-space: nowrap; }
 .st.running { border-color: var(--accent); color: var(--accent); }
 .st.done { border-color: var(--ok); color: var(--ok); }
+.st.waiting { color: var(--accent); border-color: var(--accent); }
+.human-instruction { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+.human-review-panel { max-width: 820px; }
+.human-review-panel > label:not(.check-row), .human-review-panel form label { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+.human-review-panel textarea, .human-review-panel select, .human-review-panel input:not([type="checkbox"]) { font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); max-width: 100%; box-sizing: border-box; }
+.human-review-panel textarea { width: 100%; min-height: 150px; resize: vertical; line-height: 1.7; }
+.human-review-panel details { margin: 14px 0; }
+.human-review-panel summary { cursor: pointer; }
 .st.error { background: var(--accent); border-color: var(--accent); color: #fff; }
 .st.queued { border-style: dashed; }
 .rate { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 12px; }

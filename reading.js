@@ -8,6 +8,11 @@ export function creditLines(n, { compact = false } = {}) {
   const roles = compact ? ['plot', 'writing', 'cover', 'illustration'] : Object.keys(CREDIT_LABELS);
   const lines = roles.filter((role) => Array.isArray(credits[role]) && credits[role].length)
     .map((role) => `${CREDIT_LABELS[role]}：${credits[role].join('・')}`);
+  // 文体は本編の直後に出す。版の区切りに「・」を使うのでスキルの間は「、」。書架の小さな表示には出さない
+  if (!compact && Array.isArray(n.styleCredits) && n.styleCredits.length) {
+    const at = lines.findIndex((line) => line.startsWith(`${CREDIT_LABELS.writing}：`));
+    lines.splice(at < 0 ? 0 : at + 1, 0, `文体：${n.styleCredits.join('、')}`);
+  }
   const author = String(n.author || '').trim();
   // 本編の工程記録がない旧作でも、保存済みの作者名を隠さない。
   if (author && (!['Claude', 'Codex'].includes(author) || !credits.writing?.length)) lines.unshift(`作者：${author}`);
