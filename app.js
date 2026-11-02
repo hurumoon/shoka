@@ -1,6 +1,6 @@
 // 公開サイト（novel.mjs publish で書き出す静的な書架）。読むための機能だけを持つ。
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
-import { escapeHtml as esc, chapterBodyHtml, inlineToHtml } from './render.js';
+import { escapeHtml as esc, chapterBodyHtml, inlineToHtml, synopsisHtml, synopsisText } from './render.js';
 import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath, chapterPath, routeToPath, pathToRoute } from './catalog.js';
@@ -205,7 +205,7 @@ function featureHtml(n) {
       <p class="feature-kick">注目の作品</p>
       <h2><a href="${novelPath(n.slug)}">${esc(n.title)}</a></h2>
       <p class="feature-meta">${esc(n.author || '')}　${shelfLine(n)}</p>
-      <p class="feature-synopsis">${esc(n.synopsis || '')}</p>
+      <p class="feature-synopsis">${esc(synopsisText(n.synopsis || ''))}</p>
       <a class="feature-go" href="${chapterPath(n.slug, n.chapters[0]?.no ?? 1)}">読みはじめる</a>
     </div>
   </div></section>`;
@@ -220,7 +220,7 @@ function catalogCard(n, b) {
       <div class="title">${esc(n.title)}</div>
       ${seriesBadge(n)}
       <div class="line">${shelfLine(n)}・${nowrap(`全${n.chapters.length}話`)}${adultMark(n)}</div>
-      <p class="synopsis">${esc(n.synopsis || '紹介文はまだありません。')}</p>
+      <p class="synopsis">${esc(synopsisText(n.synopsis || '紹介文はまだありません。'))}</p>
       ${resumeHtml(b)}
     </div></a>`;
 }
@@ -385,7 +385,7 @@ async function viewNovel(slug, version) {
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
         ${n.author ? `<p>${esc(n.author)}</p>` : ''}
-        <div class="synopsis">${esc(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</div>
+        <div class="synopsis">${synopsisHtml(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</div>
         <div class="actions">
           ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="${chapterPath(slug, firstNo)}" data-top>最初から読む</a>` : ''}
           ${b && n.chapters.some((c) => c.no === b.no) ? `<a class="btn primary" href="${chapterPath(slug, b.no)}" data-resume>続きから読む（第${b.no}話）</a>` : ''}

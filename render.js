@@ -8,6 +8,21 @@ export function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+// 紹介文はテキストを保ち、http(s) の Markdown リンクだけを表示する。
+const SYNOPSIS_LINK = /\[([^\]\r\n]+)\]\((https?:\/\/[^\s<>"()]+)\)/g;
+export function synopsisText(text) {
+  return String(text).replace(SYNOPSIS_LINK, (_, label) => label);
+}
+export function synopsisHtml(text) {
+  let html = '', offset = 0;
+  for (const match of String(text).matchAll(SYNOPSIS_LINK)) {
+    html += escapeHtml(String(text).slice(offset, match.index));
+    html += `<a href="${escapeHtml(match[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[1])}</a>`;
+    offset = match.index + match[0].length;
+  }
+  return html + escapeHtml(String(text).slice(offset));
+}
+
 const KANJI = '一-龠々〆ヵヶ〇仝';
 
 // ルビ・傍点・縦中横を含む一行分の本文を HTML にする
