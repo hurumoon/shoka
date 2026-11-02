@@ -18,6 +18,7 @@ export function aboutHtml(title) {
         <h2 id="aboutProduction">AIを使った制作について</h2>
         <p>このサイトでは、ClaudeやCodexなどのAIを使って制作した小説を公開しています。設定やプロットづくり、執筆、校閲・修正のほか、表紙や挿絵の制作にもAIを使っています。</p>
         <p>作品ごとの制作担当は、作品ページの「制作担当」を開くと確認できます。</p>
+        <p><a href="making/" data-route="/making">仕組みとスキルの紹介へ →</a></p>
       </section>
       <section aria-labelledby="aboutOperator">
         <h2 id="aboutOperator">運営者</h2>

@@ -5,6 +5,7 @@ import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, cove
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath, chapterPath, routeToPath, pathToRoute } from './catalog.js';
 import { aboutHtml, OPERATOR } from './about.js';
+import { makingHtml } from './making.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -142,10 +143,14 @@ async function route() {
     const h = currentRoute();
     const m = h.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
     const about = /^\/about\/?$/.test(h);
+    const making = /^\/making\/?$/.test(h);
+    if (making) $('.site-making').setAttribute('aria-current', 'page');
+    else $('.site-making').removeAttribute('aria-current');
     if (about) $('.site-about').setAttribute('aria-current', 'page');
     else $('.site-about').removeAttribute('aria-current');
     if (!m?.[2]) pendingJump = null;
     if (about) viewAbout();
+    else if (making) viewMaking();
     else if (!m) await viewShelf(version);
     else if (m[2]) await viewReader(m[1], parseInt(m[2], 10), version);
     else await viewNovel(m[1], version);
@@ -162,6 +167,13 @@ function viewAbout() {
   document.title = `About｜${siteTitle}`;
   crumbs([{ label: 'この書架について' }]);
   app.innerHTML = aboutHtml(siteTitle);
+  window.scrollTo(0, 0);
+}
+
+function viewMaking() {
+  document.title = `仕組みとスキル｜${siteTitle}`;
+  crumbs([{ label: '仕組みとスキル' }]);
+  app.innerHTML = makingHtml();
   window.scrollTo(0, 0);
 }
 

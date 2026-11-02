@@ -75,11 +75,13 @@ export const chapterPath = (slug, no) => `${novelPath(slug)}${String(no).padStar
 export function routeToPath(route) {
   const m = route.match(/^\/n\/([^/]+)(?:\/c\/(\d+))?\/?$/);
   if (m) return m[2] ? chapterPath(m[1], Number(m[2])) : novelPath(m[1]);
+  if (/^\/making\/?$/.test(route)) return 'making/';
   return /^\/about\/?$/.test(route) ? 'about/' : './';
 }
 export function pathToRoute(relative) {
   if (relative === '' || relative === 'index.html') return '/';
   if (/^about\/(index\.html)?$/.test(relative)) return '/about';
+  if (/^making\/(index\.html)?$/.test(relative)) return '/making';
   const m = relative.match(/^works\/([^/]+)\/(?:(\d+)\.html|index\.html)?$/);
   if (!m) return null;
   const slug = decodeURIComponent(m[1]);
