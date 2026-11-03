@@ -38,6 +38,12 @@
         "timedRuns": 19,
         "totalRuns": 20
       },
+      "productionCost": {
+        "count": 17,
+        "costUSD": 17.39473,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "百合",
       "genre": "社会人百合・経理と営業の職場コメディ",
       "tags": [
@@ -111,6 +117,12 @@
         "timedRuns": 20,
         "totalRuns": 21
       },
+      "productionCost": {
+        "count": 23,
+        "costUSD": 24.919474,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "百合",
       "genre": "百合・大人の職業もの（新宿駅の夜間調査）",
       "tags": [
@@ -177,6 +189,12 @@
         "elapsedMs": 9415061,
         "timedRuns": 57,
         "totalRuns": 58
+      },
+      "productionCost": {
+        "count": 51,
+        "costUSD": 68.530054,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "百合",
       "genre": "現代学園・ヤンデレ百合",
@@ -272,6 +290,12 @@
         "elapsedMs": 18111750,
         "timedRuns": 91,
         "totalRuns": 91
+      },
+      "productionCost": {
+        "count": 108,
+        "costUSD": 133.655502,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "百合",
       "genre": "ハイファンタジーの魔法少女百合コメディ",
@@ -414,6 +438,12 @@
         "elapsedMs": 76082947,
         "timedRuns": 728,
         "totalRuns": 731
+      },
+      "productionCost": {
+        "count": 226,
+        "costUSD": 410.135922,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "ファンタジー",
       "genre": "異世界転生コメディ",
@@ -747,6 +777,12 @@
         "timedRuns": 69,
         "totalRuns": 71
       },
+      "productionCost": {
+        "count": 11,
+        "costUSD": 10.903638,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "ファンタジー",
       "genre": "ポストアポカリプス風の魔法少女コメディ",
       "tags": [
@@ -868,6 +904,12 @@
         "timedRuns": 86,
         "totalRuns": 86
       },
+      "productionCost": {
+        "count": 42,
+        "costUSD": 39.814228,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "ファンタジー",
       "genre": "ライトノベル（ポストアポカリプス風の魔法少女コメディ）",
       "tags": [
@@ -969,6 +1011,12 @@
         "timedRuns": 26,
         "totalRuns": 26
       },
+      "productionCost": {
+        "count": 15,
+        "costUSD": 13.707892,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "ファンタジー",
       "genre": "異世界ファンタジー・社会風刺コメディ",
       "tags": [
@@ -1046,6 +1094,12 @@
         "elapsedMs": 4303467,
         "timedRuns": 42,
         "totalRuns": 43
+      },
+      "productionCost": {
+        "count": 26,
+        "costUSD": 6.686664,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "ファンタジー",
       "genre": "現代ファンタジー・青春",
@@ -1150,6 +1204,12 @@
         "timedRuns": 27,
         "totalRuns": 28
       },
+      "productionCost": {
+        "count": 22,
+        "costUSD": 8.2385332,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "百合",
       "genre": "百合（成人向け・恋愛）",
       "tags": [
@@ -1216,6 +1276,12 @@
         "elapsedMs": 7124756,
         "timedRuns": 49,
         "totalRuns": 49
+      },
+      "productionCost": {
+        "count": 32,
+        "costUSD": 22.0232124,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "コメディ・日常",
       "genre": "現代日本の日常コメディ",
@@ -1313,6 +1379,12 @@
         "timedRuns": 23,
         "totalRuns": 23
       },
+      "productionCost": {
+        "count": 18,
+        "costUSD": 2.4497008,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "百合",
       "genre": "大正百合",
       "tags": [
@@ -1383,6 +1455,12 @@
         "elapsedMs": 2216588,
         "timedRuns": 22,
         "totalRuns": 22
+      },
+      "productionCost": {
+        "count": 17,
+        "costUSD": 2.81059,
+        "costKnown": true,
+        "costEstimated": true
       },
       "category": "ミステリー・ホラー",
       "genre": "ホラー・怪奇",
@@ -1456,6 +1534,12 @@
         "elapsedMs": 1680312,
         "timedRuns": 23,
         "totalRuns": 23
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "百合",
       "genre": "学園百合・青春恋愛",
@@ -1540,6 +1624,12 @@
         "timedRuns": 16,
         "totalRuns": 16
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "百合",
       "genre": "SF百合・後日談（三人の関係）／成人向け",
       "tags": [
@@ -1610,6 +1700,12 @@
         "elapsedMs": 22424168,
         "timedRuns": 111,
         "totalRuns": 111
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "百合",
       "genre": "SF百合（侵略・洗脳・時間停止）／成人向け",
@@ -1738,6 +1834,12 @@
         "timedRuns": 9,
         "totalRuns": 9
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "現代ドラマ",
       "genre": "現代ドラマ（掌編）",
       "tags": [
@@ -1806,6 +1908,12 @@
         "timedRuns": 11,
         "totalRuns": 11
       },
+      "productionCost": {
+        "count": 5,
+        "costUSD": 0.244906,
+        "costKnown": true,
+        "costEstimated": true
+      },
       "category": "百合",
       "genre": "百合",
       "tags": [
@@ -1871,6 +1979,12 @@
         "elapsedMs": 1429582,
         "timedRuns": 18,
         "totalRuns": 18
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "百合",
       "genre": "青春百合",
@@ -1951,6 +2065,12 @@
         "timedRuns": 0,
         "totalRuns": 13
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "百合",
       "genre": "青春百合",
       "tags": [
@@ -2023,6 +2143,12 @@
         "timedRuns": 0,
         "totalRuns": 8
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "現代ドラマ",
       "genre": "学園もの（純文学）",
       "tags": [
@@ -2086,6 +2212,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 11
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "ファンタジー",
       "genre": "ファンタジー・アクションコメディ",
@@ -2152,6 +2284,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 28
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "コメディ・日常",
       "genre": "アイドル・コメディ",
@@ -2238,6 +2376,12 @@
         "timedRuns": 0,
         "totalRuns": 28
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "ミステリー・ホラー",
       "genre": "学園ミステリー",
       "tags": [
@@ -2309,6 +2453,12 @@
         "timedRuns": 0,
         "totalRuns": 0
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "百合",
       "genre": "百合（現代・田舎）",
       "tags": [
@@ -2363,6 +2513,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 0
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "百合",
       "genre": "現代・百合",
@@ -2421,6 +2577,12 @@
         "timedRuns": 0,
         "totalRuns": 0
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "百合",
       "genre": "百合／昭和初期の女学校もの",
       "tags": [
@@ -2471,6 +2633,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 0
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "ファンタジー",
       "genre": "異世界コメディ",
@@ -2526,6 +2694,12 @@
         "timedRuns": 0,
         "totalRuns": 0
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "百合",
       "genre": "社会人百合（職場ラブコメ）",
       "tags": [
@@ -2577,6 +2751,12 @@
         "timedRuns": 0,
         "totalRuns": 0
       },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
+      },
       "category": "コメディ・日常",
       "genre": "日常系・女子高生の会話劇",
       "tags": [
@@ -2625,6 +2805,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 0
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "現代ドラマ",
       "genre": "現代ドラマ（信頼できない語り手・どんでん返し短編）",
@@ -2675,6 +2861,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 0
+      },
+      "productionCost": {
+        "count": 0,
+        "costUSD": 0,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "現代ドラマ",
       "genre": "現代ヒューマンドラマ",
@@ -2727,6 +2919,12 @@
         "elapsedMs": 0,
         "timedRuns": 0,
         "totalRuns": 0
+      },
+      "productionCost": {
+        "count": 1,
+        "costUSD": 0.1036,
+        "costKnown": true,
+        "costEstimated": false
       },
       "category": "現代ドラマ",
       "genre": "現代・連作短編",
