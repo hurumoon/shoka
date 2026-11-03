@@ -33,13 +33,13 @@
         "ホラー・怪奇 第3版"
       ],
       "productionTime": {
-        "elapsedMs": 14963997,
-        "timedRuns": 113,
-        "totalRuns": 114
+        "elapsedMs": 15657419,
+        "timedRuns": 128,
+        "totalRuns": 130
       },
       "productionCost": {
-        "count": 128,
-        "costUSD": 122.009748,
+        "count": 138,
+        "costUSD": 123.948248,
         "costKnown": true,
         "costEstimated": true
       },
@@ -112,17 +112,17 @@
         {
           "no": 11,
           "title": "第十一話　返してもらう鍵",
-          "chars": 4314
+          "chars": 3544
         },
         {
           "no": 12,
           "title": "第十二話　横から開ける",
-          "chars": 4148
+          "chars": 2795
         },
         {
           "no": 13,
           "title": "第十三話　袖の中",
-          "chars": 4144
+          "chars": 2877
         },
         {
           "no": 14,
@@ -135,8 +135,8 @@
           "chars": 4283
         }
       ],
-      "totalChars": 65989,
-      "updated": "2026-11-03T17:32:34.549Z"
+      "totalChars": 62599,
+      "updated": "2026-11-03T23:37:12.618Z"
     },
     {
       "slug": "hataraku-futari",
