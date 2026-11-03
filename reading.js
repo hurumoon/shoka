@@ -24,6 +24,21 @@ export function creditsHtml(n, options = {}) {
   return lines.length ? `<div class="credits${options.compact ? ' compact' : ''}" aria-label="制作担当">${lines.map((line) => `<span>${esc(line)}</span>`).join('')}</div>` : '';
 }
 
+export function collectProductionTime(runs, { chapters } = {}) {
+  const nos = chapters && new Set(chapters.map((c) => c.no));
+  const rows = runs.filter((r) => r && typeof r === 'object'
+    && (!nos || typeof r.target !== 'number' || nos.has(r.target)));
+  let elapsedMs = 0, timedRuns = 0;
+  for (const r of rows) {
+    if (!Number.isFinite(r.elapsedMs) || r.elapsedMs <= 0) continue;
+    // 並列校閲の重複を除く。古い・不正な値で合計を負数にしない。
+    const overlap = Number.isFinite(r.overlapMs) ? Math.max(0, Math.min(r.elapsedMs, r.overlapMs)) : 0;
+    elapsedMs += r.elapsedMs - overlap;
+    timedRuns++;
+  }
+  return { elapsedMs, timedRuns, totalRuns: rows.length };
+}
+
 export function productionTimeHtml(n) {
   const time = n.productionTime;
   if (!Number.isFinite(time?.elapsedMs) || time.elapsedMs <= 0) {
