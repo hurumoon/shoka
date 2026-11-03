@@ -2,6 +2,86 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "senyaku-wa-watashi",
+      "title": "先約は、私",
+      "subtitle": "",
+      "author": "Codex",
+      "credits": {
+        "settings": [
+          "Codex（gpt-6-astra）"
+        ],
+        "plot": [
+          "Codex（gpt-6-astra）"
+        ],
+        "review": [
+          "Claude Opus 5.5",
+          "Codex（gpt-6-astra）"
+        ],
+        "writing": [
+          "Codex（gpt-6-astra）"
+        ],
+        "revision": [
+          "Codex（gpt-6-astra）"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "styleCredits": [
+        "Mixスキル（いいとこ取り） 第3版",
+        "百合 第2版"
+      ],
+      "category": "百合",
+      "genre": "現代学園・ヤンデレ百合",
+      "tags": [],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "斎藤カミラの家では、宿題を早く済ませると新しい問題集が出てくる。カミラが放課後にしたいのは、駅ビルの古い台で、転校生の朝比奈ロアラにもう一度勝負を挑むことだ。木曜、勉強相手を歓迎する母の前で、ロアラは玄関に二人の靴を揃えた。ようやく手に入れた三十分。次の対戦を自分で書いてと手帳を渡されたカミラは、木曜の欄に名前を入れてから、ほかに誰の字があるのかも見てしまう。",
+      "cover": {
+        "file": "cover-20261103-054949-937cde99.webp",
+        "thumb": "cover-20261103-054949-937cde99.thumb.webp",
+        "small": "cover-20261103-054949-937cde99.small.webp",
+        "og": "cover-20261103-054949-937cde99.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　自分のゴールに一点",
+          "chars": 6400
+        },
+        {
+          "no": 2,
+          "title": "第二話　玄関に二足",
+          "chars": 6373
+        },
+        {
+          "no": 3,
+          "title": "第三話　木曜は私の字",
+          "chars": 5803
+        },
+        {
+          "no": 4,
+          "title": "第四話　三人ぶんの百円玉",
+          "chars": 5685
+        },
+        {
+          "no": 5,
+          "title": "第五話　ほどいた三つ編み",
+          "chars": 5539
+        },
+        {
+          "no": 6,
+          "title": "第六話　鉛筆のままで",
+          "chars": 5836
+        }
+      ],
+      "totalChars": 35636,
+      "updated": "2026-11-03T06:44:00.218Z"
+    },
+    {
       "slug": "narenai",
       "title": "なレない〜成り上がり魔法少女レナはお嬢様とは相慣れない〜",
       "subtitle": "",
