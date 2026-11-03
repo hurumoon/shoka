@@ -524,6 +524,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .st.queued { border-style: dashed; }
 .rate { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 12px; }
 .rate-title { color: var(--ink-3); margin-bottom: 6px; }
+.rate + .rate { margin-top: 10px; }
+.rate-note { font-size: 11px; color: var(--ink-3); margin-top: 6px; overflow-wrap: anywhere; }
 .rate-row { display: grid; grid-template-columns: 56px 1fr 36px; gap: 8px; align-items: center; }
 .rate-row span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
 .rate-reset { font-size: 11px; color: var(--ink-3); margin: 0 0 6px 64px; }

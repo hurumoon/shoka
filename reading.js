@@ -24,6 +24,18 @@ export function creditsHtml(n, options = {}) {
   return lines.length ? `<div class="credits${options.compact ? ' compact' : ''}" aria-label="制作担当">${lines.map((line) => `<span>${esc(line)}</span>`).join('')}</div>` : '';
 }
 
+export function productionTimeHtml(n) {
+  const time = n.productionTime;
+  if (!Number.isFinite(time?.elapsedMs) || time.elapsedMs <= 0) {
+    return '<p class="production-time muted">制作時間（目安）：未計測</p>';
+  }
+  const minutes = Math.max(1, Math.round(time.elapsedMs / 60000));
+  const hours = Math.floor(minutes / 60);
+  const duration = hours ? `${hours}時間${minutes % 60 ? `${minutes % 60}分` : ''}` : `${minutes}分`;
+  const partial = time.timedRuns < time.totalRuns;
+  return `<p class="production-time">制作時間（目安）：<b>約${duration}</b>${partial ? ' <span class="muted">（一部工程のみ計測）</span>' : ''}<br><small class="muted">工程記録からの概算です。長い中断・未計測の作業・画像生成は含みません。</small></p>`;
+}
+
 // 表紙上には本編担当を短く表示し、詳細は表紙の外で工程別に示す。
 export function coverCredit(n) {
   const author = String(n.author || '').trim();

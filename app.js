@@ -1,7 +1,7 @@
 // 公開サイト（novel.mjs publish で書き出す静的な書架）。読むための機能だけを持つ。
 // 本文は書き出し時に { title, lines } にしてあるので、ここでは表示するだけ。
 import { escapeHtml as esc, chapterBodyHtml, inlineToHtml, synopsisHtml, synopsisText } from './render.js';
-import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit } from './reading.js';
+import { readingBadges, adultNotice, requireAdultConfirmation, creditsHtml, coverCredit, productionTimeHtml } from './reading.js';
 import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath, chapterPath, routeToPath, pathToRoute } from './catalog.js';
 import { aboutHtml, OPERATOR } from './about.js';
@@ -410,6 +410,7 @@ async function viewNovel(slug, version) {
         </div>
         <p><button class="btn small" type="button" id="shareNovel">この作品を共有</button></p>
         <details class="production"><summary>制作担当</summary>${creditsHtml(n) || '<p>制作担当の記録はありません。</p>'}</details>
+        ${productionTimeHtml(n)}
       </div>
     </section>
     <h3 class="section-title" style="font-size:18px">目次</h3>

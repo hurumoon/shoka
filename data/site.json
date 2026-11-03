@@ -33,6 +33,11 @@
         "読みやすさスキル 第2版",
         "百合 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 4067251,
+        "timedRuns": 19,
+        "totalRuns": 20
+      },
       "category": "百合",
       "genre": "社会人百合・経理と営業の職場コメディ",
       "tags": [
@@ -101,6 +106,11 @@
         "Mixスキル（いいとこ取り） 第3版",
         "百合（王道外し） 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 2833474,
+        "timedRuns": 20,
+        "totalRuns": 21
+      },
       "category": "百合",
       "genre": "百合・大人の職業もの（新宿駅の夜間調査）",
       "tags": [
@@ -163,9 +173,21 @@
         "Mixスキル（いいとこ取り） 第3版",
         "百合 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 9415061,
+        "timedRuns": 57,
+        "totalRuns": 58
+      },
       "category": "百合",
       "genre": "現代学園・ヤンデレ百合",
-      "tags": [],
+      "tags": [
+        "百合",
+        "恋愛",
+        "青春",
+        "女子高生",
+        "転校生",
+        "放課後"
+      ],
       "adultContent": false,
       "series": "",
       "seriesOrder": null,
@@ -246,9 +268,21 @@
         "Mixスキル（いいとこ取り） 第2版",
         "百合（王道外し） 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 18111750,
+        "timedRuns": 91,
+        "totalRuns": 91
+      },
       "category": "百合",
       "genre": "ハイファンタジーの魔法少女百合コメディ",
-      "tags": [],
+      "tags": [
+        "百合",
+        "ファンタジー",
+        "魔法少女",
+        "勇者",
+        "冒険",
+        "初恋"
+      ],
       "adultContent": false,
       "series": "",
       "seriesOrder": null,
@@ -376,6 +410,11 @@
         "勢いスキル（アンチClaude） 第7・8版",
         "女神様スキル 第3・4・5版"
       ],
+      "productionTime": {
+        "elapsedMs": 76082947,
+        "timedRuns": 728,
+        "totalRuns": 731
+      },
       "category": "ファンタジー",
       "genre": "異世界転生コメディ",
       "tags": [
@@ -703,6 +742,11 @@
         ]
       },
       "styleCredits": [],
+      "productionTime": {
+        "elapsedMs": 1004943,
+        "timedRuns": 69,
+        "totalRuns": 71
+      },
       "category": "ファンタジー",
       "genre": "ポストアポカリプス風の魔法少女コメディ",
       "tags": [
@@ -819,6 +863,11 @@
         "スロップ精読スキル 第2版",
         "読みやすさスキル 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 8529494,
+        "timedRuns": 86,
+        "totalRuns": 86
+      },
       "category": "ファンタジー",
       "genre": "ライトノベル（ポストアポカリプス風の魔法少女コメディ）",
       "tags": [
@@ -915,6 +964,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り） 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 3811690,
+        "timedRuns": 26,
+        "totalRuns": 26
+      },
       "category": "ファンタジー",
       "genre": "異世界ファンタジー・社会風刺コメディ",
       "tags": [
@@ -988,6 +1042,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り） 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 4303467,
+        "timedRuns": 42,
+        "totalRuns": 43
+      },
       "category": "ファンタジー",
       "genre": "現代ファンタジー・青春",
       "tags": [
@@ -1086,6 +1145,11 @@
         "Mixスキル（いいとこ取り） 第1版",
         "百合 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 3076266,
+        "timedRuns": 27,
+        "totalRuns": 28
+      },
       "category": "百合",
       "genre": "百合（成人向け・恋愛）",
       "tags": [
@@ -1148,6 +1212,11 @@
         "GPT風スキル 第5版",
         "読みやすさスキル 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 7124756,
+        "timedRuns": 49,
+        "totalRuns": 49
+      },
       "category": "コメディ・日常",
       "genre": "現代日本の日常コメディ",
       "tags": [
@@ -1239,6 +1308,11 @@
         "百合 第1版",
         "時代・歴史 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 2300750,
+        "timedRuns": 23,
+        "totalRuns": 23
+      },
       "category": "百合",
       "genre": "大正百合",
       "tags": [
@@ -1305,6 +1379,11 @@
         "標準文体 第6版",
         "ホラー・怪奇 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 2216588,
+        "timedRuns": 22,
+        "totalRuns": 22
+      },
       "category": "ミステリー・ホラー",
       "genre": "ホラー・怪奇",
       "tags": [
@@ -1373,6 +1452,11 @@
         "読みやすさスキル 第1版",
         "百合 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 1680312,
+        "timedRuns": 23,
+        "totalRuns": 23
+      },
       "category": "百合",
       "genre": "学園百合・青春恋愛",
       "tags": [
@@ -1451,6 +1535,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り） 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 3526492,
+        "timedRuns": 16,
+        "totalRuns": 16
+      },
       "category": "百合",
       "genre": "SF百合・後日談（三人の関係）／成人向け",
       "tags": [
@@ -1517,6 +1606,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り） 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 22424168,
+        "timedRuns": 111,
+        "totalRuns": 111
+      },
       "category": "百合",
       "genre": "SF百合（侵略・洗脳・時間停止）／成人向け",
       "tags": [
@@ -1639,6 +1733,11 @@
       "styleCredits": [
         "標準文体 第6版"
       ],
+      "productionTime": {
+        "elapsedMs": 1558476,
+        "timedRuns": 9,
+        "totalRuns": 9
+      },
       "category": "現代ドラマ",
       "genre": "現代ドラマ（掌編）",
       "tags": [
@@ -1702,6 +1801,11 @@
         "Mixスキル（いいとこ取り） 第1版",
         "百合（王道外し） 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 2622035,
+        "timedRuns": 11,
+        "totalRuns": 11
+      },
       "category": "百合",
       "genre": "百合",
       "tags": [
@@ -1763,6 +1867,11 @@
         "Mixスキル（いいとこ取り） 第1版",
         "百合 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 1429582,
+        "timedRuns": 18,
+        "totalRuns": 18
+      },
       "category": "百合",
       "genre": "青春百合",
       "tags": [
@@ -1837,6 +1946,11 @@
         "Mixスキル（いいとこ取り） 第1版",
         "百合 第1版"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 13
+      },
       "category": "百合",
       "genre": "青春百合",
       "tags": [
@@ -1904,6 +2018,11 @@
         "スロップ精読スキル 第2版",
         "純文学 第3版"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 8
+      },
       "category": "現代ドラマ",
       "genre": "学園もの（純文学）",
       "tags": [
@@ -1963,6 +2082,11 @@
       "styleCredits": [
         "標準文体 第6版"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 11
+      },
       "category": "ファンタジー",
       "genre": "ファンタジー・アクションコメディ",
       "tags": [
@@ -2024,6 +2148,11 @@
       "styleCredits": [
         "GPT風スキル 第4版"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 28
+      },
       "category": "コメディ・日常",
       "genre": "アイドル・コメディ",
       "tags": [
@@ -2104,6 +2233,11 @@
         "標準文体 第5版",
         "ミステリ・探偵小説 第2版"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 28
+      },
       "category": "ミステリー・ホラー",
       "genre": "学園ミステリー",
       "tags": [
@@ -2170,6 +2304,11 @@
         "読みやすさスキル",
         "百合"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "百合",
       "genre": "百合（現代・田舎）",
       "tags": [
@@ -2220,6 +2359,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り）"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "百合",
       "genre": "現代・百合",
       "tags": [
@@ -2272,6 +2416,11 @@
         "スロップ精読スキル",
         "百合"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "百合",
       "genre": "百合／昭和初期の女学校もの",
       "tags": [
@@ -2318,6 +2467,11 @@
         "勢いスキル（アンチClaude）",
         "女神様スキル"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "ファンタジー",
       "genre": "異世界コメディ",
       "tags": [
@@ -2367,6 +2521,11 @@
         "勢いスキル（アンチClaude）",
         "百合"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "百合",
       "genre": "社会人百合（職場ラブコメ）",
       "tags": [
@@ -2413,6 +2572,11 @@
         "標準文体",
         "読みやすさスキル"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "コメディ・日常",
       "genre": "日常系・女子高生の会話劇",
       "tags": [
@@ -2457,6 +2621,11 @@
       "styleCredits": [
         "Mixスキル（いいとこ取り）"
       ],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "現代ドラマ",
       "genre": "現代ドラマ（信頼できない語り手・どんでん返し短編）",
       "tags": [
@@ -2502,6 +2671,11 @@
         ]
       },
       "styleCredits": [],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "現代ドラマ",
       "genre": "現代ヒューマンドラマ",
       "tags": [
@@ -2549,6 +2723,11 @@
         ]
       },
       "styleCredits": [],
+      "productionTime": {
+        "elapsedMs": 0,
+        "timedRuns": 0,
+        "totalRuns": 0
+      },
       "category": "現代ドラマ",
       "genre": "現代・連作短編",
       "tags": [
