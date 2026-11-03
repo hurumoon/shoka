@@ -2,6 +2,143 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "kawa-futon",
+      "title": "濡れたほうを下にして",
+      "subtitle": "",
+      "author": "Codex",
+      "credits": {
+        "settings": [
+          "Codex（gpt-6-astra）"
+        ],
+        "plot": [
+          "Codex（gpt-6-astra）"
+        ],
+        "review": [
+          "Claude Sonnet 5.5",
+          "Codex（gpt-6-astra）"
+        ],
+        "writing": [
+          "Codex（gpt-6-astra）"
+        ],
+        "revision": [
+          "Codex（gpt-6-astra）"
+        ],
+        "cover": [
+          "Claude"
+        ]
+      },
+      "styleCredits": [
+        "標準文体 第8版",
+        "読みやすさスキル 第2版",
+        "ホラー・怪奇 第3版"
+      ],
+      "productionTime": {
+        "elapsedMs": 14963997,
+        "timedRuns": 113,
+        "totalRuns": 114
+      },
+      "productionCost": {
+        "count": 128,
+        "costUSD": 122.009748,
+        "costKnown": true,
+        "costEstimated": true
+      },
+      "category": "ミステリー・ホラー",
+      "genre": "現代ホラー・生活怪談",
+      "tags": [],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "葬式に貸した布団を取りに行くと、幼なじみの帆乃が仏間で洗面器を抱えていた。水をこぼした、と彼女は言う。でも濡れているのは敷布団の裏だけで、畳は乾いている。しかも、そこには横向きに寝た人の耳の跡があった。店じまいまであと二日。貸布団屋の娘・鞠は、その一枚をほかの寝具と分けて車に積む。家に持ち帰った布団を見た母は、日に当てる面が逆だと言い出した。",
+      "cover": {
+        "file": "cover-20261103-223843-7b61e405.webp",
+        "thumb": "cover-20261103-223843-7b61e405.thumb.webp",
+        "small": "cover-20261103-223843-7b61e405.small.webp",
+        "og": "cover-20261103-223843-7b61e405.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　人の寝た裏",
+          "chars": 4593
+        },
+        {
+          "no": 2,
+          "title": "第二話　昼の敷布団",
+          "chars": 4520
+        },
+        {
+          "no": 3,
+          "title": "第三話　昼寝の椅子",
+          "chars": 4357
+        },
+        {
+          "no": 4,
+          "title": "第四話　袋の口",
+          "chars": 4986
+        },
+        {
+          "no": 5,
+          "title": "第五話　赤い輪",
+          "chars": 4457
+        },
+        {
+          "no": 6,
+          "title": "第六話　桃の皮",
+          "chars": 4371
+        },
+        {
+          "no": 7,
+          "title": "第七話　中庭の板",
+          "chars": 4565
+        },
+        {
+          "no": 8,
+          "title": "第八話　抜け殻",
+          "chars": 4411
+        },
+        {
+          "no": 9,
+          "title": "第九話　右袖",
+          "chars": 4283
+        },
+        {
+          "no": 10,
+          "title": "第十話　母の場所",
+          "chars": 4171
+        },
+        {
+          "no": 11,
+          "title": "第十一話　返してもらう鍵",
+          "chars": 4314
+        },
+        {
+          "no": 12,
+          "title": "第十二話　横から開ける",
+          "chars": 4148
+        },
+        {
+          "no": 13,
+          "title": "第十三話　袖の中",
+          "chars": 4144
+        },
+        {
+          "no": 14,
+          "title": "第十四話　濡れたほうを下にして",
+          "chars": 4386
+        },
+        {
+          "no": 15,
+          "title": "第十五話　一人分の幅",
+          "chars": 4283
+        }
+      ],
+      "totalChars": 65989,
+      "updated": "2026-11-03T17:32:34.549Z"
+    },
+    {
       "slug": "hataraku-futari",
       "title": "超過分は各自負担で",
       "subtitle": "",
