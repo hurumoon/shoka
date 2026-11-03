@@ -7,7 +7,7 @@ export function usageCost(u) {
   return `${label} ${amount}`;
 }
 
-export const USAGE_COST_NOTE = 'API換算は請求額ではありません。推計はStandard単価によるテキストtoken分の目安です（速度・長文割増、画像・外部ツール料金は含みません）。';
+export const USAGE_COST_NOTE = '推計はStandard単価によるテキストtoken分の目安です（速度・長文割増、画像・外部ツール料金は含みません）。';
 
 export function productionCostHtml(n) {
   const cost = n.productionCost;

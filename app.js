@@ -7,6 +7,7 @@ import { seriesBadge, seriesNavigation, seriesOf } from './reading.js';
 import { normalize, SIZES, selectNovels, isFiltered, categoryCounts, filterTags, featuredNovel, chapterSubtitle, chapterLabel, validPosition, novelPath, chapterPath, routeToPath, pathToRoute } from './catalog.js';
 import { aboutHtml, OPERATOR } from './about.js';
 import { makingHtml } from './making.js';
+import { bindReaderKeys } from './reader-keys.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -677,36 +678,8 @@ async function viewReader(slug, no, version) {
   }
 
   // --- キーボード ---
-  const onKey = (e) => {
-    // Esc はボタンにフォーカスが残っていても閉じる（変換の取り消しは除く）
-    if (e.key === 'Escape' && !e.isComposing) return closePanels();
-    if (e.target.matches('input, textarea, select, button, a') || e.ctrlKey || e.metaKey || e.altKey) return;
-    const k = e.key;
-    if (k === 't' || k === 'T') return openPanel('toc');
-    if (k === 's' || k === 'S') return openPanel('prefs');
-    if ($('.panel.open')) return;
-    if (k === 'n') return go(next);
-    if (k === 'p') return go(prev);
-    if (prefs.vertical) {
-      const stepPage = (dir) => {
-        const r = getRatio();
-        if (dir > 0 && r >= 0.999) return go(next);
-        if (dir < 0 && r <= 0.001) return go(prev);
-        rs.scrollBy({ left: -dir * rs.clientWidth * 0.88, behavior: 'smooth' });
-      };
-      if (k === 'ArrowLeft' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) { e.preventDefault(); stepPage(1); }
-      else if (k === 'ArrowRight' || k === 'PageUp' || (k === ' ' && e.shiftKey)) { e.preventDefault(); stepPage(-1); }
-      else if (k === 'ArrowDown') { e.preventDefault(); rs.scrollBy({ left: -120 }); }
-      else if (k === 'ArrowUp') { e.preventDefault(); rs.scrollBy({ left: 120 }); }
-    } else {
-      if (k === 'ArrowRight') go(next);
-      else if (k === 'ArrowLeft') go(prev);
-      else if (k === ' ' || k === 'PageDown' || k === 'PageUp' || k === 'ArrowDown' || k === 'ArrowUp') {
-        if (document.activeElement !== rs) rs.focus({ preventScroll: true });
-      }
-    }
-  };
-  document.addEventListener('keydown', onKey);
+  const unbindKeys = bindReaderKeys({ document, rs, getVertical: () => prefs.vertical, getRatio,
+    hasOpenPanel: () => !!$('.panel.open'), next: () => go(next), prev: () => go(prev), openPanel, closePanels });
   rs.tabIndex = -1;
 
   // --- 初期表示 ---
@@ -738,7 +711,7 @@ async function viewReader(slug, no, version) {
     window.removeEventListener('resize', reflow);
     window.removeEventListener('pagehide', onPageHide);
     document.removeEventListener('visibilitychange', onVisibility);
-    document.removeEventListener('keydown', onKey);
+    unbindKeys();
     document.removeEventListener('mousemove', onMove);
     clearTimeout(hideT);
   };
