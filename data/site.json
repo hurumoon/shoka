@@ -5,7 +5,7 @@
       "slug": "kawa-futon",
       "title": "濡れたほうを下にして",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6-astra）",
       "credits": {
         "settings": [
           "Codex（gpt-6-astra）"
@@ -142,7 +142,7 @@
       "slug": "hataraku-futari",
       "title": "超過分は各自負担で",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Claude Opus",
       "credits": {
         "settings": [
           "Claude Fable"
@@ -217,7 +217,7 @@
       "slug": "shinjuku-yuri",
       "title": "遠回りですが、迷わないほうで",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Sonnet 5.5",
@@ -226,6 +226,9 @@
         "plot": [
           "Claude Sonnet 5.5",
           "Codex（gpt-6-astra）"
+        ],
+        "orchestration": [
+          "Claude Fable 5.1"
         ],
         "review": [
           "Claude Fable 5.1",
@@ -296,7 +299,7 @@
       "slug": "senyaku-wa-watashi",
       "title": "先約は、私",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6-astra）",
       "credits": {
         "settings": [
           "Codex（gpt-6-astra）"
@@ -394,7 +397,7 @@
       "slug": "narenai",
       "title": "なレない〜成り上がり魔法少女レナはお嬢様とは相慣れない〜",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6-astra）",
       "credits": {
         "settings": [
           "Codex（gpt-6-astra）"
@@ -540,13 +543,17 @@
       "slug": "kizuitara-motteta-re",
       "title": "みんな女神様から固有魔法を授かってるのに私だけ気がついたら持ってた件（リスタート版）",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Sonnet 5.5・Codex",
       "credits": {
         "settings": [
           "Claude Opus 5.5",
           "Claude Sonnet 5.5"
         ],
         "plot": [
+          "Claude Opus 5.5",
+          "Claude Sonnet 5.5"
+        ],
+        "orchestration": [
           "Claude Opus 5.5",
           "Claude Sonnet 5.5"
         ],
@@ -1011,7 +1018,7 @@
       "slug": "maria-jikeidan-san",
       "title": "愛ですわ、と言ったら動議が出ました",
       "subtitle": "めろんぱんさばいば～外伝 マリア女子自警団篇",
-      "author": "Claude",
+      "author": "Claude Sonnet",
       "credits": {
         "settings": [
           "Claude Sonnet"
@@ -1119,7 +1126,7 @@
       "slug": "maou-songai-uketsuke",
       "title": "勇者は対象外です",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Sonnet",
       "credits": {
         "settings": [
           "Claude Sonnet"
@@ -1306,7 +1313,7 @@
       "slug": "otona-yuri-amai",
       "title": "日曜は赤鉛筆を置いて",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Sonnet・Codex",
       "credits": {
         "settings": [
           "Claude Sonnet",
@@ -1384,7 +1391,7 @@
       "slug": "hatachi-hajimete",
       "title": "二十歳、予習は完璧です",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Sonnet",
       "credits": {
         "settings": [
           "Claude Sonnet"
@@ -1640,7 +1647,7 @@
       "slug": "sode-wo-tsukande",
       "title": "放課後、袖をつかんで",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6.1-sol）",
       "credits": {
         "settings": [
           "Codex（gpt-6.1-sol）"
@@ -1731,12 +1738,15 @@
       "slug": "mahou-nidome-after",
       "title": "布団は一組しかない",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
         ],
         "plot": [
+          "Claude Opus 5.5"
+        ],
+        "orchestration": [
           "Claude Opus 5.5"
         ],
         "review": [
@@ -1805,7 +1815,7 @@
       "slug": "mahou-nidome",
       "title": "魔法少女は二度目の地球で恋をする",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "writing": [
           "Claude Opus 5.5"
@@ -1818,6 +1828,9 @@
           "Claude Opus 5.5"
         ],
         "plot": [
+          "Claude Opus 5.5"
+        ],
+        "orchestration": [
           "Claude Opus 5.5"
         ],
         "settings": [
@@ -1942,13 +1955,16 @@
       "slug": "candy",
       "title": "なくなるまでに戻る",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
         ],
         "plot": [
           "Claude Opus 5.5"
+        ],
+        "orchestration": [
+          "Claude Sonnet 5.5"
         ],
         "review": [
           "Claude Sonnet 5.5"
@@ -2011,7 +2027,7 @@
       "slug": "yuri-mijikai",
       "title": "誰が止めてもいい",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
@@ -2022,6 +2038,9 @@
         "review": [
           "Claude Opus 5.5",
           "Claude Sonnet 5.5"
+        ],
+        "orchestration": [
+          "Claude Opus 5.5"
         ],
         "writing": [
           "Claude Opus 5.5"
@@ -2087,7 +2106,7 @@
       "slug": "kimi-ha-tsuzuki",
       "title": "きみに向く葉、その先",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6.1-sol）",
       "credits": {
         "settings": [
           "Codex（gpt-6.1-sol）"
@@ -2169,7 +2188,7 @@
       "slug": "shokubutsu-yuri",
       "title": "きみに向く葉",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6.1-sol）",
       "credits": {
         "settings": [
           "Codex（gpt-6.1-sol）"
@@ -2249,13 +2268,16 @@
       "slug": "gakuen-junbungaku",
       "title": "八つ折り",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
         ],
         "plot": [
           "Claude Opus 5.5"
+        ],
+        "orchestration": [
+          "Claude Sonnet 5.5"
         ],
         "review": [
           "Claude Sonnet 5.5"
@@ -2321,7 +2343,7 @@
       "slug": "sokutatsu-ryu",
       "title": "速達、竜の口まで",
       "subtitle": "",
-      "author": "Codex",
+      "author": "Codex（gpt-6.1-sol）",
       "credits": {
         "settings": [
           "Codex（gpt-6.1-sol）"
@@ -2392,12 +2414,15 @@
       "slug": "idol",
       "title": "警備員はステージを見ない",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
         ],
         "plot": [
+          "Claude Opus 5.5"
+        ],
+        "orchestration": [
           "Claude Opus 5.5"
         ],
         "review": [
@@ -2483,13 +2508,16 @@
       "slug": "gakusei-mystery",
       "title": "告げ口は定規で書く",
       "subtitle": "",
-      "author": "Claude",
+      "author": "Claude Opus 5.5",
       "credits": {
         "settings": [
           "Claude Opus 5.5"
         ],
         "plot": [
           "Claude Opus 5.5"
+        ],
+        "orchestration": [
+          "Claude Sonnet 5.5"
         ],
         "review": [
           "Claude Sonnet 5.5"

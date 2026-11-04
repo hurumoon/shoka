@@ -1,7 +1,10 @@
 // ローカル・公開サイトで共用する、読者向けの作品情報と閲覧確認。
 import { escapeHtml as esc } from './render.js';
 
-const CREDIT_LABELS = { settings: '設定', plot: 'プロット', writing: '本編', revision: '修正', review: '校閲', cover: '表紙', illustration: '挿絵', character: '人物画像' };
+const CREDIT_LABELS = { orchestration: '進行', settings: '設定', plot: 'プロット', writing: '本編', revision: '修正', review: '校閲', cover: '表紙', illustration: '挿絵', character: '人物画像' };
+
+// 保存済みの作者は変えず、公開・EPUBでは対象の本文を執筆した担当を優先する。
+export const displayAuthor = (n) => n.credits?.writing?.length ? n.credits.writing.join('・') : n.author || '';
 
 export function creditLines(n, { compact = false } = {}) {
   const credits = n.credits || {};
@@ -15,7 +18,7 @@ export function creditLines(n, { compact = false } = {}) {
   }
   const author = String(n.author || '').trim();
   // 本編の工程記録がない旧作でも、保存済みの作者名を隠さない。
-  if (author && (!['Claude', 'Codex'].includes(author) || !credits.writing?.length)) lines.unshift(`作者：${author}`);
+  if (author && author !== credits.writing?.join('・') && (!['Claude', 'Codex'].includes(author) || !credits.writing?.length)) lines.unshift(`作者：${author}`);
   return lines;
 }
 
@@ -54,7 +57,7 @@ export function productionTimeHtml(n) {
 // 表紙上には本編担当を短く表示し、詳細は表紙の外で工程別に示す。
 export function coverCredit(n) {
   const author = String(n.author || '').trim();
-  if (author && (!['Claude', 'Codex'].includes(author) || !n.credits?.writing?.length)) return `作者：${author}`;
+  if (author && author !== n.credits?.writing?.join('・') && (!['Claude', 'Codex'].includes(author) || !n.credits?.writing?.length)) return `作者：${author}`;
   return n.credits?.writing?.length ? `本編：${n.credits.writing.join('・')}` : '';
 }
 

@@ -218,7 +218,7 @@ function featureHtml(n) {
     <div class="feature-text">
       <p class="feature-kick">注目の作品</p>
       <h2><a href="${novelPath(n.slug)}">${esc(n.title)}</a></h2>
-      <p class="feature-meta">${esc(n.author || '')}　${shelfLine(n)}</p>
+      <p class="feature-meta">${n.author ? `作者：${esc(n.author)}　` : ''}${shelfLine(n)}</p>
       <p class="feature-synopsis">${esc(synopsisText(n.synopsis || ''))}</p>
       <a class="feature-go" href="${chapterPath(n.slug, n.chapters[0]?.no ?? 1)}">読みはじめる</a>
     </div>
@@ -398,7 +398,7 @@ async function viewNovel(slug, version) {
         ${readingBadges(n)}
         ${adultNotice(n)}
         ${n.subtitle ? `<p class="sub">${esc(n.subtitle)}</p>` : ''}
-        ${n.author ? `<p>${esc(n.author)}</p>` : ''}
+        ${n.author ? `<p>作者：${esc(n.author)}</p>` : ''}
         <div class="synopsis">${synopsisHtml(n.synopsis || '紹介文はまだありません。目次から作品をお楽しみください。')}</div>
         <div class="actions">
           ${firstNo ? `<a class="btn ${b ? '' : 'primary'}" href="${chapterPath(slug, firstNo)}" data-top>最初から読む</a>` : ''}
