@@ -2,6 +2,115 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "sensei-tonari",
+      "title": "先生、その恋はあきらめて",
+      "subtitle": "",
+      "author": "Codex（gpt-6.1-sol）",
+      "credits": {
+        "orchestration": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "settings": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "plot": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "review": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "writing": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "revision": [
+          "Codex（gpt-6.1-sol）"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "styleCredits": [
+        "勢いスキル（アンチClaude） 第9版",
+        "百合 第2版"
+      ],
+      "productionTime": {
+        "elapsedMs": 35018393,
+        "timedRuns": 72,
+        "totalRuns": 74
+      },
+      "productionCost": {
+        "count": 44,
+        "costUSD": 4.379898,
+        "costKnown": true,
+        "costEstimated": true
+      },
+      "category": "百合",
+      "genre": "学園百合ラブコメ",
+      "tags": [
+        "百合",
+        "ラブコメ",
+        "学園",
+        "勘違い",
+        "匿名相談"
+      ],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "地味めの高校二年生・笠間こよりは、夜だけ匿名の恋愛相談アカウント「先生」を開く。ある晩、クラスの王子様・鷺坂いさなから届いた片想いの相談。その相手、特徴がどう見ても私なんですが？　似た別人だと信じるこよりは、恋を諦めさせる作戦を送る。けれど、いさながまじめに実行するたび、昼食の隣席も休日の買い物も増えていく。先生、その助言、自分に返ってきてます。",
+      "cover": {
+        "file": "cover-20261106-151641-31a90727.webp",
+        "thumb": "cover-20261106-151641-31a90727.thumb.webp",
+        "small": "cover-20261106-151641-31a90727.small.webp",
+        "og": "cover-20261106-151641-31a90727.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第1話　その特徴、私にもあります",
+          "chars": 6683
+        },
+        {
+          "no": 2,
+          "title": "第2話　お願いを一個だけ",
+          "chars": 6133
+        },
+        {
+          "no": 3,
+          "title": "第3話　王子様は字がはみ出す",
+          "chars": 5330
+        },
+        {
+          "no": 4,
+          "title": "第4話　来ないで、とは言ってない",
+          "chars": 6174
+        },
+        {
+          "no": 5,
+          "title": "第5話　その子って、誰ですか",
+          "chars": 5361
+        },
+        {
+          "no": 6,
+          "title": "第6話　先生は黙っていられない",
+          "chars": 5386
+        },
+        {
+          "no": 7,
+          "title": "第7話　明日の席を空けました",
+          "chars": 5361
+        },
+        {
+          "no": 8,
+          "title": "第8話　隣の席で、ぽろん",
+          "chars": 4266
+        }
+      ],
+      "totalChars": 44694,
+      "updated": "2026-11-06T14:22:02.016Z"
+    },
+    {
       "slug": "shinjuku-yuri",
       "title": "遠回りですが、迷わないほうで",
       "subtitle": "",
@@ -107,6 +216,9 @@
         "revision": [
           "Codex（gpt-6-astra）"
         ],
+        "orchestration": [
+          "Codex（gpt-6-astra）"
+        ],
         "cover": [
           "Claude"
         ]
@@ -117,9 +229,9 @@
         "ホラー・怪奇 第3版"
       ],
       "productionTime": {
-        "elapsedMs": 15657419,
-        "timedRuns": 128,
-        "totalRuns": 130
+        "elapsedMs": 15662794,
+        "timedRuns": 142,
+        "totalRuns": 145
       },
       "productionCost": {
         "count": 138,
@@ -220,7 +332,7 @@
         }
       ],
       "totalChars": 52167,
-      "updated": "2026-11-03T23:37:12.618Z"
+      "updated": "2026-11-04T13:56:05.744Z"
     },
     {
       "slug": "hataraku-futari",
@@ -587,8 +699,8 @@
       },
       "productionCost": {
         "count": 226,
-        "costUSD": 410.135922,
-        "costKnown": true,
+        "costUSD": 410.083716,
+        "costKnown": false,
         "costEstimated": true
       },
       "category": "ファンタジー",
@@ -1352,8 +1464,8 @@
       },
       "productionCost": {
         "count": 22,
-        "costUSD": 8.2385332,
-        "costKnown": true,
+        "costUSD": 7.956082,
+        "costKnown": false,
         "costEstimated": true
       },
       "category": "百合",
@@ -1425,9 +1537,9 @@
       },
       "productionCost": {
         "count": 32,
-        "costUSD": 22.0232124,
-        "costKnown": true,
-        "costEstimated": true
+        "costUSD": 21.1799,
+        "costKnown": false,
+        "costEstimated": false
       },
       "category": "コメディ・日常",
       "genre": "現代日本の日常コメディ",
@@ -1527,9 +1639,9 @@
       },
       "productionCost": {
         "count": 18,
-        "costUSD": 2.4497008,
-        "costKnown": true,
-        "costEstimated": true
+        "costUSD": 0.0938,
+        "costKnown": false,
+        "costEstimated": false
       },
       "category": "百合",
       "genre": "大正百合",
@@ -1604,8 +1716,8 @@
       },
       "productionCost": {
         "count": 17,
-        "costUSD": 2.81059,
-        "costKnown": true,
+        "costUSD": 0.917628,
+        "costKnown": false,
         "costEstimated": true
       },
       "category": "ミステリー・ホラー",
