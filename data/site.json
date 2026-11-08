@@ -2,6 +2,119 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "kono-nazo-koi",
+      "title": "この謎、動機は恋です",
+      "subtitle": "",
+      "author": "Claude Opus 5.5",
+      "credits": {
+        "orchestration": [
+          "Claude Fable 5.1",
+          "Codex（gpt-6-astra）"
+        ],
+        "settings": [
+          "Claude Fable 5.1"
+        ],
+        "plot": [
+          "Claude Fable 5.1"
+        ],
+        "review": [
+          "Codex（gpt-6-astra）"
+        ],
+        "writing": [
+          "Claude Opus 5.5"
+        ],
+        "revision": [
+          "Claude Opus 5.5"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "styleCredits": [
+        "勢いスキル（アンチClaude） 第10版",
+        "百合 第3版"
+      ],
+      "productionTime": {
+        "elapsedMs": 20591838,
+        "timedRuns": 82,
+        "totalRuns": 82
+      },
+      "productionCost": {
+        "count": 127,
+        "costUSD": 169.843046,
+        "costKnown": true,
+        "costEstimated": true
+      },
+      "category": "百合",
+      "genre": "百合ラブコメ×日常の謎を解く探偵もの（一話完結の依頼と、助手の恋だけ見抜けない探偵の縦軸）",
+      "tags": [
+        "百合",
+        "ラブコメ",
+        "ミステリー",
+        "探偵",
+        "日常の謎",
+        "年の差",
+        "すれ違い",
+        "一話完結"
+      ],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "雑居ビル二階の霧島探偵事務所に持ち込まれるのは、図書室のふせん、匿名の手紙、消えた合鍵、いつもの席に座れない常連――どれも小さな謎ばかり。探偵の霧島透子は、その真相が恋だと一瞬で見抜く。助手の春野つむぎは透子が好きで押しかけた大学四年生。毎日弁当を持ち、毎話アピールするのに、透子は他人の恋は当てても、自分に向いた恋だけは推理できない。卒業までの二か月、八つの依頼と、解かれない一つの謎。騒がしい一人称で進む百合ラブコメ探偵もの。",
+      "cover": {
+        "file": "cover-20261108-030759-0e2a156b.webp",
+        "thumb": "cover-20261108-030759-0e2a156b.thumb.webp",
+        "small": "cover-20261108-030759-0e2a156b.small.webp",
+        "og": "cover-20261108-030759-0e2a156b.og.jpg",
+        "withTitle": true
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第1話　ふせんは水曜日に増える",
+          "chars": 6290
+        },
+        {
+          "no": 2,
+          "title": "第2話　辞めるな、を三回",
+          "chars": 6309
+        },
+        {
+          "no": 3,
+          "title": "第3話　合鍵の名前は空欄",
+          "chars": 6742
+        },
+        {
+          "no": 4,
+          "title": "第4話　窓際の席は七時半に埋まる",
+          "chars": 7168
+        },
+        {
+          "no": 5,
+          "title": "第5話　原稿は昨日の夜まであった",
+          "chars": 6499
+        },
+        {
+          "no": 6,
+          "title": "第6話　二階の先生へ",
+          "chars": 6960
+        },
+        {
+          "no": 7,
+          "title": "第7話　面接は十四時から",
+          "chars": 6372
+        },
+        {
+          "no": 8,
+          "title": "第8話　依頼のない謎",
+          "chars": 5416
+        }
+      ],
+      "totalChars": 51756,
+      "updated": "2026-11-07T12:44:01.887Z"
+    },
+    {
       "slug": "sensei-tonari",
       "title": "先生、その恋はあきらめて",
       "subtitle": "",
