@@ -35,13 +35,13 @@
         "百合 第3版"
       ],
       "productionTime": {
-        "elapsedMs": 20591838,
-        "timedRuns": 82,
-        "totalRuns": 82
+        "elapsedMs": 21474704,
+        "timedRuns": 92,
+        "totalRuns": 92
       },
       "productionCost": {
-        "count": 127,
-        "costUSD": 169.843046,
+        "count": 137,
+        "costUSD": 180.545736,
         "costKnown": true,
         "costEstimated": true
       },
@@ -98,21 +98,21 @@
         {
           "no": 6,
           "title": "第6話　二階の先生へ",
-          "chars": 6960
+          "chars": 6959
         },
         {
           "no": 7,
           "title": "第7話　面接は十四時から",
-          "chars": 6372
+          "chars": 6371
         },
         {
           "no": 8,
           "title": "第8話　依頼のない謎",
-          "chars": 5416
+          "chars": 5463
         }
       ],
-      "totalChars": 51756,
-      "updated": "2026-11-07T12:44:01.887Z"
+      "totalChars": 51801,
+      "updated": "2026-11-08T03:38:27.336Z"
     },
     {
       "slug": "sensei-tonari",
