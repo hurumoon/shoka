@@ -2,6 +2,93 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "ie-ga-nigeta",
+      "title": "退去の日、家が逃げた",
+      "subtitle": "",
+      "author": "Codex（gpt-6-astra）",
+      "credits": {
+        "orchestration": [
+          "Codex（gpt-6-astra）"
+        ],
+        "settings": [
+          "Codex（gpt-6-astra）"
+        ],
+        "plot": [
+          "Codex（gpt-6-astra）"
+        ],
+        "review": [
+          "Codex（gpt-6-astra）"
+        ],
+        "writing": [
+          "Codex（gpt-6-astra）"
+        ],
+        "revision": [
+          "Codex（gpt-6-astra）"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "styleCredits": [
+        "Mixスキル（いいとこ取り） 第4版"
+      ],
+      "productionTime": {
+        "elapsedMs": 1751830,
+        "timedRuns": 33,
+        "totalRuns": 34
+      },
+      "productionCost": {
+        "count": 20,
+        "costUSD": 4.655568,
+        "costKnown": true,
+        "costEstimated": true
+      },
+      "category": "ファンタジー",
+      "genre": "生活ファンタジー・冒険",
+      "tags": [],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "初めて一軒の解体を任された朝、セナが鋸を当てるより先に、古い貸家が四本の脚で逃げだした。最後の借間人まで乗せて市場へ向かう家を、セナは乾いた旧水路へ追い込む。だが、その水路に水が流れるまで、あと半日。残材代、船賃、傷んだ左脚。壊す仕事で貯めた金を数えながら、セナは家の次の行き先を探し始める。家を残すには、どうしても手放さなければならない部屋があった。",
+      "cover": {
+        "file": "cover-20261110-122609-d2af522e.webp",
+        "thumb": "cover-20261110-122609-d2af522e.thumb.webp",
+        "small": "cover-20261110-122609-d2af522e.small.webp",
+        "og": "cover-20261110-122609-d2af522e.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第一話　鋸を入れる前に",
+          "chars": 2904
+        },
+        {
+          "no": 2,
+          "title": "第二話　食堂はまだ開いている",
+          "chars": 2956
+        },
+        {
+          "no": 3,
+          "title": "第三話　二階には届かない",
+          "chars": 2805
+        },
+        {
+          "no": 4,
+          "title": "第四話　屋根を下ろす",
+          "chars": 3319
+        },
+        {
+          "no": 5,
+          "title": "第五話　新しい玄関",
+          "chars": 3891
+        }
+      ],
+      "totalChars": 15875,
+      "updated": "2026-11-10T04:09:58.555Z"
+    },
+    {
       "slug": "kono-nazo-koi",
       "title": "この謎、動機は恋です",
       "subtitle": "",
