@@ -2,6 +2,249 @@
   "title": "書架",
   "novels": [
     {
+      "slug": "ashita-mo-issho",
+      "title": "明日もいっしょに帰れたら",
+      "subtitle": "",
+      "author": "Codex（gpt-6-astra）",
+      "credits": {
+        "orchestration": [
+          "Codex（gpt-6-astra）"
+        ],
+        "settings": [
+          "Codex（gpt-6-astra）"
+        ],
+        "plot": [
+          "Codex（gpt-6-astra）"
+        ],
+        "review": [
+          "Codex（gpt-6-astra）"
+        ],
+        "writing": [
+          "Codex（gpt-6-astra）"
+        ],
+        "revision": [
+          "Codex（gpt-6-astra）"
+        ],
+        "cover": [
+          "Codex"
+        ]
+      },
+      "styleCredits": [
+        "標準文体 第9版",
+        "読みやすさスキル 第2版"
+      ],
+      "productionTime": {
+        "elapsedMs": 28059572,
+        "timedRuns": 211,
+        "totalRuns": 212
+      },
+      "productionCost": {
+        "count": 152,
+        "costUSD": 281.238218,
+        "costKnown": true,
+        "costEstimated": true
+      },
+      "category": "ファンタジー",
+      "genre": "魔法少女バトルロワイヤル・青春",
+      "tags": [],
+      "adultContent": false,
+      "series": "",
+      "seriesOrder": null,
+      "status": "complete",
+      "synopsis": "入院中の母の見舞いを終えた高校一年生の小春は、午前零時、人の消えた街で魔法少女に襲われる。助けてくれたのは、同じクラスの夏帆だった。参加者は十二人。最後の一人になれば、願いが一つ叶う。昼は教室や病院へ戻り、夜は命を奪い合う日々。二人は仲間と避難所を作るが、一緒に食事をした相手にも、譲れない願いがある。母を救いたい小春と、亡き姉を取り戻したい夏帆。互いを知るほど、次の夜に選べる道は狭くなっていく。",
+      "cover": {
+        "file": "cover-20261112-123838-bf656f09.webp",
+        "thumb": "cover-20261112-123838-bf656f09.thumb.webp",
+        "small": "cover-20261112-123838-bf656f09.small.webp",
+        "og": "cover-20261112-123838-bf656f09.og.jpg",
+        "withTitle": false
+      },
+      "chapters": [
+        {
+          "no": 1,
+          "title": "第1話　零時の帰り道",
+          "chars": 4252
+        },
+        {
+          "no": 2,
+          "title": "第2話　手を離さないで",
+          "chars": 4153
+        },
+        {
+          "no": 3,
+          "title": "第3話　同じ教室の朝",
+          "chars": 4122
+        },
+        {
+          "no": 4,
+          "title": "第4話　傘を渡す人",
+          "chars": 4051
+        },
+        {
+          "no": 5,
+          "title": "第5話　一人減る",
+          "chars": 4487
+        },
+        {
+          "no": 6,
+          "title": "第6話　助けてと言う",
+          "chars": 4191
+        },
+        {
+          "no": 7,
+          "title": "第7話　六人分の夕飯",
+          "chars": 4299
+        },
+        {
+          "no": 8,
+          "title": "第8話　三本まで",
+          "chars": 4327
+        },
+        {
+          "no": 9,
+          "title": "第9話　閉まった部屋",
+          "chars": 4404
+        },
+        {
+          "no": 10,
+          "title": "第10話　追い払うための作戦",
+          "chars": 4194
+        },
+        {
+          "no": 11,
+          "title": "第11話　追いかけた背中",
+          "chars": 4112
+        },
+        {
+          "no": 12,
+          "title": "第12話　席を一つ空ける",
+          "chars": 4219
+        },
+        {
+          "no": 13,
+          "title": "第13話　裏口の鍵",
+          "chars": 3939
+        },
+        {
+          "no": 14,
+          "title": "第14話　触れた手",
+          "chars": 3521
+        },
+        {
+          "no": 15,
+          "title": "第15話　順番を決める",
+          "chars": 3985
+        },
+        {
+          "no": 16,
+          "title": "第16話　やめてくれない人",
+          "chars": 4442
+        },
+        {
+          "no": 17,
+          "title": "第17話　まだ隣にいる",
+          "chars": 3993
+        },
+        {
+          "no": 18,
+          "title": "第18話　食堂の灯りが消える",
+          "chars": 4533
+        },
+        {
+          "no": 19,
+          "title": "第19話　帰ってきた三人",
+          "chars": 4261
+        },
+        {
+          "no": 20,
+          "title": "第20話　地下の白い線",
+          "chars": 3965
+        },
+        {
+          "no": 21,
+          "title": "第21話　追ってくる光",
+          "chars": 4278
+        },
+        {
+          "no": 22,
+          "title": "第22話　嘘ではなかった",
+          "chars": 3956
+        },
+        {
+          "no": 23,
+          "title": "第23話　買えなかった安全",
+          "chars": 4375
+        },
+        {
+          "no": 24,
+          "title": "第24話　脈は止まらない",
+          "chars": 4110
+        },
+        {
+          "no": 25,
+          "title": "第25話　帰れば会える",
+          "chars": 3980
+        },
+        {
+          "no": 26,
+          "title": "第26話　盾の向こう側",
+          "chars": 3991
+        },
+        {
+          "no": 27,
+          "title": "第27話　返せなかった上着",
+          "chars": 3897
+        },
+        {
+          "no": 28,
+          "title": "第28話　重くなる扉",
+          "chars": 4239
+        },
+        {
+          "no": 29,
+          "title": "第29話　卒業のころ",
+          "chars": 3927
+        },
+        {
+          "no": 30,
+          "title": "第30話　三人分の仕事",
+          "chars": 4184
+        },
+        {
+          "no": 31,
+          "title": "第31話　白い塔の階段",
+          "chars": 3999
+        },
+        {
+          "no": 32,
+          "title": "第32話　盾を出す",
+          "chars": 4098
+        },
+        {
+          "no": 33,
+          "title": "第33話　譲れない願い",
+          "chars": 4679
+        },
+        {
+          "no": 34,
+          "title": "第34話　願いのない朝へ",
+          "chars": 4239
+        },
+        {
+          "no": 35,
+          "title": "第35話　戻らなかった人たち",
+          "chars": 4389
+        },
+        {
+          "no": 36,
+          "title": "第36話　明日もいっしょに帰れたら",
+          "chars": 4130
+        }
+      ],
+      "totalChars": 149921,
+      "updated": "2026-11-12T11:09:14.382Z"
+    },
+    {
       "slug": "ie-ga-nigeta",
       "title": "退去の日、家が逃げた",
       "subtitle": "",
